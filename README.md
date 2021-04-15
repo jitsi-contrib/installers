@@ -1,2 +1,5 @@
 # installers
-Jitsi installers for different use cases and environments
+
+- [Jitsi base](jitsi-base/)
+
+  installs a standalone Jitsi server.
