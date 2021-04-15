@@ -1,2 +1,2 @@
 # installers
-Jitsi installers for use cases and environments
+Jitsi installers for different use cases and environments
