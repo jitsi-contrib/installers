@@ -417,12 +417,11 @@ out <<< "installing Jitsi..."
 
 wget -O /etc/apt/sources.list.d/jitsi-stable.list \
     $JITSI_TMPL/etc/apt/sources.list.d/jitsi-stable.list
+wget -qO /tmp/jitsi.gpg.key https://download.jitsi.org/jitsi-key.gpg.key
+cat /tmp/jitsi.gpg.key | gpg --dearmor > \
+    /etc/apt/trusted.gpg.d/jitsi-archive-stable.gpg
 
-apt-get --allow-insecure-repositories update
-apt-get $APT_PROXY_OPTION --allow-unauthenticated -y install \
-    jitsi-archive-keyring
 apt-get update
-
 debconf-set-selections <<< \
     "jicofo jitsi-videobridge/jvb-hostname string $JITSI_HOST"
 debconf-set-selections <<< \
