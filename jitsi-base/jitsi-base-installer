@@ -415,11 +415,11 @@ apt-get $APT_PROXY_OPTION -y install openjdk-11-jre-headless
 # jitsi-meet
 out <<< "installing Jitsi..."
 
-wget -O /etc/apt/sources.list.d/jitsi-stable.list \
-    $JITSI_TMPL/etc/apt/sources.list.d/jitsi-stable.list
 wget -qO /tmp/jitsi.gpg.key https://download.jitsi.org/jitsi-key.gpg.key
 cat /tmp/jitsi.gpg.key | gpg --dearmor > \
-    /etc/apt/trusted.gpg.d/jitsi-archive-stable.gpg
+    /usr/share/keyrings/jitsi-keyring.gpg
+wget -O /etc/apt/sources.list.d/jitsi-stable.list \
+    $JITSI_TMPL/etc/apt/sources.list.d/jitsi-stable.list
 
 apt-get update
 debconf-set-selections <<< \
