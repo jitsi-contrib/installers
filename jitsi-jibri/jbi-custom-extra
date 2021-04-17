@@ -24,15 +24,15 @@ if [[ "$DISTRO" = "buster" ]]; then
         /etc/apt/sources.list
     sed -i "s~ buster/updates main$~ buster/updates main contrib non-free~" \
         /etc/apt/sources.list
-#else
-#    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
-#        AA8E81B4331F7F50 112695A0E562B32A 04EE7237B7D453EC 648ACFD622F3D138 \
-#        DCC9EFBF77E11517
-#
-#    cat >/etc/apt/sources.list.d/buster.list <<EOF
-#deb http://deb.debian.org/debian buster main non-free contrib
-#deb http://security.debian.org/debian-security buster/updates main contrib non-free
-#EOF
+else
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
+        AA8E81B4331F7F50 112695A0E562B32A 04EE7237B7D453EC 648ACFD622F3D138 \
+        DCC9EFBF77E11517
+
+    cat >/etc/apt/sources.list.d/buster.list <<EOF
+deb http://deb.debian.org/debian buster main non-free contrib
+deb http://security.debian.org/debian-security buster/updates main contrib non-free
+EOF
 fi
 
 apt-get -y --allow-releaseinfo-change update
