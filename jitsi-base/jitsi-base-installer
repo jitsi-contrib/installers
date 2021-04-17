@@ -90,8 +90,12 @@ fi
 
 # distro
 out <<< "checking the distro..."
-DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
-if [[ "$DISTRO" != "buster" ]] && [[ "$DISTRO" != "focal" ]]; then
+[[ $(command -v lsb_release) ]] && \
+    DISTRO=$(lsb_release -c | cut -d: -f2 | xargs) || \
+    DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
+
+if [[ "$DISTRO" != "buster" ]] && [[ "$DISTRO" != "bullseye" ]] && \
+   [[ "$DISTRO" != "focal" ]]; then
     out <<EOF
 Aborted! Your distro is not supported
 Recommendation: Switch to Debian 10 Buster or Ubuntu 20.04 Focal Fossa
