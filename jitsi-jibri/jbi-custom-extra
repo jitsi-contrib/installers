@@ -40,11 +40,6 @@ apt-get $APT_PROXY_OPTION -y install kmod alsa-utils
 apt-get $APT_PROXY_OPTION -y install libnss3-tools
 apt-get $APT_PROXY_OPTION -y install va-driver-all vdpau-driver-all
 apt-get $APT_PROXY_OPTION -y --install-recommends install ffmpeg
-#[[ "$DISTRO" = "buster" ]] && \
-#    apt-get $APT_PROXY_OPTION -y --install-recommends install \
-#        nvidia-openjdk-8-jre || \
-#    apt-get $APT_PROXY_OPTION -y --install-recommends install \
-#        openjdk-8-jdk-headless
 apt-get $APT_PROXY_OPTION -y --install-recommends install \
         chromium chromium-driver
 apt-get $APT_PROXY_OPTION -y install stunnel x11vnc
@@ -145,10 +140,6 @@ chmod 755 /usr/local/bin/finalize_recording.sh
 
 wget -O /usr/local/bin/ffmpeg $JIBRI_TMPL/usr/local/bin/ffmpeg
 chmod 755 /usr/local/bin/ffmpeg
-
-#mkdir -p /etc/systemd/system/jibri.service.d
-#wget -O /etc/systemd/system/jibri.service.d/override.conf \
-#    $JIBRI_TMPL/etc/systemd/system/jibri.service.d/override.$DISTRO.conf
 
 systemctl daemon-reload
 systemctl enable jibri.service
