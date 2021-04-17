@@ -74,8 +74,8 @@ sed -i "$ a 127.0.2.1 $JITSI_HOST" /etc/hosts
 
 # chromium
 mkdir -p /etc/chromium/policies/managed
-wget -O /etc/chromium/policies/managed/eb_policies.json \
-    $JIBRI_TMPL/etc/chromium/policies/managed/eb_policies.json
+wget -O /etc/chromium/policies/managed/jibri_policies.json \
+    $JIBRI_TMPL/etc/chromium/policies/managed/jibri_policies.json
 
 # stunnel
 wget -O /etc/stunnel/facebook.conf $JIBRI_TMPL/etc/stunnel/facebook.conf
