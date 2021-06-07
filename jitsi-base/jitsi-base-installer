@@ -481,6 +481,7 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-coturn" \
 # -----------------------------------------------------------------------------
 out <<< "configuring Prosody..."
 
+sed -i "/rate *=.*kb.s/  s/[0-9]*kb/512kb/" /etc/prosody/prosody.cfg.lua
 sed -i "s/^-- \(https_ports = { };\)/\1/" \
     /etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
 sed -i "/turns.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" \
