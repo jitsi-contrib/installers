@@ -122,7 +122,7 @@ Aborted! Unknown Jitsi host address
 Recommendation: Set Jitsi host address according to the following command
   and try again
 
-    export JITSI_HOST=jitsi.mydomain.com
+    export JITSI_HOST=jitsi.yourdomain.com
 EOF
     exit 1
 fi
@@ -144,7 +144,7 @@ Aborted! Unknown TURN host address
 Recommendation: Set TURN host address according to the following command
   and try again
 
-    export TURN_HOST=turn.mydomain.com
+    export TURN_HOST=turn.yourdomain.com
 EOF
     exit 1
 fi
@@ -164,8 +164,8 @@ if [[ "$JITSI_HOST" = "$TURN_HOST" ]]; then
 Aborted! Jitsi host address and TURN host address are the same
 Recommendation: Use different addresses for Jitsi and TURN
 
-    export JITSI_HOST=jitsi.mydomain.com
-    export TURN_HOST=turn.mydomain.com
+    export JITSI_HOST=jitsi.yourdomain.com
+    export TURN_HOST=turn.yourdomain.com
 EOF
     exit 1
 fi
