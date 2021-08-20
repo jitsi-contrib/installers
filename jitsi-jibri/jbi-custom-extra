@@ -4,8 +4,8 @@
 # extra for jibri-jibri-installer
 # -----------------------------------------------------------------------------
 JIBRI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jibri
-PROSODY=/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
-JICOFO_SIP=/etc/jitsi/jicofo/sip-communicator.properties
+PROSODY_CONFIG=/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
+JICOFO_CONFIG=/etc/jitsi/jicofo/jicofo.conf
 JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
 
 
@@ -77,7 +77,7 @@ wget -O /etc/stunnel/facebook.conf $JIBRI_TMPL/etc/stunnel/facebook.conf
 systemctl restart stunnel4.service
 
 # prosody
-cat >> $PROSODY <<EOF
+cat >> $PROSODY_CONFIG <<EOF
 VirtualHost "recorder.$JITSI_HOST"
     modules_enabled = {
         "ping";
@@ -96,10 +96,10 @@ prosodyctl unregister recorder recorder.$JITSI_HOST || true
 prosodyctl register recorder recorder.$JITSI_HOST $PASSWD2
 
 # jicofo
-cat >> $JICOFO_SIP <<EOF
-org.jitsi.jicofo.jibri.BREWERY=JibriBrewery@internal.auth.$JITSI_HOST
-org.jitsi.jicofo.jibri.PENDING_TIMEOUT=90
-EOF
+hocon -f $JICOFO_CONFIG \
+    set jicofo.jibri.brewery-jid "\"JibriBrewery@internal.auth.$JITSI_HOST\""
+hocon -f $JICOFO_CONFIG \
+    set jicofo.jibri.pending-timeout "90 seconds"
 systemctl restart jicofo.service
 
 # jitsi-meet config

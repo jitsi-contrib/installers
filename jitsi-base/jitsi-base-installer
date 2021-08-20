@@ -507,9 +507,8 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-prosody" \
 # -----------------------------------------------------------------------------
 out <<< "configuring Jicofo..."
 
-cat >>/etc/jitsi/jicofo/sip-communicator.properties <<EOF
-#org.jitsi.jicofo.DISABLE_AUTO_OWNER=true
-EOF
+hocon -f /etc/jitsi/jicofo/jicofo.conf \
+    set jicofo.conference.enable-auto-owner true
 
 sed -i '/^JICOFO_AUTH_PASSWORD=/a \
 \
