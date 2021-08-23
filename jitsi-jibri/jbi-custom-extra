@@ -24,6 +24,13 @@ if [[ "$DISTRO" = "buster" ]]; then
         /etc/apt/sources.list
     sed -i "s~ buster/updates main$~ buster/updates main contrib non-free~" \
         /etc/apt/sources.list
+elif [[ "$DISTRO" = "bullseye" ]]; then
+    sed -i "s~ bullseye main$~ bullseye main contrib non-free~" \
+        /etc/apt/sources.list
+    sed -i "s~ bullseye-updates main$~ bullseye-updates main contrib non-free~" \
+        /etc/apt/sources.list
+    sed -i "s~ bullseye-security main$~ bullseye-security main contrib non-free~" \
+        /etc/apt/sources.list
 else
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys \
         AA8E81B4331F7F50 112695A0E562B32A 04EE7237B7D453EC 648ACFD622F3D138 \

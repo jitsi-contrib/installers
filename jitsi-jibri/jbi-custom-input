@@ -23,9 +23,11 @@ out <<< "checking the snd-aloop support..."
         -o Dpkg::Options::="--force-confold" || \
     true
 
-[[ "$DISTRO" = "buster" ]] && \
-    KERNEL="linux-image-$(dpkg --print-architecture)" || \
+if [[ "$DISTRO" = "buster" ]] || [[ "$DISTRO" = "bullseye" ]]; then
+    KERNEL="linux-image-$(dpkg --print-architecture)"
+else
     KERNEL="linux-image-generic"
+fi
 
 modprobe snd_aloop 2>/dev/null || true
 if [[ -z "$(grep snd_aloop /proc/modules)" ]]; then
