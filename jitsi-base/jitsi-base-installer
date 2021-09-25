@@ -431,6 +431,7 @@ debconf-set-selections <<< \
 debconf-set-selections <<< \
     "jitsi-meet-web-config jitsi-meet/cert-choice select Generate a new self-signed certificate (You will later get a chance to obtain a Let's encrypt certificate)"
 apt-get $APT_PROXY_OPTION -y --install-recommends install jitsi-meet
+apt-get $APT_PROXY_OPTION -y install libnginx-mod-http-lua
 apt-get $APT_PROXY_OPTION -y install luarocks liblua5.2-dev
 
 [[ -f "/tmp/jbi-custom-install" ]] && source /tmp/jbi-custom-install
