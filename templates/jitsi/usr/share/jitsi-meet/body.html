@@ -1,0 +1,31 @@
+<script>
+  async function sendSessionId(attempt) {
+    try {
+      attempt += 1;
+      if (attempt > 3) return;
+
+      // skip if I am not recorder
+      const isRecorder = APP.store.getState()["features/base/config"].iAmRecorder;
+      if (!isRecorder) return;
+
+      // session data
+      const session = APP.store.getState()["features/recording"].sessionDatas[0];
+      const sessionId = session.id;
+      const sessionMode = session.mode;
+      const initiatorId = session.initiator._id;
+
+      // skip if this is not a recording session (possibly live streaming)
+      if (sessionMode !== "file") return;
+
+      // private message
+      const msg =
+        `To access the recorded video after the recording is complete:\n\n` +
+        `https://___JITSI_HOST___/recordings/${sessionId}/`;
+      APP.conference._room.sendMessage(msg, initiatorId);
+    } catch(e) {
+      setTimeout(function() {sendSessionId(attempt);}, 3000);
+    }
+  }
+
+sendSessionId(0);
+</script>

@@ -152,7 +152,12 @@ systemctl daemon-reload
 systemctl enable jibri.service
 systemctl start jibri.service
 
-# jibri vnc
+# jibri, recorded file link as a private message
+wget -O /usr/share/jitsi-meet/body.html \
+    $JIBRI_TMPL/usr/share/jitsi-meet/body.html
+sed -i "s/___JITSI_HOST___/$JITSI_HOST/" /usr/share/jitsi-meet/body.html
+
+# jibri, vnc
 mkdir -p /home/jibri/.vnc
 x11vnc -storepasswd jibri /home/jibri/.vnc/passwd
 chown jibri:jibri /home/jibri/.vnc -R
