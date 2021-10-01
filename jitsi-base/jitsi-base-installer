@@ -495,6 +495,8 @@ wget -O /usr/share/jitsi-meet/prosody-plugins/mod_token_owner_party.lua \
     $PROSODY_PLUGINS/token_owner_party/mod_token_owner_party.lua
 wget -O /usr/share/jitsi-meet/prosody-plugins/mod_time_restricted.lua \
     $PROSODY_PLUGINS/time_restricted/mod_time_restricted.lua
+wget -O /usr/share/jitsi-meet/prosody-plugins/mod_jibri_autostart.lua \
+    $PROSODY_PLUGINS/jibri_autostart/mod_jibri_autostart.lua
 
 systemctl reload prosody.service
 
