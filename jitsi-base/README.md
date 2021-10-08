@@ -5,9 +5,9 @@ guides the user during the installation to avoid potential problems.
 
 ## Supported distributions
 
-- Ubuntu 20.04 Focal Fossa
+- Debian 11 Bullseye
 - Debian 10 Buster
-- Debian 11 Bullseye (testing)
+- Ubuntu 20.04 Focal Fossa
 
 ## Usage
 
