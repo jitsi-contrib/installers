@@ -83,8 +83,8 @@ wget -O /etc/stunnel/facebook.conf $JIBRI_TMPL/etc/stunnel/facebook.conf
 systemctl restart stunnel4.service
 
 # prosody
-cp $JITSI_TMPL/etc/prosody/conf.avail/recorder.cfg.lua \
-    /etc/prosody/conf.avail/recorder.$JITSI_HOST.cfg.lua
+wget -O /etc/prosody/conf.avail/recorder.$JITSI_HOST.cfg.lua \
+    $JITSI_TMPL/etc/prosody/conf.avail/recorder.cfg.lua
 sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
     /etc/prosody/conf.avail/recorder.$JITSI_HOST.cfg.lua
 ln -s ../conf.avail/recorder.$JITSI_HOST.cfg.lua /etc/prosody/conf.d/
