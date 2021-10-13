@@ -18,7 +18,7 @@ guides the user during the installation to avoid potential problems.
 ### use root account
 
 Switch to the `root` account if you are not already `root`. Use one of the
-following command according to your system
+following commands according to your system to be `root`:
 
 ```bash
 sudo su -l
@@ -41,9 +41,10 @@ wget -O jitsi-base-installer https://raw.githubusercontent.com/jitsi-contrib/ins
 
 ### host addresses
 
-- Create DNS A record for Jitsi. For example `jitsi.yourdomain.com`
-- Create DNS A record for TURN. For example `turn.yourdomain.com`
-- Jitsi address and TURN address must be different and don't use IP as address.
+- Create a `DNS A record` for Jitsi. For example `jitsi.yourdomain.com`
+- Create a `DNS A record` for TURN. For example `turn.yourdomain.com`
+- Jitsi address and TURN address must be different and don't use an IP as the
+  host address
 - Set related environment variables before starting the installer
 
 ```bash
