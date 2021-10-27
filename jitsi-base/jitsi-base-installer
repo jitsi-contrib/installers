@@ -504,6 +504,7 @@ wget -O /usr/share/jitsi-meet/prosody-plugins/mod_time_restricted.lua \
 wget -O /usr/share/jitsi-meet/prosody-plugins/mod_jibri_autostart.lua \
     $PROSODY_PLUGINS/jibri_autostart/mod_jibri_autostart.lua
 
+systemctl daemon-reload
 systemctl restart prosody.service
 
 # prosody config is ok
