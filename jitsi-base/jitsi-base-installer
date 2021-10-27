@@ -482,6 +482,12 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-coturn" \
 # -----------------------------------------------------------------------------
 out <<< "configuring Prosody..."
 
+mkdir -p /etc/systemd/system/prosody.service.d
+wget -O /etc/systemd/system/prosody.service.d/override.conf \
+    $JITSI_TMPL/etc/systemd/system/prosody.service.d/override.conf
+wget -O /etc/prosody/conf.avail/network.cfg.lua \
+    $JITSI_TMPL/etc/prosody/conf.avail/network.cfg.lua
+ln -s ../conf.avail/network.cfg.lua /etc/prosody/conf.d/
 sed -i "/rate *=.*kb.s/  s/[0-9]*kb/1024kb/" /etc/prosody/prosody.cfg.lua
 sed -i "s/^-- \(https_ports = { };\)/\1/" \
     /etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
@@ -498,7 +504,7 @@ wget -O /usr/share/jitsi-meet/prosody-plugins/mod_time_restricted.lua \
 wget -O /usr/share/jitsi-meet/prosody-plugins/mod_jibri_autostart.lua \
     $PROSODY_PLUGINS/jibri_autostart/mod_jibri_autostart.lua
 
-systemctl reload prosody.service
+systemctl restart prosody.service
 
 # prosody config is ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-prosody" \
