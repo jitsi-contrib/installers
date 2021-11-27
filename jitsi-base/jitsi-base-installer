@@ -94,11 +94,12 @@ out <<< "checking the distro..."
     DISTRO=$(lsb_release -c | cut -d: -f2 | xargs) || \
     DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
-if [[ "$DISTRO" != "buster" ]] && [[ "$DISTRO" != "bullseye" ]] && \
-   [[ "$DISTRO" != "focal" ]]; then
+if [[ "$DISTRO" != "focal" ]] && \
+   [[ "$DISTRO" != "bullseye" ]] && \
+   [[ "$DISTRO" != "buster" ]]; then
     out <<EOF
 Aborted! Your distro is not supported
-Recommendation: Switch to Debian 10 Buster or Ubuntu 20.04 Focal Fossa
+Recommendation: Switch to Debian 11 Bullseye or Ubuntu 20.04 Focal Fossa
 EOF
     exit 1
 fi
@@ -199,9 +200,10 @@ apt-get -y purge nginx || true
 apt-get -y purge 'nginx-*' || true
 apt-get -y purge 'openjdk-*' || true
 apt-get -y purge 'adoptopenjdk-*' || true
-apt-get -y purge chromium chromium-driver || true
+apt-get -y purge chromium chromium-common chromium-driver || true
 apt-get -y purge chromium-browser chromium-chromedriver || true
 apt-get -y purge chromium-codecs-ffmpeg chromium-codecs-ffmpeg-extra || true
+apt-get -y purge ungoogled-chromium || true
 apt-get -y purge va-driver-all vdpau-driver-all || true
 apt-get -y autoremove --purge
 
@@ -219,6 +221,7 @@ rm -f  /etc/apt/sources.list.d/stretch.list
 rm -f  /etc/apt/sources.list.d/buster.list
 rm -f  /etc/apt/sources.list.d/jitsi-stable.list
 rm -f  /etc/apt/sources.list.d/google-chrome.list
+rm -f  /etc/apt/sources.list.d/ungoogled-chromium.list
 rm -f  /usr/local/bin/chromedriver
 
 [[ -f "/tmp/jbi-custom-purge" ]] && source /tmp/jbi-custom-purge
