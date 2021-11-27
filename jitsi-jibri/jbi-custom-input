@@ -23,7 +23,8 @@ out <<< "checking the snd-aloop support..."
         -o Dpkg::Options::="--force-confold" || \
     true
 
-if [[ "$DISTRO" = "buster" ]] || [[ "$DISTRO" = "bullseye" ]]; then
+if [[ "$DISTRO" = "bullseye" ]] || \
+   [[ "$DISTRO" = "buster" ]]; then
     KERNEL="linux-image-$(dpkg --print-architecture)"
 else
     KERNEL="linux-image-generic"

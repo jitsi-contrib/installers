@@ -13,7 +13,5 @@ elif [[ "$FMT" = "flv" ]]; then
     SCHEME=$(echo $DEST | cut -d ':' -f1)
 fi
 
-ARGS=$(echo $ARGS | sed 's~rtmps://live-api-s.facebook.com:443/~rtmp://127.0.0.1:1936/~')
 echo $ARGS >> /tmp/ffmpeg.log
-
 exec /usr/bin/ffmpeg $ARGS
