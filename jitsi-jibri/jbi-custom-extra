@@ -54,8 +54,8 @@ apt-get $APT_PROXY_OPTION -y --install-recommends install ffmpeg
 
 if [[ "$DISTRO" = "bullseye" ]] || \
    [[ "$DISTRO" = "focal" ]]; then
-    apt-get $APT_PROXY_OPTION -y unzip libgtk-3-0
-    apt-get $APT_PROXY_OPTION -y ungoogled-chromium
+    apt-get $APT_PROXY_OPTION -y install unzip libgtk-3-0
+    apt-get $APT_PROXY_OPTION -y install ungoogled-chromium
 
     CHROMIUM_VER=$(dpkg -s ungoogled-chromium | egrep "^Version" | \
         cut -d " " -f2 | cut -d. -f1)
