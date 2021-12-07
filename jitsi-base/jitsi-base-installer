@@ -593,17 +593,14 @@ VIDEOBRIDGE_MAX_MEMORY=3072m' \
     /etc/jitsi/videobridge/config
 
 # colibri
-sed -i '/^JVB_OPTS/ s/--apis=/--apis=rest/' \
-    /etc/jitsi/videobridge/config
-cat >>/etc/jitsi/videobridge/sip-communicator.properties <<EOF
-org.jitsi.videobridge.rest.private.jetty.port=8080
-org.jitsi.videobridge.rest.private.jetty.host=127.0.0.1
-EOF
+hocon -f /etc/jitsi/videobridge/jvb.conf \
+    set videobridge.apis.rest.enabled true
+hocon -f /etc/jitsi/videobridge/jvb.conf \
+    set videobridge.ice.udp.port 10000
 
 # NAT harvester
 [[ "$EXTERNAL_IP" = "$PUBLIC_IP" ]] && COMMENT="#"
 cat >>/etc/jitsi/videobridge/sip-communicator.properties <<EOF
-org.jitsi.videobridge.SINGLE_PORT_HARVESTER_PORT=10000
 ${COMMENT}org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$PUBLIC_IP
 ${COMMENT}org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$EXTERNAL_IP
 EOF
