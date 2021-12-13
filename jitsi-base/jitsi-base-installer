@@ -375,7 +375,7 @@ out <<< "checking TCP/80 accessibility..."
 RES=$(timeout 8 ncat -l 0.0.0.0 80 | tr -d '\0' || true)
 if [[ "$RES" != "$TEXT" ]]; then
     out <<EOF
-Aborted! TCP/80 is not accessable
+Aborted! TCP/80 is not accessible
 Recommendation: Check firewall and NAT rules, allow TCP/80
 EOF
     exit 1
@@ -389,7 +389,7 @@ out <<< "checking TCP/443 accessibility..."
 RES=$(timeout 8 ncat -l 0.0.0.0 443 | tr -d '\0' || true)
 if [[ "$RES" != "$TEXT" ]]; then
     out <<EOF
-Aborted! TCP/443 is not accessable
+Aborted! TCP/443 is not accessible
 Recommendation: Check firewall and NAT rules, allow TCP/443
 EOF
     exit 1
@@ -403,7 +403,7 @@ out <<< "checking UDP/10000 accessibility..."
 RES=$(timeout 8 ncat -u -l 0.0.0.0 10000 | tr -d '\0' || true)
 if [[ "$RES" != "$TEXT" ]]; then
     out <<EOF
-Aborted! UDP/10000 is not accessable
+Aborted! UDP/10000 is not accessible
 Recommendation: Check firewall and NAT rules, allow UDP/10000
 EOF
     exit 1
