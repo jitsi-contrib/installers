@@ -212,9 +212,11 @@ deluser jibri || true
 delgroup jibri || true
 
 rm -rf /home/jibri
+rm -rf /etc/chromium
 rm -rf /etc/jitsi
 rm -rf /etc/prosody
 rm -rf /etc/nginx
+rm -rf /etc/opt/chrome
 rm -rf /usr/share/jitsi-meet
 rm -rf /usr/share/jitsi-videobridge
 rm -rf /usr/share/jicofo
@@ -223,8 +225,6 @@ rm -f  /etc/apt/sources.list.d/buster.list
 rm -f  /etc/apt/sources.list.d/jitsi-stable.list
 rm -f  /etc/apt/sources.list.d/google-chrome.list
 rm -f  /etc/apt/sources.list.d/ungoogled-chromium.list
-rm -f  /etc/chromium
-rm -f  /etc/opt/chrome
 rm -f  /usr/local/bin/chromedriver
 
 [[ -f "/tmp/jbi-custom-purge" ]] && source /tmp/jbi-custom-purge
