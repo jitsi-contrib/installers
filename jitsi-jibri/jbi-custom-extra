@@ -6,8 +6,6 @@
 JIBRI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jibri
 JICOFO_CONFIG=/etc/jitsi/jicofo/jicofo.conf
 JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
-
-
 JITSI_MEET_INTERFACE=/usr/share/jitsi-meet/interface_config.js
 
 
@@ -23,13 +21,6 @@ if [[ "$DISTRO" = "bullseye" ]]; then
         /etc/apt/sources.list
     sed -i "s~ bullseye-security main$~ bullseye-security main contrib non-free~" \
         /etc/apt/sources.list
-
-    wget -qO /tmp/ungoogled-chromium.gpg.key \
-        https://download.opensuse.org/repositories/home:/ungoogled_chromium/Debian_Bullseye/Release.key
-    cat /tmp/ungoogled-chromium.gpg.key | gpg --dearmor \
-        >/usr/share/keyrings/ungoogled-chromium.gpg
-    wget -O /etc/apt/sources.list.d/ungoogled-chromium.list \
-        $JIBRI_TMPL/etc/apt/sources.list.d/ungoogled-chromium.list.bullseye
 elif [[ "$DISTRO" = "buster" ]]; then
     sed -i "s~ buster main$~ buster main contrib non-free~" \
         /etc/apt/sources.list
@@ -37,38 +28,29 @@ elif [[ "$DISTRO" = "buster" ]]; then
         /etc/apt/sources.list
     sed -i "s~ buster/updates main$~ buster/updates main contrib non-free~" \
         /etc/apt/sources.list
-elif [[ "$DISTRO" = "focal" ]]; then
-    wget -qO /tmp/ungoogled-chromium.gpg.key \
-        https://download.opensuse.org/repositories/home:/ungoogled_chromium/Ubuntu_Focal/Release.key
-    cat /tmp/ungoogled-chromium.gpg.key | gpg --dearmor \
-        >/usr/share/keyrings/ungoogled-chromium.gpg
-    wget -O /etc/apt/sources.list.d/ungoogled-chromium.list \
-        $JIBRI_TMPL/etc/apt/sources.list.d/ungoogled-chromium.list.focal
 fi
+
+wget -qO /tmp/google-chrome.gpg.key \
+    https://dl.google.com/linux/linux_signing_key.pub
+apt-key add /tmp/google-chrome.gpg.key
+wget -O /etc/apt/sources.list.d/google-chrome.list \
+    $JIBRI_TMPL/etc/apt/sources.list.d/google-chrome.list
 
 apt-get -y --allow-releaseinfo-change update
 apt-get $APT_PROXY_OPTION -y install kmod alsa-utils
-apt-get $APT_PROXY_OPTION -y install libnss3-tools
+apt-get $APT_PROXY_OPTION -y install libnss3-tools unzip
 apt-get $APT_PROXY_OPTION -y install va-driver-all vdpau-driver-all
 apt-get $APT_PROXY_OPTION -y --install-recommends install ffmpeg
+apt-get $APT_PROXY_OPTION -y --install-recommends install google-chrome-stable
 
-if [[ "$DISTRO" = "bullseye" ]] || \
-   [[ "$DISTRO" = "focal" ]]; then
-    apt-get $APT_PROXY_OPTION -y install unzip libgtk-3-0
-    apt-get $APT_PROXY_OPTION -y install ungoogled-chromium
-
-    CHROMIUM_VER=$(dpkg -s ungoogled-chromium | egrep "^Version" | \
-        cut -d " " -f2 | cut -d. -f1)
-    CHROMEDRIVER_VER=$(curl -s \
-        https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROMIUM_VER)
-    wget -qO /tmp/chromedriver_linux64.zip \
-        https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VER/chromedriver_linux64.zip
-    unzip /tmp/chromedriver_linux64.zip -d /usr/local/bin/
-    chmod 755 /usr/local/bin/chromedriver
-elif [[ "$DISTRO" = "buster" ]]; then
-    apt-get $APT_PROXY_OPTION -y --install-recommends install \
-        chromium chromium-driver
-fi
+CHROME_VER=$(dpkg -s google-chrome-stable | egrep "^Version" | \
+    cut -d " " -f2 | cut -d. -f1)
+CHROMEDRIVER_VER=$(curl -s \
+    https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VER)
+wget -qO /tmp/chromedriver_linux64.zip \
+    https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VER/chromedriver_linux64.zip
+unzip -o /tmp/chromedriver_linux64.zip -d /usr/local/bin/
+chmod 755 /usr/local/bin/chromedriver
 
 apt-get $APT_PROXY_OPTION -y install x11vnc
 apt-get $APT_PROXY_OPTION -y install jibri
@@ -95,10 +77,10 @@ sed -i -E "/^[0-9.]+\s*$/d" /etc/hosts
 sed -i "/127.0.2.1\s/d" /etc/hosts
 sed -i "$ a 127.0.2.1 $JITSI_HOST" /etc/hosts
 
-# chromium
-mkdir -p /etc/chromium/policies/managed
-wget -O /etc/chromium/policies/managed/jibri_policies.json \
-    $JIBRI_TMPL/etc/chromium/policies/managed/jibri_policies.json
+# google chrome
+mkdir -p /etc/opt/chrome/policies/managed
+wget -O /etc/opt/chrome/policies/managed/jibri_policies.json \
+    $JIBRI_TMPL/etc/opt/chrome/policies/managed/jibri_policies.json
 
 # prosody
 wget -O /etc/prosody/conf.avail/recorder.$JITSI_HOST.cfg.lua \

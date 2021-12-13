@@ -203,6 +203,7 @@ apt-get -y purge 'adoptopenjdk-*' || true
 apt-get -y purge chromium chromium-common chromium-driver || true
 apt-get -y purge chromium-browser chromium-chromedriver || true
 apt-get -y purge chromium-codecs-ffmpeg chromium-codecs-ffmpeg-extra || true
+apt-get -y purge google-chrome-stable || true
 apt-get -y purge ungoogled-chromium || true
 apt-get -y purge va-driver-all vdpau-driver-all || true
 apt-get -y autoremove --purge
@@ -222,6 +223,8 @@ rm -f  /etc/apt/sources.list.d/buster.list
 rm -f  /etc/apt/sources.list.d/jitsi-stable.list
 rm -f  /etc/apt/sources.list.d/google-chrome.list
 rm -f  /etc/apt/sources.list.d/ungoogled-chromium.list
+rm -f  /etc/chromium
+rm -f  /etc/opt/chrome
 rm -f  /usr/local/bin/chromedriver
 
 [[ -f "/tmp/jbi-custom-purge" ]] && source /tmp/jbi-custom-purge
