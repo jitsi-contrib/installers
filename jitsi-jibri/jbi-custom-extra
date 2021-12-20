@@ -119,7 +119,6 @@ sed -i "/liveStreamingEnabled:/a \\\n    hiddenDomain: 'recorder.$JITSI_HOST'," 
 # icewm
 mkdir -p /home/jibri/.icewm
 wget -O /home/jibri/.icewm/startup $JIBRI_TMPL/home/jibri/.icewm/startup
-sed -i "s/___JITSI_HOST___/$JITSI_HOST/" /home/jibri/.icewm/startup
 chmod 755 /home/jibri/.icewm/startup
 
 # jibri
