@@ -11,6 +11,6 @@ apt-get $APT_PROXY_OPTION -y install wget ca-certificates \
     -o Dpkg::Options::="--force-confold"
 
 wget -O /tmp/jitsi-base-installer $JBI/jitsi-base-installer
-wget -O /tmp/jbi-custom-extra $JJI/jbi-custom-extra
+wget -O /tmp/jbi-custom-extra $JTI/jbi-custom-extra
 
 bash /tmp/jitsi-base-installer
