@@ -6,7 +6,6 @@
 JIBRI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jibri
 JICOFO_CONFIG=/etc/jitsi/jicofo/jicofo.conf
 JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
-JITSI_MEET_INTERFACE=/usr/share/jitsi-meet/interface_config.js
 
 
 # -----------------------------------------------------------------------------
