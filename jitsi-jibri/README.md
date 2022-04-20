@@ -18,14 +18,16 @@ installation to avoid potential problems.
 
 ### use root account
 
-Switch to the `root` account if you are not already `root`. Use one of the
-following commands according to your system to be `root`:
+If you are not already `root`, switch to `root` account. Use one of the
+following commands to become `root` according to your system:
+
+_For Ubuntu_
 
 ```bash
 sudo su -l
 ```
 
-or
+_For Debian_
 
 ```bash
 su -l
