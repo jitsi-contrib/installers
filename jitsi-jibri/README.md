@@ -21,13 +21,11 @@ installation to avoid potential problems.
 If you are not already `root`, switch to `root` account. Use one of the
 following commands to become `root` according to your system:
 
-_For Ubuntu_
-
 ```bash
 sudo su -l
 ```
 
-_For Debian_
+or
 
 ```bash
 su -l
