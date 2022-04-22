@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # -----------------------------------------------------------------------------
-# extra for jibri-token-installer
+# extra for jitsi-token-installer
 # -----------------------------------------------------------------------------
 JICOFO_CONFIG=/etc/jitsi/jicofo/jicofo.conf
 PROSODY_CONFIG=/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
