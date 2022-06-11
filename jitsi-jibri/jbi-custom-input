@@ -17,11 +17,12 @@ fi
 # snd_aloop
 out <<< "checking the snd-aloop support..."
 
-[[ "$DISTRO" = "focal" ]] && \
+if [[ "$DISTRO" = "focal" ]] || \
+   [[ "$DISTRO" = "jammy" ]]; then
     apt-get $APT_PROXY_OPTION -y install linux-modules-extra-$(uname -r) \
         -o Dpkg::Options::="--force-confdef" \
-        -o Dpkg::Options::="--force-confold" || \
-    true
+        -o Dpkg::Options::="--force-confold"
+fi
 
 if [[ "$DISTRO" = "bullseye" ]] || \
    [[ "$DISTRO" = "buster" ]]; then
