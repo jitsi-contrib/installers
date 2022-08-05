@@ -106,13 +106,17 @@ hocon -f $JICOFO_CONFIG \
 systemctl restart jicofo.service
 
 # jitsi-meet config
-sed -i 's~//\s*fileRecordingsEnabled.*~fileRecordingsEnabled: true,~' \
-    $JITSI_MEET_CONFIG
-sed -i 's~//\s*fileRecordingsServiceSharingEnabled.*~fileRecordingsServiceSharingEnabled: true,~' \
-    $JITSI_MEET_CONFIG
-sed -i 's~//\s*liveStreamingEnabled:.*~liveStreamingEnabled: true,~' \
-    $JITSI_MEET_CONFIG
-sed -i "/liveStreamingEnabled:/a \\\n    hiddenDomain: 'recorder.$JITSI_HOST'," \
+sed -i "/^\s*\/\/ Recording$/a \
+\\
+\n\
+\    recordingService: {\n\
+\        enabled: true,\n\
+\        sharingEnabled: true,\n\
+\        hideStorageWarning: false,\n\
+\    },\n\
+\n\
+\    liveStreamingEnabled: true,\n\
+\    hiddenDomain: 'recorder.$JITSI_HOST'," \
     $JITSI_MEET_CONFIG
 
 # icewm
