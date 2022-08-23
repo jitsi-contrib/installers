@@ -36,7 +36,7 @@ su -l
 apt-get update
 apt-get install wget
 
-wget -T 30 -O jitsi-base-installer https://raw.githubusercontent.com/jitsi-contrib/installers/main/jitsi-base/jitsi-base-installer
+wget -T 10 -O jitsi-base-installer https://raw.githubusercontent.com/jitsi-contrib/installers/main/jitsi-base/jitsi-base-installer
 ```
 
 ### host addresses

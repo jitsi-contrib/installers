@@ -13,7 +13,7 @@ JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
 out <<< "secure-domain configuration..."
 
 # prosody
-wget -T 30 -O /etc/prosody/conf.avail/guest.$JITSI_HOST.cfg.lua \
+wget -T 10 -O /etc/prosody/conf.avail/guest.$JITSI_HOST.cfg.lua \
     $JITSI_TMPL/etc/prosody/conf.avail/guest.cfg.lua
 sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
     /etc/prosody/conf.avail/guest.$JITSI_HOST.cfg.lua
