@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+JBI=https://raw.githubusercontent.com/jitsi-contrib/installers/main/jitsi-base
+JTI=https://raw.githubusercontent.com/jitsi-contrib/installers/main/jitsi-secure
+
+export APT_PROXY_OPTION=$APT_PROXY_OPTION
+export DEBIAN_FRONTEND=noninteractive
+apt-get $APT_PROXY_OPTION -y install wget ca-certificates \
+    -o Dpkg::Options::="--force-confdef" \
+    -o Dpkg::Options::="--force-confold"
+
+wget -O /tmp/jitsi-base-installer $JBI/jitsi-base-installer
+wget -O /tmp/jbi-custom-extra $JTI/jbi-custom-extra
+
+bash /tmp/jitsi-base-installer
