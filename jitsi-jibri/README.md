@@ -37,7 +37,7 @@ su -l
 apt-get update
 apt-get install wget
 
-wget -O jitsi-jibri-installer https://raw.githubusercontent.com/jitsi-contrib/installers/main/jitsi-jibri/jitsi-jibri-installer
+wget -T 30 -O jitsi-jibri-installer https://raw.githubusercontent.com/jitsi-contrib/installers/main/jitsi-jibri/jitsi-jibri-installer
 ```
 
 ### host addresses

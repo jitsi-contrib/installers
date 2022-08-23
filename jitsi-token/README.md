@@ -36,7 +36,7 @@ su -l
 apt-get update
 apt-get install wget
 
-wget -O jitsi-token-installer https://raw.githubusercontent.com/jitsi-contrib/installers/main/jitsi-token/jitsi-token-installer
+wget -T 30 -O jitsi-token-installer https://raw.githubusercontent.com/jitsi-contrib/installers/main/jitsi-token/jitsi-token-installer
 ```
 
 ### host addresses

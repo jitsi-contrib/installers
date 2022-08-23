@@ -29,10 +29,10 @@ elif [[ "$DISTRO" = "buster" ]]; then
         /etc/apt/sources.list
 fi
 
-wget -qO /tmp/google-chrome.gpg.key \
+wget -T 30 -qO /tmp/google-chrome.gpg.key \
     https://dl.google.com/linux/linux_signing_key.pub
 apt-key add /tmp/google-chrome.gpg.key
-wget -O /etc/apt/sources.list.d/google-chrome.list \
+wget -T 30 -O /etc/apt/sources.list.d/google-chrome.list \
     $JIBRI_TMPL/etc/apt/sources.list.d/google-chrome.list
 
 apt-get -y --allow-releaseinfo-change update
@@ -46,7 +46,7 @@ CHROME_VER=$(dpkg -s google-chrome-stable | egrep "^Version" | \
     cut -d " " -f2 | cut -d. -f1)
 CHROMEDRIVER_VER=$(curl -s \
     https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VER)
-wget -qO /tmp/chromedriver_linux64.zip \
+wget -T 30 -qO /tmp/chromedriver_linux64.zip \
     https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VER/chromedriver_linux64.zip
 unzip -o /tmp/chromedriver_linux64.zip -d /usr/local/bin/
 chmod 755 /usr/local/bin/chromedriver
@@ -78,11 +78,11 @@ sed -i "$ a 127.0.2.1 $JITSI_HOST" /etc/hosts
 
 # google chrome
 mkdir -p /etc/opt/chrome/policies/managed
-wget -O /etc/opt/chrome/policies/managed/jibri_policies.json \
+wget -T 30 -O /etc/opt/chrome/policies/managed/jibri_policies.json \
     $JIBRI_TMPL/etc/opt/chrome/policies/managed/jibri_policies.json
 
 # prosody
-wget -O /etc/prosody/conf.avail/recorder.$JITSI_HOST.cfg.lua \
+wget -T 30 -O /etc/prosody/conf.avail/recorder.$JITSI_HOST.cfg.lua \
     $JITSI_TMPL/etc/prosody/conf.avail/recorder.cfg.lua
 sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
     /etc/prosody/conf.avail/recorder.$JITSI_HOST.cfg.lua
@@ -121,7 +121,7 @@ sed -i "/^\s*\/\/ Recording$/a \
 
 # icewm
 mkdir -p /home/jibri/.icewm
-wget -O /home/jibri/.icewm/startup $JIBRI_TMPL/home/jibri/.icewm/startup
+wget -T 30 -O /home/jibri/.icewm/startup $JIBRI_TMPL/home/jibri/.icewm/startup
 chmod 755 /home/jibri/.icewm/startup
 
 # jibri
@@ -129,16 +129,16 @@ usermod -aG adm,audio,video,plugdev jibri
 mkdir -p /usr/local/recordings
 chown jibri:jibri /usr/local/recordings -R
 
-wget -O /etc/jitsi/jibri/jibri.conf $JIBRI_TMPL/etc/jitsi/jibri/jibri.conf
+wget -T 30 -O /etc/jitsi/jibri/jibri.conf $JIBRI_TMPL/etc/jitsi/jibri/jibri.conf
 sed -i "s/___JITSI_HOST___/$JITSI_HOST/" /etc/jitsi/jibri/jibri.conf
 sed -i "s/___PASSWD1___/$PASSWD1/" /etc/jitsi/jibri/jibri.conf
 sed -i "s/___PASSWD2___/$PASSWD2/" /etc/jitsi/jibri/jibri.conf
 
-wget -O /usr/local/bin/finalize_recording.sh \
+wget -T 30 -O /usr/local/bin/finalize_recording.sh \
     $JIBRI_TMPL/usr/local/bin/finalize_recording.sh
 chmod 755 /usr/local/bin/finalize_recording.sh
 
-wget -O /usr/local/bin/ffmpeg $JIBRI_TMPL/usr/local/bin/ffmpeg
+wget -T 30 -O /usr/local/bin/ffmpeg $JIBRI_TMPL/usr/local/bin/ffmpeg
 chmod 755 /usr/local/bin/ffmpeg
 
 systemctl daemon-reload
@@ -146,7 +146,7 @@ systemctl enable jibri.service
 systemctl start jibri.service
 
 # jibri, recorded file link as a private message
-wget -O /usr/share/jitsi-meet/body.html \
+wget -T 30 -O /usr/share/jitsi-meet/body.html \
     $JIBRI_TMPL/usr/share/jitsi-meet/body.html
 sed -i "s/___JITSI_HOST___/$JITSI_HOST/" /usr/share/jitsi-meet/body.html
 
