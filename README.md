@@ -15,4 +15,4 @@
 
 - [Jitsi-Token](jitsi-token/)
 
-  To install a standalone Jitsi server with token authentication.
+  To install a standalone Jitsi server with `token` authentication.
