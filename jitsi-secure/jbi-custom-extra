@@ -36,7 +36,7 @@ systemctl restart jicofo.service
 systemctl restart jitsi-videobridge2.service
 
 # jitsi-meet config
-sed -i -r "/\s*domain:/a \
+sed -i -r "/^\s*domain:/a \
 \        anonymousdomain: 'guest.$JITSI_HOST'," \
     $JITSI_MEET_CONFIG
 
