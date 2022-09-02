@@ -527,6 +527,7 @@ sed -i '/\s*app_secret=/a \
 sed -i '/^Component .conference\./,/admins/!b; /\s*"token_verification"/a \
 \        "token_affiliation";' $PROSODY_CONFIG
 
+# prosody restart
 systemctl daemon-reload
 systemctl restart prosody.service
 
@@ -553,6 +554,7 @@ JICOFO_MAX_MEMORY=3072m' \
 hocon -f /etc/jitsi/jicofo/jicofo.conf \
     set jicofo.conference.enable-auto-owner false
 
+# jicofo restart
 systemctl restart jicofo.service
 
 # jicofo config is ok
