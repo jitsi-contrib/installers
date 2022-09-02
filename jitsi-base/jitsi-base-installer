@@ -1,13 +1,16 @@
 #!/bin/bash
 set -e
 
-export APT_PROXY_OPTION=$APT_PROXY_OPTION
-export DEBIAN_FRONTEND=noninteractive
-export JITSI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jitsi
-export PROSODY_PLUGINS=https://raw.githubusercontent.com/jitsi-contrib/prosody-plugins/main
-export CHECKMYPORT=https://checkmyport.emrah.com
-export TCP=(80 443 4444 5222 5280 5269 5347 5349 8080 8888 9090)
-export UDP=(5000 5349 10000)
+# -----------------------------------------------------------------------------
+# globals
+# -----------------------------------------------------------------------------
+APT_PROXY_OPTION=$APT_PROXY_OPTION
+DEBIAN_FRONTEND=noninteractive
+JITSI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jitsi
+PROSODY_PLUGINS=https://raw.githubusercontent.com/jitsi-contrib/prosody-plugins/main
+CHECKMYPORT=https://checkmyport.emrah.com
+TCP=(80 443 4444 5222 5280 5269 5347 5349 8080 8888 9090)
+UDP=(5000 5349 10000)
 
 
 # -----------------------------------------------------------------------------
@@ -171,8 +174,6 @@ EOF
     exit 1
 fi
 
-[[ -f "/tmp/jbi-custom-input" ]] && source /tmp/jbi-custom-input
-
 
 # -----------------------------------------------------------------------------
 # remove the old installation if exists
@@ -227,11 +228,9 @@ rm -f  /etc/apt/sources.list.d/google-chrome.list
 rm -f  /etc/apt/sources.list.d/ungoogled-chromium.list
 rm -f  /usr/local/bin/chromedriver
 
-[[ -f "/tmp/jbi-custom-purge" ]] && source /tmp/jbi-custom-purge
-
 
 # -----------------------------------------------------------------------------
-# base packages
+# packages (base)
 # -----------------------------------------------------------------------------
 out <<< "installing base packages..."
 
@@ -253,8 +252,6 @@ apt-get $APT_PROXY_OPTION -y install procps htop bmon
 apt-get $APT_PROXY_OPTION -y install net-tools ngrep ncat
 apt-get $APT_PROXY_OPTION -y install ssl-cert certbot
 apt-get $APT_PROXY_OPTION -y install gcc git
-
-[[ -f "/tmp/jbi-custom-base" ]] && source /tmp/jbi-custom-base
 
 
 # -----------------------------------------------------------------------------
@@ -312,8 +309,6 @@ Recommendation: Set $EXTERNAL_IP as $TURN_HOST A record
 EOF
     exit 1
 fi
-
-[[ -f "/tmp/jbi-custom-check" ]] && source /tmp/jbi-custom-check
 
 
 # -----------------------------------------------------------------------------
@@ -409,15 +404,13 @@ EOF
     exit 1
 fi
 
-[[ -f "/tmp/jbi-custom-access" ]] && source /tmp/jbi-custom-access
-
 # ports are ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-port" \
     >/dev/null || true
 
 
 # -----------------------------------------------------------------------------
-# installation
+# packages
 # -----------------------------------------------------------------------------
 # openjdk-11-jre-headless
 apt-get $APT_PROXY_OPTION -y install openjdk-11-jre-headless
@@ -438,8 +431,6 @@ debconf-set-selections <<< \
 apt-get $APT_PROXY_OPTION -y --install-recommends install jitsi-meet
 apt-get $APT_PROXY_OPTION -y install libnginx-mod-http-lua
 apt-get $APT_PROXY_OPTION -y install luarocks liblua5.2-dev
-
-[[ -f "/tmp/jbi-custom-install" ]] && source /tmp/jbi-custom-install
 
 # packages are ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package" \
@@ -500,15 +491,8 @@ sed -i "/turns.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" \
     /etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
 sed -i "/turns.*tcp/ s/5349/443/" \
     /etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
-wget -T 10 -O /usr/share/jitsi-meet/prosody-plugins/mod_token_affiliation.lua \
-    $PROSODY_PLUGINS/token_affiliation/mod_token_affiliation.lua
-wget -T 10 -O /usr/share/jitsi-meet/prosody-plugins/mod_token_owner_party.lua \
-    $PROSODY_PLUGINS/token_owner_party/mod_token_owner_party.lua
-wget -T 10 -O /usr/share/jitsi-meet/prosody-plugins/mod_time_restricted.lua \
-    $PROSODY_PLUGINS/time_restricted/mod_time_restricted.lua
-wget -T 10 -O /usr/share/jitsi-meet/prosody-plugins/mod_jibri_autostart.lua \
-    $PROSODY_PLUGINS/jibri_autostart/mod_jibri_autostart.lua
 
+# prosody restart
 systemctl daemon-reload
 systemctl restart prosody.service
 
@@ -531,6 +515,7 @@ sed -i '/^JICOFO_AUTH_PASSWORD=/a \
 JICOFO_MAX_MEMORY=3072m' \
     /etc/jitsi/jicofo/config
 
+# jicofo restart
 systemctl restart jicofo.service
 
 # jicofo config is ok
@@ -648,15 +633,8 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-tls" \
 
 
 # -----------------------------------------------------------------------------
-# extra customization
-# -----------------------------------------------------------------------------
-[[ -f "/tmp/jbi-custom-extra" ]] && source /tmp/jbi-custom-extra
-
-
-# -----------------------------------------------------------------------------
 # completed
 # -----------------------------------------------------------------------------
-# completed
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-completed" \
     >/dev/null || true
 
