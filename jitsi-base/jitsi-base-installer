@@ -6,8 +6,8 @@ set -e
 # -----------------------------------------------------------------------------
 APT_PROXY_OPTION=$APT_PROXY_OPTION
 DEBIAN_FRONTEND=noninteractive
-JITSI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jitsi
 PROSODY_PLUGINS=https://raw.githubusercontent.com/jitsi-contrib/prosody-plugins/main
+JITSI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jitsi
 CHECKMYPORT=https://checkmyport.emrah.com
 TCP=(80 443 4444 5222 5280 5269 5347 5349 8080 8888 9090)
 UDP=(5000 5349 10000)
