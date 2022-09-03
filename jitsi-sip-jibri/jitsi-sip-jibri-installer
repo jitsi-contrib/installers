@@ -695,7 +695,7 @@ hocon -f /etc/jitsi/jicofo/jicofo.conf \
 # extra (sip-jibri)
 hocon -f $JICOFO_CONFIG \
     set jicofo.jibri-sip.brewery-jid \
-    "\"SipJibriBrewery@internal.auth.$JITSI_HOST\""
+    "\"JibriSipBrewery@internal.auth.$JITSI_HOST\""
 
 # jicofo restart
 systemctl restart jicofo.service
