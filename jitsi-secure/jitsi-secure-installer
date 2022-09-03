@@ -570,7 +570,7 @@ out <<< "configuring Nginx..."
 
 mkdir -p /etc/systemd/system/nginx.service.d
 wget -T 10 -O /etc/systemd/system/nginx.service.d/override.conf \
-    $JITSI_TMPL//etc/systemd/system/nginx.service.d/override.conf
+    $JITSI_TMPL/etc/systemd/system/nginx.service.d/override.conf
 
 cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old
 sed -i "/worker_connections/ s/\\S*;/8192;/" \
