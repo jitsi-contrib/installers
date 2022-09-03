@@ -22,6 +22,8 @@ JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
 JIBRI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jibri
 APP_ID="jitsi-$RANDOM"
 APP_SECRET="$(openssl rand -hex 20)"
+PJPROJECT_REPO=https://github.com/jitsi/pjproject
+PJPROJECT_BRANCH="jibri-2.10-dev1"
 
 
 # -----------------------------------------------------------------------------
@@ -560,6 +562,22 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package-jibri" \
 
 
 # -----------------------------------------------------------------------------
+# packages (extra, videosipgw)
+# -----------------------------------------------------------------------------
+out <<< "installing videosipgw packages..."
+
+apt-get -y install build-essential
+apt-get -y install libv4l-dev libsdl2-dev libavcodec-dev libavdevice-dev \
+    libavfilter-dev libavformat-dev libavresample-dev libavutil-dev \
+    libswresample-dev libswscale-dev libasound2-dev libopus-dev libvpx-dev
+
+# videosipgw packages are ok
+timeout 8 curl -s \
+    "$CHECKMYPORT?proto=udp&port=60000&text=ok-package-videosipgw" \
+    >/dev/null || true
+
+
+# -----------------------------------------------------------------------------
 # configuration (extra, jibri)
 # -----------------------------------------------------------------------------
 out <<< "jibri related configuration..."
@@ -909,6 +927,32 @@ chown jibri:jibri /home/jibri/.vnc -R
 
 # jibri configuration is ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jibri" \
+    >/dev/null || true
+
+
+# -----------------------------------------------------------------------------
+# PJSUA related (extra)
+# -----------------------------------------------------------------------------
+su -l jibri -s /bin/bash <<EOS
+set -e
+
+mkdir ~/src
+cd ~/src
+
+git clone -b $PJPROJECT_BRANCH $PJPROJECT_REPO
+cd pjproject
+
+./configure
+make dep
+make
+EOS
+
+cp /home/jibri/src/pjproject/pjsip-apps/bin/pjsua-x86_64-unknown-linux-gnu \
+    /usr/local/bin/pjsua
+chmod 755 /usr/local/bin/pjsua
+
+# pjsua configuration is ok
+timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-pjsua" \
     >/dev/null || true
 
 
