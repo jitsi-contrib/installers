@@ -16,8 +16,8 @@ UDP=(5000 5349 10000)
 # -----------------------------------------------------------------------------
 # globals (extra)
 # -----------------------------------------------------------------------------
-JICOFO_CONFIG=/etc/jitsi/jicofo/jicofo.conf
 PROSODY_CONFIG=/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
+JICOFO_CONFIG=/etc/jitsi/jicofo/jicofo.conf
 JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
 APP_ID="jitsi-$RANDOM"
 APP_SECRET="$(openssl rand -hex 20)"
