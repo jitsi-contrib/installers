@@ -8,6 +8,7 @@ APT_PROXY_OPTION=$APT_PROXY_OPTION
 DEBIAN_FRONTEND=noninteractive
 PROSODY_PLUGINS=https://raw.githubusercontent.com/jitsi-contrib/prosody-plugins/main
 JITSI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jitsi
+JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
 CHECKMYPORT=https://checkmyport.emrah.com
 TCP=(80 443 4444 5222 5280 5269 5347 5349 8080 8888 9090)
 UDP=(5000 5349 10000)
@@ -440,6 +441,9 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package" \
 # -----------------------------------------------------------------------------
 # backup
 # -----------------------------------------------------------------------------
+# jitsi-meet
+cp $JITSI_MEET_CONFIG $JITSI_MEET_CONFIG.org
+
 # coturn
 cp /etc/turnserver.conf /etc/turnserver.conf.org
 
