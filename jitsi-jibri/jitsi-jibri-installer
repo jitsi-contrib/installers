@@ -4,11 +4,18 @@ set -e
 # -----------------------------------------------------------------------------
 # globals
 # -----------------------------------------------------------------------------
-APT_PROXY_OPTION=$APT_PROXY_OPTION
+JITSI_HOST=$JITSI_HOST
+
 DEBIAN_FRONTEND=noninteractive
+APT_PROXY_OPTION=$APT_PROXY_OPTION
+
 PROSODY_PLUGINS=https://raw.githubusercontent.com/jitsi-contrib/prosody-plugins/main
 JITSI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jitsi
+
 JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
+PROSODY_CONFIG=/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
+NGINX_CONFIG=/etc/nginx/sites-available/$JITSI_HOST.conf
+
 CHECKMYPORT=https://checkmyport.emrah.com
 TCP=(80 443 4444 5222 5280 5269 5347 5349 8080 8888 9090)
 UDP=(5000 5349 10000)
@@ -17,7 +24,6 @@ UDP=(5000 5349 10000)
 # -----------------------------------------------------------------------------
 # globals (extra)
 # -----------------------------------------------------------------------------
-JICOFO_CONFIG=/etc/jitsi/jicofo/jicofo.conf
 JIBRI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jibri
 
 
@@ -551,8 +557,7 @@ cp /etc/turnserver.conf /etc/turnserver.conf.org
 
 # prosody
 cp /etc/prosody/prosody.cfg.lua /etc/prosody/prosody.cfg.lua.org
-cp /etc/prosody/conf.avail/$JITSI_HOST.cfg.lua \
-    /etc/prosody/conf.avail/$JITSI_HOST.cfg.lua.org
+cp $PROSODY_CONFIG $PROSODY_CONFIG.org
 
 # jicofo
 cp /etc/jitsi/jicofo/config /etc/jitsi/jicofo/config.org
@@ -566,8 +571,7 @@ cp /etc/jitsi/videobridge/sip-communicator.properties \
 
 # nginx
 cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.org
-cp /etc/nginx/sites-available/$JITSI_HOST.conf \
-    /etc/nginx/sites-available/$JITSI_HOST.conf.org
+cp $NGINX_CONFIG $NGINX_CONFIG.org
 
 
 # -----------------------------------------------------------------------------
@@ -646,12 +650,9 @@ wget -T 10 -O /etc/prosody/conf.avail/network.cfg.lua \
     $JITSI_TMPL/etc/prosody/conf.avail/network.cfg.lua
 ln -s ../conf.avail/network.cfg.lua /etc/prosody/conf.d/
 sed -i "/rate *=.*kb.s/  s/[0-9]*kb/1024kb/" /etc/prosody/prosody.cfg.lua
-sed -i "s/^-- \(https_ports = { };\)/\1/" \
-    /etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
-sed -i "/turns.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" \
-    /etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
-sed -i "/turns.*tcp/ s/5349/443/" \
-    /etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
+sed -i "s/^-- \(https_ports = { };\)/\1/" $PROSODY_CONFIG
+sed -i "/turns.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" $PROSODY_CONFIG
+sed -i "/turns.*tcp/ s/5349/443/" $PROSODY_CONFIG
 
 # extra
 wget -T 10 -O /etc/prosody/conf.avail/recorder.$JITSI_HOST.cfg.lua \
@@ -693,9 +694,9 @@ JICOFO_MAX_MEMORY=3072m' \
     /etc/jitsi/jicofo/config
 
 # extra
-hocon -f $JICOFO_CONFIG \
+hocon -f /etc/jitsi/jicofo/jicofo.conf \
     set jicofo.jibri.brewery-jid "\"JibriBrewery@internal.auth.$JITSI_HOST\""
-hocon -f $JICOFO_CONFIG \
+hocon -f /etc/jitsi/jicofo/jicofo.conf \
     set jicofo.jibri.pending-timeout "90 seconds"
 
 # jicofo restart
@@ -749,10 +750,8 @@ sed -i "s/___TURN_HOST___/$TURN_HOST/" \
 
 wget -T 10 -O /etc/nginx/sites-available/$JITSI_HOST.conf \
     $JITSI_TMPL/etc/nginx/sites-available/jms.conf
-sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
-    /etc/nginx/sites-available/$JITSI_HOST.conf
-sed -i "s/___TURN_HOST___/$TURN_HOST/" \
-    /etc/nginx/sites-available/$JITSI_HOST.conf
+sed -i "s/___JITSI_HOST___/$JITSI_HOST/" $NGINX_CONFIG
+sed -i "s/___TURN_HOST___/$TURN_HOST/" $NGINX_CONFIG
 
 ln -s /usr/local/share/nginx/modules-available/jitsi-meet.conf \
     /etc/nginx/modules-enabled/99-jitsi-meet-custom.conf
