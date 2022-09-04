@@ -8,6 +8,7 @@ APT_PROXY_OPTION=$APT_PROXY_OPTION
 DEBIAN_FRONTEND=noninteractive
 PROSODY_PLUGINS=https://raw.githubusercontent.com/jitsi-contrib/prosody-plugins/main
 JITSI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jitsi
+JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
 CHECKMYPORT=https://checkmyport.emrah.com
 TCP=(80 443 4444 5222 5280 5269 5347 5349 8080 8888 9090)
 UDP=(5000 5349 10000)
@@ -18,7 +19,6 @@ UDP=(5000 5349 10000)
 # -----------------------------------------------------------------------------
 PROSODY_CONFIG=/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
 JICOFO_CONFIG=/etc/jitsi/jicofo/jicofo.conf
-JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
 
 
 # -----------------------------------------------------------------------------
@@ -446,6 +446,36 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package" \
 
 
 # -----------------------------------------------------------------------------
+# backup
+# -----------------------------------------------------------------------------
+# jitsi-meet
+cp $JITSI_MEET_CONFIG $JITSI_MEET_CONFIG.org
+
+# coturn
+cp /etc/turnserver.conf /etc/turnserver.conf.org
+
+# prosody
+cp /etc/prosody/prosody.cfg.lua /etc/prosody/prosody.cfg.lua.org
+cp /etc/prosody/conf.avail/$JITSI_HOST.cfg.lua \
+    /etc/prosody/conf.avail/$JITSI_HOST.cfg.lua.org
+
+# jicofo
+cp /etc/jitsi/jicofo/config /etc/jitsi/jicofo/config.org
+cp /etc/jitsi/jicofo/jicofo.conf /etc/jitsi/jicofo/jicofo.conf.org
+
+# jvb
+cp /etc/jitsi/videobridge/config /etc/jitsi/videobridge/config.org
+cp /etc/jitsi/videobridge/jvb.conf /etc/jitsi/videobridge/jvb.conf.org
+cp /etc/jitsi/videobridge/sip-communicator.properties \
+    /etc/jitsi/videobridge/sip-communicator.properties.org
+
+# nginx
+cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.org
+cp /etc/nginx/sites-available/$JITSI_HOST.conf \
+    /etc/nginx/sites-available/$JITSI_HOST.conf.org
+
+
+# -----------------------------------------------------------------------------
 # certbot
 # -----------------------------------------------------------------------------
 out <<< "configuring Certbot..."
@@ -572,7 +602,6 @@ mkdir -p /etc/systemd/system/nginx.service.d
 wget -T 10 -O /etc/systemd/system/nginx.service.d/override.conf \
     $JITSI_TMPL/etc/systemd/system/nginx.service.d/override.conf
 
-cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old
 sed -i "/worker_connections/ s/\\S*;/8192;/" \
     /etc/nginx/nginx.conf
 
@@ -584,8 +613,6 @@ sed -i "s/___LOCAL_IP___/$PUBLIC_IP/" \
 sed -i "s/___TURN_HOST___/$TURN_HOST/" \
     /usr/local/share/nginx/modules-available/jitsi-meet.conf
 
-mv /etc/nginx/sites-available/$JITSI_HOST.conf \
-    /etc/nginx/sites-available/$JITSI_HOST.conf.old
 wget -T 10 -O /etc/nginx/sites-available/$JITSI_HOST.conf \
     $JITSI_TMPL/etc/nginx/sites-available/jms.conf
 sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
