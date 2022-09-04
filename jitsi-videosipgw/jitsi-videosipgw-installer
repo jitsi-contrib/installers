@@ -751,7 +751,7 @@ hocon -f /etc/jitsi/jicofo/jicofo.conf \
 # extra (videosipgw)
 hocon -f /etc/jitsi/jicofo/jicofo.conf \
     set jicofo.jibri-sip.brewery-jid \
-    "\"JibriSipBrewery@internal.auth.$JITSI_HOST\""
+    "\"SipBrewery@internal.auth.$JITSI_HOST\""
 
 # jicofo restart
 systemctl restart jicofo.service
