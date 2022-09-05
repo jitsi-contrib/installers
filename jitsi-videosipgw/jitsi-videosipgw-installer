@@ -571,6 +571,7 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package-jibri" \
 # -----------------------------------------------------------------------------
 out <<< "installing videosipgw packages..."
 
+apt-get -y install kmod v4l2loopback-dkms
 apt-get -y install build-essential
 apt-get -y install libv4l-dev libsdl2-dev libavcodec-dev libavdevice-dev \
     libavfilter-dev libavformat-dev libavresample-dev libavutil-dev \
@@ -626,6 +627,12 @@ out <<< "jibri related configuration..."
 # snd_aloop
 [[ -z "$(egrep '^snd_aloop' /etc/modules)" ]] && echo snd_aloop >>/etc/modules
 
+# snd_aloop options (extra, videosipgw)
+wget -T 10 -O /etc/modprobe.conf/alsa-loopback.conf \
+    $JIBRI_TMPL/etc/modprobe.conf/alsa-loopback.conf
+
+modprobe snd-aloop
+
 # hosts
 sed -i -E "s/(\s)$JITSI_HOST/\1/" /etc/hosts
 sed -i -E "/^[0-9.]+\s*$/d" /etc/hosts
@@ -636,6 +643,22 @@ sed -i "$ a 127.0.2.1 $JITSI_HOST" /etc/hosts
 mkdir -p /etc/opt/chrome/policies/managed
 wget -T 10 -O /etc/opt/chrome/policies/managed/jibri_policies.json \
     $JIBRI_TMPL/etc/opt/chrome/policies/managed/jibri_policies.json
+
+
+# -----------------------------------------------------------------------------
+# configuration (extra, videosipgw)
+# -----------------------------------------------------------------------------
+out <<< "videosipgw related configuration..."
+
+# v4l2loopback options
+wget -T 10 -O /etc/modprobe.conf/v4l2loopback.conf \
+    $JIBRI_TMPL/etc/modprobe.conf/v4l2loopback.conf
+
+# v4l2loopback
+[[ -z "$(egrep '^v4l2loopback' /etc/modules)" ]] && \
+    echo v4l2loopback >>/etc/modules
+
+modprobe v4l2loopback
 
 
 # -----------------------------------------------------------------------------
