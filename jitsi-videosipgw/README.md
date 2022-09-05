@@ -1,6 +1,20 @@
 # Jitsi Video-SIP-Gateway Installer
 
-Not ready yet
+NOT READY YET
+
+#### installation
+
+```bash
+apt-get update
+apt-get install wget
+
+wget -T 10 -O jitsi-videosipgw-installer https://raw.githubusercontent.com/jitsi-contrib/installers/main/jitsi-videosipgw/jitsi-videosipgw-installer
+
+export JITSI_HOST=jitsi.yourdomain.com
+export TURN_HOST=turn.yourdomain.com
+
+bash jitsi-videosipgw-installer
+```
 
 #### SIP config
 
