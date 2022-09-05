@@ -628,8 +628,8 @@ out <<< "jibri related configuration..."
 [[ -z "$(egrep '^snd_aloop' /etc/modules)" ]] && echo snd_aloop >>/etc/modules
 
 # snd_aloop options (extra, videosipgw)
-wget -T 10 -O /etc/modprobe.conf/alsa-loopback.conf \
-    $JIBRI_TMPL/etc/modprobe.conf/alsa-loopback.conf
+wget -T 10 -O /etc/modprobe.d/alsa-loopback.conf \
+    $JIBRI_TMPL/etc/modprobe.d/alsa-loopback.conf
 
 modprobe snd-aloop
 
@@ -651,8 +651,8 @@ wget -T 10 -O /etc/opt/chrome/policies/managed/jibri_policies.json \
 out <<< "videosipgw related configuration..."
 
 # v4l2loopback options
-wget -T 10 -O /etc/modprobe.conf/v4l2loopback.conf \
-    $JIBRI_TMPL/etc/modprobe.conf/v4l2loopback.conf
+wget -T 10 -O /etc/modprobe.d/v4l2loopback.conf \
+    $JIBRI_TMPL/etc/modprobe.d/v4l2loopback.conf
 
 # v4l2loopback
 [[ -z "$(egrep '^v4l2loopback' /etc/modules)" ]] && \
