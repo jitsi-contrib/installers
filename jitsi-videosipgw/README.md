@@ -21,7 +21,7 @@ bash jitsi-videosipgw-installer
 Add the followings into `/etc/jitsi/jibri/pjsua.config`
 
 ```
---id "jitsi <sip:jitsi@127.0.0.1>"
+--id "jitsi <sip:<SIP_USER>@127.0.0.1>"
 --registrar=sip:<SIP_SERVER_ADDRESS>
 --realm=*
 --username=<SIP_USER>
@@ -34,6 +34,5 @@ Add the followings into `/etc/jitsi/jibri/pjsua.config`
 su -l jibri -s /bin/bash
 
 /usr/local/bin/pjsua --config-file /etc/jitsi/jibri/pjsua.config \
-  --id='jitsi <sip:<SIP_USER>@127.0.0.1>' \
   'sip:<REMOTE_SIP_USER@<SIP_SERVER_ADDRESS>'
 ```
