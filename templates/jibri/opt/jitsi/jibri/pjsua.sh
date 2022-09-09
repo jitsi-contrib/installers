@@ -2,7 +2,7 @@
 set -e
 
 # kill old ffmpeg processes if exist
-pkill -U jibri -f ffmpeg
+pkill -U jibri -f ffmpeg || true
 sleep 0.2
 
 # push desktop views to virtual cameras
