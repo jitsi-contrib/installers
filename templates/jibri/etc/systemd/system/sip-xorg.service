@@ -1,6 +1,7 @@
 [Unit]
 Description=Sip Xorg Process
-After=network.target
+Requires=jibri-xorg.service                      
+After=jibri-xorg.service
 
 [Service]
 User=jibri
