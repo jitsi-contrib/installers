@@ -521,7 +521,7 @@ wget -T 10 -O /etc/apt/sources.list.d/google-chrome.list \
 
 apt-get -y --allow-releaseinfo-change update
 apt-get $APT_PROXY_OPTION -y install kmod alsa-utils
-apt-get $APT_PROXY_OPTION -y install libnss3-tools unzip
+apt-get $APT_PROXY_OPTION -y install libnss3-tools unzip unclutter-xfixes
 apt-get $APT_PROXY_OPTION -y install va-driver-all vdpau-driver-all
 apt-get $APT_PROXY_OPTION -y --install-recommends install ffmpeg
 apt-get $APT_PROXY_OPTION -y --install-recommends install google-chrome-stable
