@@ -1,3 +1,4 @@
 #!/bin/bash
 
+unclutter &
 #x11vnc -display :0 -nolookup -once -loop -usepw -shared -noxdamage -nodpms &
