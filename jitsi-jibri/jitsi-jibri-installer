@@ -841,6 +841,7 @@ wget -T 10 -O /home/jibri/.icewm/startup $JIBRI_TMPL/home/jibri/.icewm/startup
 chmod 755 /home/jibri/.icewm/startup
 
 # jibri
+chsh -s /bin/bash jibri
 usermod -aG adm,audio,video,plugdev jibri
 mkdir -p /usr/local/recordings
 chown jibri:jibri /usr/local/recordings -R
