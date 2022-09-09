@@ -239,6 +239,7 @@ fi
 # -----------------------------------------------------------------------------
 out <<< "removing the old installation if exists..."
 
+systemctl stop sip-xorg.service || true
 systemctl stop jibri-xorg.service || true
 systemctl stop jigasi.service || true
 systemctl stop jitsi-videobridge2.service || true
@@ -743,9 +744,9 @@ sed -i '/^Component .conference\./,/admins/!b; /\s*"token_verification"/a \
 
 # extra (jibri, videosipgw)
 sed -i -r "0,/^\s*admins/ s/(^\s*admins).*/\1 = { \
-    \"focus@auth.$JITSI_HOST\", \
-    \"recorder@recorder.$JITSI_HOST\", \
-    \"sip@sip.$JITSI_HOST\" }/" \
+\"focus@auth.$JITSI_HOST\", \
+\"recorder@recorder.$JITSI_HOST\", \
+\"sip@sip.$JITSI_HOST\" }/" \
     $PROSODY_CONFIG
 
 # prosody restart
