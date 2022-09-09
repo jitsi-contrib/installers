@@ -871,6 +871,9 @@ mkdir -p /home/jibri/.vnc
 x11vnc -storepasswd jibri /home/jibri/.vnc/passwd
 chown jibri:jibri /home/jibri/.vnc -R
 
+# jibri, Xdefaults
+wget -T 10 -O /home/jibri/.Xdefaults $JIBRI_TMPL/home/jibri/.Xdefaults
+
 # jibri configuration is ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jibri" \
     >/dev/null || true
