@@ -746,7 +746,7 @@ sed -i -r "0,/^\s*admins/ s/(^\s*admins).*/\1 = { \
     \"focus@auth.$JITSI_HOST\", \
     \"recorder@recorder.$JITSI_HOST\", \
     \"sip@sip.$JITSI_HOST\" }/" \
-    jitsi.yourdomain.com.cfg.lua
+    $PROSODY_CONFIG
 
 # prosody restart
 systemctl daemon-reload
