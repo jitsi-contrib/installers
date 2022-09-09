@@ -610,6 +610,9 @@ cp /etc/jitsi/videobridge/sip-communicator.properties \
 cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.org
 cp $NGINX_CONFIG $NGINX_CONFIG.org
 
+# jibri
+cp /opt/jitsi/jibri/pjsua.sh /opt/jitsi/jibri/pjsua.sh.org
+
 
 # -----------------------------------------------------------------------------
 # backup (extra)
@@ -659,6 +662,14 @@ wget -T 10 -O /etc/modprobe.d/v4l2loopback.conf \
     echo v4l2loopback >>/etc/modules
 
 modprobe v4l2loopback
+
+# xorg DISPLAY :1
+wget -T 10 -O /etc/systemd/system/sip-xorg.service \
+    $JIBRI_TMPL/etc/systemd/system/sip-xorg.service
+
+systemctl daemon-reload
+systemctl enable sip-xorg.service
+systemctl start sip-xorg.service
 
 
 # -----------------------------------------------------------------------------
