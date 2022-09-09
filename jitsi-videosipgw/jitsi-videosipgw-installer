@@ -996,6 +996,7 @@ chown jibri:jibri /home/jibri/.vnc -R
 
 # jibri, Xdefaults
 wget -T 10 -O /home/jibri/.Xdefaults $JIBRI_TMPL/home/jibri/.Xdefaults
+chown jibri:jibri /home/jibri/.Xdefaults
 
 # jibri configuration is ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jibri" \
@@ -1006,10 +1007,12 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jibri" \
 # PJSUA related (extra)
 # -----------------------------------------------------------------------------
 # build
-su -l jibri -s /bin/bash <<EOS
+mkdir /home/jibri/src
+chown jibri:jibri /home/jibri/src
+
+su -l jibri <<EOS
 set -e
 
-mkdir ~/src
 cd ~/src
 
 git clone -b $PJPROJECT_BRANCH $PJPROJECT_REPO
