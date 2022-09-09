@@ -1000,6 +1000,7 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jibri" \
 # -----------------------------------------------------------------------------
 # PJSUA related (extra)
 # -----------------------------------------------------------------------------
+# build
 su -l jibri -s /bin/bash <<EOS
 set -e
 
@@ -1017,6 +1018,9 @@ EOS
 cp /home/jibri/src/pjproject/pjsip-apps/bin/pjsua-x86_64-unknown-linux-gnu \
     /usr/local/bin/pjsua
 chmod 755 /usr/local/bin/pjsua
+
+# pjsua.sh
+wget -T 10 -O /opt/jitsi/jibri/pjsua.sh $JIBRI_TMPL/opt/jitsi/jibri/pjsua.sh
 
 # pjsua configuration is ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-pjsua" \
