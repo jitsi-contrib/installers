@@ -31,6 +31,17 @@ or
 su -l
 ```
 
+### kernel
+
+Use the latest stable kernel from the official Debian repo.
+
+```bash
+apt-get update
+apt-get dist-upgrade
+```
+
+If there is a kernel update, please reboot to switch to the latest kernel.
+
 ### download installer
 
 ```bash
