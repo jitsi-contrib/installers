@@ -741,6 +741,13 @@ sed -i '/\s*app_secret=/a \
 sed -i '/^Component .conference\./,/admins/!b; /\s*"token_verification"/a \
 \        "token_affiliation";' $PROSODY_CONFIG
 
+# extra (jibri, videosipgw)
+sed -i -r "0,/^\s*admins/ s/(^\s*admins).*/\1 = { \
+    \"focus@auth.$JITSI_HOST\", \
+    \"recorder@recorder.$JITSI_HOST\", \
+    \"sip@sip.$JITSI_HOST\" }/" \
+    jitsi.yourdomain.com.cfg.lua
+
 # prosody restart
 systemctl daemon-reload
 systemctl restart prosody.service
@@ -1043,9 +1050,6 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-pjsua" \
 out <<EOF
 Your App ID: $APP_ID
 Your App Secret: $APP_SECRET
-
-Add "recorder@recorder.$JITSI_HOST" into the conference muc's admins list in
-/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua manually if it doesn't exist
 EOF
 
 timeout 8 curl -s \
