@@ -818,7 +818,7 @@ sed -i "/^\s*enableFeaturesBasedOnToken/a \
 \\
 \n\
 \    peopleSearchQueryTypes: ['conferenceRooms'],\n\
-\    peopleSearchUrl: 'https://$JITSI_HOST/sip-dial-plan'," \
+\    peopleSearchUrl: 'https://$JITSI_HOST/get-dial-plan'," \
     $JITSI_MEET_CONFIG
 
 # jitsi-meet config is ok
