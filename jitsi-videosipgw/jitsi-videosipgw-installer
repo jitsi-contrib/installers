@@ -971,6 +971,31 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jibri" \
 
 
 # -----------------------------------------------------------------------------
+# SIP dialing plan (extra)
+# -----------------------------------------------------------------------------
+# deno
+LATEST=$(curl -sSf https://github.com/denoland/deno/releases | \
+    grep -o "/denoland/deno/releases/download/.*/deno-.*linux.*\.zip" | \
+    head -n1)
+
+cd /tmp
+wget -T 30 -O deno.zip https://github.com/$LATEST
+unzip -o deno.zip
+cp /tmp/deno /usr/local/bin/
+
+# sip-dial-plan
+su -l jibri <<EOS
+set -e
+
+git clone https://github.com/jitsi-contrib/sip-dial-plan.git
+EOS
+
+sed -i "/TOKEN_SECRET/ s/\".*\"/\"$APP_SECRET\"/" \
+    /home/jibri/sip-dial-plan/config.ts
+
+
+
+# -----------------------------------------------------------------------------
 # PJSUA related (extra)
 # -----------------------------------------------------------------------------
 # build
