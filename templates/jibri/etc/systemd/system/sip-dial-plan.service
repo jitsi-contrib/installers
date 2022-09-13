@@ -1,0 +1,14 @@
+[Unit]
+Description=Sip Dial Plan
+After=network-online.target
+
+[Service]
+User=jibri
+Group=jibri
+WorkingDirectory=/home/jibri/sip-dial-plan
+ExecStart=bash /home/jibri/sip-dial-plan/sip-dial-plan.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

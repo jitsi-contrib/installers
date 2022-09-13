@@ -993,6 +993,13 @@ EOS
 sed -i "/TOKEN_SECRET/ s/\".*\"/\"$APP_SECRET\"/" \
     /home/jibri/sip-dial-plan/config.ts
 
+# sip-dial-plan systemd service
+wget -T 10 -O /etc/systemd/system/sip-dial-plan.service \
+    $JIBRI_TMPL/etc/systemd/system/sip-dial-plan.service
+
+systemctl daemon-reload
+systemctl enable sip-dial-plan.service
+systemctl start sip-dial-plan.service
 
 
 # -----------------------------------------------------------------------------
