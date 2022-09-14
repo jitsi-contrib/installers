@@ -1,10 +1,8 @@
 # Jitsi Video-SIP-Gateway Installer
 
-NOT READY YET
-
-`jitsi-videosipgw-installer` installs a standalone Jitsi server with
-a built-in video SIP gateway. This script guides the user during the
-installation to avoid potential problems.
+`jitsi-videosipgw-installer` installs a standalone Jitsi server with a built-in
+video SIP gateway. This script guides the user during the installation to avoid
+potential problems.
 
 ## Supported distributions
 
@@ -81,3 +79,13 @@ Add the followings into `/etc/jitsi/jibri/pjsua.config`
 --username=<SIP_USER>
 --password=<SIP_PASSWORD>
 ```
+
+#### Dial plans
+
+Update following files for dial plans:
+
+- `/home/jibri/sip-dial-plan/dial-plan-owner.json`\
+  For `moderator` users
+
+- `/home/jibri/sip-dial-plan/dial-plan-member.json`\
+  For normal users
