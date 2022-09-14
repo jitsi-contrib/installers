@@ -16,3 +16,7 @@
 - [Jitsi-Token](jitsi-token/)
 
   To install a standalone Jitsi server with `token` authentication.
+
+- [Jitsi-Videosipgw](jitsi-videosipgw/)
+
+  To install a standalone Jitsi server with a built-in `video SIP gateway`.
