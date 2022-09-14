@@ -811,9 +811,6 @@ timeout 8 curl -s \
 # -----------------------------------------------------------------------------
 # jitsi-meet (extra, videosipgw)
 # -----------------------------------------------------------------------------
-wget -T 10 -O /usr/share/jitsi-meet/static/sip-people-sample.json \
-    $JITSI_TMPL/usr/share/jitsi-meet/static/sip-people-sample.json
-
 sed -i "/^\s*enableFeaturesBasedOnToken/a \
 \\
 \n\
