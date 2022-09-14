@@ -239,6 +239,7 @@ fi
 # -----------------------------------------------------------------------------
 out <<< "removing the old installation if exists..."
 
+systemctl stop sip-dial-plan.service || true
 systemctl stop sip-xorg.service || true
 systemctl stop jibri-xorg.service || true
 systemctl stop jigasi.service || true
