@@ -10,7 +10,7 @@ installation to avoid potential problems.
 - Debian 10 Buster
 - Ubuntu 20.04 Focal Fossa
 
-The desktop environment must **not** be installed on the server. Otherwise
+The desktop environment must **not be installed** on the server. Otherwise
 `jibri` cannot use its own desktop.
 
 ## Usage

@@ -8,7 +8,7 @@ potential problems.
 
 - Debian 11 Bullseye
 
-The desktop environment must **not** be installed on the server. Otherwise
+The desktop environment must **not be installed** on the server. Otherwise
 `jibri` cannot use its own desktop.
 
 ## Usage
