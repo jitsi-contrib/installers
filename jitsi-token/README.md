@@ -57,3 +57,7 @@ export TURN_HOST=turn.yourdomain.com
 ```bash
 bash jitsi-token-installer
 ```
+
+### see also
+
+- [jitok](https://github.com/jitsi-contrib/jitok), Jitsi token generator
