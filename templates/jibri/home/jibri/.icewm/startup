@@ -1,4 +1,4 @@
 #!/bin/bash
 
-unclutter &
-#x11vnc -display :0 -nolookup -once -loop -usepw -shared -noxdamage -nodpms &
+#x11vnc -display :0 -rfbport 5900 -nolookup -once -loop -usepw -shared -noxdamage -nodpms &
+#x11vnc -display :1 -rfbport 5901 -nolookup -once -loop -usepw -shared -noxdamage -nodpms &
