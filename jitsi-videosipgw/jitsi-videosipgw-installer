@@ -1026,6 +1026,11 @@ wget -T 10 -O /opt/jitsi/jibri/pjsua.sh $JIBRI_TMPL/opt/jitsi/jibri/pjsua.sh
 wget -T 10 -O /opt/jitsi/jibri/finalize_sip.sh \
     $JIBRI_TMPL/opt/jitsi/jibri/finalize_sip.sh
 
+# fake google-chrome
+wget -T 10 -O /usr/local/bin/google-chrome \
+    $JIBRI_TMPL/usr/local/bin/google-chrome.videosipgw
+chmod 755 /usr/local/bin/google-chrome
+
 # pjsua configuration is ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-pjsua" \
     >/dev/null || true
