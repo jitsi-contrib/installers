@@ -674,6 +674,14 @@ systemctl daemon-reload
 systemctl enable sip-xorg.service
 systemctl start sip-xorg.service
 
+# icewm DISPLAY :1
+wget -T 10 -O /etc/systemd/system/sip-icewm.service \
+    $JIBRI_TMPL/etc/systemd/system/sip-icewm.service
+
+systemctl daemon-reload
+systemctl enable sip-icewm.service
+systemctl start sip-icewm.service
+
 
 # -----------------------------------------------------------------------------
 # certbot
