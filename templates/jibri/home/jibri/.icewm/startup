@@ -2,5 +2,10 @@
 
 unclutter &
 
-#x11vnc -display :0 -rfbport 5900 -nolookup -once -loop -usepw -shared -noxdamage -nodpms &
-#x11vnc -display :1 -rfbport 5901 -nolookup -once -loop -usepw -shared -noxdamage -nodpms &
+#[[ "$DISPLAY" = ":0" ]] && \
+#    x11vnc -display :0 -rfbport 5900 -nolookup -once -loop -usepw -shared \
+#    -noxdamage -nodpms &
+
+#[[ "$DISPLAY" = ":1" ]] && \
+#    x11vnc -display :1 -rfbport 5901 -nolookup -once -loop -usepw -shared \
+#    -noxdamage -nodpms &
