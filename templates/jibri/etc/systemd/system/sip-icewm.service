@@ -1,0 +1,20 @@
+[Unit]
+Description=Sip Window Manager
+Requires=sip-xorg.service
+After=network.target
+After=jibri-xorg.service
+After=sip-xorg.service
+After=jibri-icewm.service
+Before=jibri.service
+
+[Service]
+User=jibri
+Group=jibri
+Environment=DISPLAY=:1
+ExecStart=/usr/bin/icewm-session
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=simple
+
+[Install]
+WantedBy=jibri.service

@@ -1,7 +1,10 @@
 [Unit]
 Description=Sip Xorg Process
-Requires=jibri-xorg.service                      
+After=network.target
 After=jibri-xorg.service
+Before=jibri-icewm.service
+Before=sip-icewm.service
+Before=jibri.service
 
 [Service]
 User=jibri
@@ -15,4 +18,4 @@ RestartPreventExitStatus=255
 Type=simple
 
 [Install]
-WantedBy=jibri.service jibri-icewm.service
+WantedBy=jibri.service sip-icewm.service
