@@ -955,6 +955,7 @@ chmod 755 /home/jibri/.icewm/startup
 # jibri
 chsh -s /bin/bash jibri
 usermod -aG adm,audio,video,plugdev jibri
+chown jibri:jibri /home/jibri
 
 wget -T 10 -O /etc/jitsi/jibri/jibri.conf \
     $JIBRI_TMPL/etc/jitsi/jibri/jibri.videosipgw.conf
