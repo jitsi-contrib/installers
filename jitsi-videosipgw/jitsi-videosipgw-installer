@@ -813,7 +813,6 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jicofo" \
 # jitsi-meet (extra, token)
 # -----------------------------------------------------------------------------
 sed -i -r 's~//\s*(disableProfile).*~\1: true,~' $JITSI_MEET_CONFIG
-sed -i -r 's~//\s*(enableFeaturesBasedOnToken).*~\1: true,~' $JITSI_MEET_CONFIG
 
 # jitsi-meet config is ok
 timeout 8 curl -s \
@@ -824,7 +823,7 @@ timeout 8 curl -s \
 # -----------------------------------------------------------------------------
 # jitsi-meet (extra, videosipgw)
 # -----------------------------------------------------------------------------
-sed -i "/^\s*enableFeaturesBasedOnToken/a \
+sed -i "/^\s*disableProfile/a \
 \\
 \n\
 \    peopleSearchQueryTypes: ['conferenceRooms'],\n\
