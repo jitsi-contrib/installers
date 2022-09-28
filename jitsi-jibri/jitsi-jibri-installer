@@ -843,6 +843,8 @@ chmod 755 /home/jibri/.icewm/startup
 # jibri
 chsh -s /bin/bash jibri
 usermod -aG adm,audio,video,plugdev jibri
+chown jibri:jibri /home/jibri
+
 mkdir -p /usr/local/recordings
 chown jibri:jibri /usr/local/recordings -R
 
