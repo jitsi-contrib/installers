@@ -11,6 +11,11 @@ potential problems.
 The desktop environment must **not be installed** on the server. Otherwise
 `jibri` cannot use its own desktop.
 
+## Recommended Specs
+
+- 8 CPU cores
+- 8 GB RAM
+
 ## Usage
 
 - Don't use this script on a working production server.
