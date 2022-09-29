@@ -614,10 +614,6 @@ cp /etc/jitsi/videobridge/sip-communicator.properties \
 cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.org
 cp $NGINX_CONFIG $NGINX_CONFIG.org
 
-# jibri
-cp /opt/jitsi/jibri/pjsua.sh /opt/jitsi/jibri/pjsua.sh.org
-cp /opt/jitsi/jibri/finalize_sip.sh /opt/jitsi/jibri/finalize_sip.sh.org
-
 
 # -----------------------------------------------------------------------------
 # backup (extra)
@@ -625,6 +621,11 @@ cp /opt/jitsi/jibri/finalize_sip.sh /opt/jitsi/jibri/finalize_sip.sh.org
 cp /etc/modules /etc/modules.org
 cp /etc/hosts /etc/hosts.org
 cp /usr/share/jitsi-meet/body.html /usr/share/jitsi-meet/body.html.org
+
+# sip
+cp /opt/jitsi/jibri/pjsua.sh /opt/jitsi/jibri/pjsua.sh.org
+cp /opt/jitsi/jibri/finalize_sip.sh /opt/jitsi/jibri/finalize_sip.sh.org
+cp /etc/jitsi/jibri/pjsua.config /etc/jitsi/jibri/pjsua.config.org
 
 
 # -----------------------------------------------------------------------------
