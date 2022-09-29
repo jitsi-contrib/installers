@@ -15,6 +15,9 @@ The desktop environment must **not be installed** on the server. Otherwise
 
 - 8 CPU cores
 - 8 GB RAM
+- No sound card
+  \
+  _Otherwise audio device IDs must be updated in `pjsua.conf`_
 
 ## Usage
 
