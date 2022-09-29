@@ -235,6 +235,8 @@ fi
 # -----------------------------------------------------------------------------
 out <<< "removing the old installation if exists..."
 
+systemctl stop sip-dial-plan.service || true
+systemctl stop sip-xorg.service || true
 systemctl stop jibri-xorg.service || true
 systemctl stop jigasi.service || true
 systemctl stop jitsi-videobridge2.service || true
@@ -273,6 +275,8 @@ rm -rf /etc/jitsi
 rm -rf /etc/prosody
 rm -rf /etc/nginx
 rm -rf /etc/opt/chrome
+rm -rf /etc/systemd/system/jibri*
+rm -rf /etc/systemd/system/sip-*
 rm -rf /usr/share/jitsi-meet
 rm -rf /usr/share/jitsi-videobridge
 rm -rf /usr/share/jicofo
