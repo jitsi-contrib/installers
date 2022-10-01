@@ -468,6 +468,7 @@ debconf-set-selections <<< \
 debconf-set-selections <<< \
     "jitsi-meet-tokens jitsi-meet-tokens/appsecret password $APP_SECRET"
 apt-get -y install jitsi-meet-tokens
+apt-mark hold jitsi-meet-tokens
 
 # token packages are ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package-token" \
