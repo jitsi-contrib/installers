@@ -549,6 +549,7 @@ apt-get $APT_PROXY_OPTION -y install libnss3-tools unzip unclutter
 apt-get $APT_PROXY_OPTION -y install va-driver-all vdpau-driver-all
 apt-get $APT_PROXY_OPTION -y --install-recommends install ffmpeg
 apt-get $APT_PROXY_OPTION -y --install-recommends install google-chrome-stable
+apt-mark hold google-chrome-stable
 
 CHROME_VER=$(dpkg -s google-chrome-stable | egrep "^Version" | \
     cut -d " " -f2 | cut -d. -f1)
