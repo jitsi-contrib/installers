@@ -564,6 +564,7 @@ chmod 755 /usr/local/bin/chromedriver
 
 apt-get $APT_PROXY_OPTION -y install x11vnc
 apt-get $APT_PROXY_OPTION -y install jibri
+apt-mark hold jibri
 
 apt-get -y purge upower
 apt-get -y --purge autoremove
