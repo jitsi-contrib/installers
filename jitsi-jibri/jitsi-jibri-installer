@@ -490,8 +490,7 @@ debconf-set-selections <<< \
 apt-get $APT_PROXY_OPTION -y --install-recommends install jitsi-meet
 apt-get $APT_PROXY_OPTION -y install libnginx-mod-http-lua
 apt-get $APT_PROXY_OPTION -y install luarocks liblua5.2-dev
-apt-mark hold jitsi-meet jitsi-meet-web jitsi-meet-web-config \
-    jitsi-meet-prosody jitsi-videobridge2 jicofo
+apt-mark hold 'jitsi-*' jicofo
 
 # packages are ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package" \
