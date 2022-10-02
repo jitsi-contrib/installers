@@ -246,6 +246,12 @@ systemctl stop coturn.service || true
 systemctl stop stunnel4.service || true
 systemctl stop nginx.service || true
 
+apt-mark unhold 'jitsi-*' || true
+apt-mark unhold jicofo || true
+apt-mark unhold jibri || true
+apt-mark unhold jigasi || true
+apt-mark unhold google-chrome-stable || true
+
 apt-get -y purge jibri || true
 apt-get -y purge jigasi || true
 apt-get -y purge 'jitsi-*' || true
