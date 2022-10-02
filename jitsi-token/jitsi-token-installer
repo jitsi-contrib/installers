@@ -472,7 +472,7 @@ debconf-set-selections <<< \
     "jitsi-meet-tokens jitsi-meet-tokens/appid string $APP_ID"
 debconf-set-selections <<< \
     "jitsi-meet-tokens jitsi-meet-tokens/appsecret password $APP_SECRET"
-apt-get -y install jitsi-meet-tokens
+apt-get -y --allow-change-held-packages install jitsi-meet-tokens
 apt-mark hold jitsi-meet-tokens
 
 # token packages are ok
