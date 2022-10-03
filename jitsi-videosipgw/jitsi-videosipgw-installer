@@ -630,7 +630,6 @@ cp $NGINX_CONFIG $NGINX_CONFIG.org
 # -----------------------------------------------------------------------------
 cp /etc/modules /etc/modules.org
 cp /etc/hosts /etc/hosts.org
-cp /usr/share/jitsi-meet/body.html /usr/share/jitsi-meet/body.html.org
 
 # sip
 cp /opt/jitsi/jibri/pjsua.sh /opt/jitsi/jibri/pjsua.sh.org
