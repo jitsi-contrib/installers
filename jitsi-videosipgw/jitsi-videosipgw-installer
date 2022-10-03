@@ -27,7 +27,7 @@ UDP=(5000 5349 10000)
 JIBRI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jibri
 APP_ID="jitsi-$RANDOM"
 APP_SECRET="$(openssl rand -hex 20)"
-PJPROJECT_REPO=https://github.com/jitsi/pjproject
+PJPROJECT_REPO="https://github.com/jitsi/pjproject"
 PJPROJECT_BRANCH="jibri-2.10-dev1"
 
 
