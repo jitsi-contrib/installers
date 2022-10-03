@@ -585,7 +585,7 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package-jibri" \
 # -----------------------------------------------------------------------------
 out <<< "installing videosipgw packages..."
 
-apt-get -y install kmod v4l2loopback-dkms v4l2loopback-utils
+apt-get -y install v4l2loopback-dkms v4l2loopback-utils
 apt-get -y install build-essential
 apt-get -y install libv4l-dev libsdl2-dev libavcodec-dev libavdevice-dev \
     libavfilter-dev libavformat-dev libavresample-dev libavutil-dev \
