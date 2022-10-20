@@ -232,6 +232,7 @@ rm -rf /home/jibri
 rm -rf /etc/chromium
 rm -rf /etc/jitsi
 rm -rf /etc/prosody
+rm -rf /etc/coturn
 rm -rf /etc/nginx
 rm -rf /etc/opt/chrome
 rm -rf /etc/systemd/system/jibri*
