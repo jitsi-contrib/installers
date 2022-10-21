@@ -628,8 +628,6 @@ sed -i "s/___TURN_HOST___/$TURN_HOST/" $NGINX_CONFIG
 ln -s /usr/local/share/nginx/modules-available/jitsi-meet.conf \
     /etc/nginx/modules-enabled/99-jitsi-meet-custom.conf
 rm /etc/nginx/sites-enabled/default
-rm -rf /var/www/html
-ln -s /usr/share/jitsi-meet /var/www/html
 
 systemctl daemon-reload
 systemctl stop nginx.service
@@ -678,10 +676,11 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jvb" \
 out <<< "setting Let's Encrypt certificates..."
 
 certbot certonly --dry-run --non-interactive -m info@$JITSI_HOST --agree-tos \
-    --duplicate --webroot -w /var/www/html -d $JITSI_HOST,$TURN_HOST || true
+    --duplicate --webroot -w /usr/share/jitsi-meet -d $JITSI_HOST,$TURN_HOST \
+    || true
 sleep 3
 certbot certonly --non-interactive -m info@$JITSI_HOST --agree-tos \
-    --duplicate --webroot -w /var/www/html -d $JITSI_HOST,$TURN_HOST
+    --duplicate --webroot -w /usr/share/jitsi-meet -d $JITSI_HOST,$TURN_HOST
 
 rm -f /etc/jitsi/meet/$JITSI_HOST.crt
 rm -f /etc/jitsi/meet/$JITSI_HOST.key
