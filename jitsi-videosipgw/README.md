@@ -93,10 +93,6 @@ Add the followings into `/etc/jitsi/jibri/pjsua.config`
 
 #### Dial plans
 
-Update following files for dial plans:
+Update following file for dial plans:
 
-- `/home/jibri/sip-dial-plan/dial-plan-owner.json`\
-  For `moderator` users
-
-- `/home/jibri/sip-dial-plan/dial-plan-member.json`\
-  For normal users
+- `/home/jibri/sip-dial-plan/dial-plan.json`
