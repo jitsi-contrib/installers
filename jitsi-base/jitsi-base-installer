@@ -7,7 +7,7 @@ set -e
 JITSI_HOST=$JITSI_HOST
 
 DEBIAN_FRONTEND=noninteractive
-APT_PROXY_OPTION=$APT_PROXY_OPTION
+APT_PROXY=$APT_PROXY
 
 PROSODY_PLUGINS=https://raw.githubusercontent.com/jitsi-contrib/prosody-plugins/main
 JITSI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jitsi
@@ -257,20 +257,20 @@ for i in $(seq 3); do
     apt-get -y --allow-releaseinfo-change update && sleep 3 && break
 done
 
-apt-get $APT_PROXY_OPTION -y install apt-utils \
+apt-get $APT_PROXY -y install apt-utils \
     -o Dpkg::Options::="--force-confdef" \
     -o Dpkg::Options::="--force-confold"
-apt-get $APT_PROXY_OPTION -y upgrade \
+apt-get $APT_PROXY -y upgrade \
     -o Dpkg::Options::="--force-confdef" \
     -o Dpkg::Options::="--force-confold"
-apt-get $APT_PROXY_OPTION -y install wget curl ca-certificates openssl
-apt-get $APT_PROXY_OPTION -y install apt-transport-https gnupg
-apt-get $APT_PROXY_OPTION -y install iputils-ping dnsutils
-apt-get $APT_PROXY_OPTION -y install tmux vim less ack jq rsync bzip2
-apt-get $APT_PROXY_OPTION -y install procps htop bmon
-apt-get $APT_PROXY_OPTION -y install net-tools ngrep ncat
-apt-get $APT_PROXY_OPTION -y install ssl-cert certbot
-apt-get $APT_PROXY_OPTION -y install gcc git
+apt-get $APT_PROXY -y install wget curl ca-certificates openssl
+apt-get $APT_PROXY -y install apt-transport-https gnupg
+apt-get $APT_PROXY -y install iputils-ping dnsutils
+apt-get $APT_PROXY -y install tmux vim less ack jq rsync bzip2
+apt-get $APT_PROXY -y install procps htop bmon
+apt-get $APT_PROXY -y install net-tools ngrep ncat
+apt-get $APT_PROXY -y install ssl-cert certbot
+apt-get $APT_PROXY -y install gcc git
 
 
 # -----------------------------------------------------------------------------
@@ -432,7 +432,7 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-port" \
 # packages
 # -----------------------------------------------------------------------------
 # openjdk-11-jre-headless
-apt-get $APT_PROXY_OPTION -y install openjdk-11-jre-headless
+apt-get $APT_PROXY -y install openjdk-11-jre-headless
 
 # jitsi-meet
 out <<< "installing Jitsi..."
@@ -447,9 +447,9 @@ debconf-set-selections <<< \
     "jicofo jitsi-videobridge/jvb-hostname string $JITSI_HOST"
 debconf-set-selections <<< \
     "jitsi-meet-web-config jitsi-meet/cert-choice select Generate a new self-signed certificate"
-apt-get $APT_PROXY_OPTION -y --install-recommends install jitsi-meet
-apt-get $APT_PROXY_OPTION -y install libnginx-mod-http-lua
-apt-get $APT_PROXY_OPTION -y install luarocks liblua5.2-dev
+apt-get $APT_PROXY -y --install-recommends install jitsi-meet
+apt-get $APT_PROXY -y install libnginx-mod-http-lua
+apt-get $APT_PROXY -y install luarocks liblua5.2-dev
 apt-mark hold 'jitsi-*' jicofo
 
 # packages are ok
