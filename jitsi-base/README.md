@@ -6,7 +6,6 @@ guides the user during the installation to avoid potential problems.
 ## Supported distributions
 
 - Debian 11 Bullseye
-- Debian 10 Buster
 - Ubuntu 20.04 Focal Fossa
 
 ## Usage
