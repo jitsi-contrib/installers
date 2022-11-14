@@ -113,8 +113,7 @@ out <<< "checking the distro..."
     DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
 if [[ "$DISTRO" != "focal" ]] && \
-   [[ "$DISTRO" != "bullseye" ]] && \
-   [[ "$DISTRO" != "buster" ]]; then
+   [[ "$DISTRO" != "bullseye" ]]; then
     out <<EOF
 Aborted! Your distro is not supported
 Recommendation: Switch to Debian 11 Bullseye or Ubuntu 20.04 Focal Fossa
