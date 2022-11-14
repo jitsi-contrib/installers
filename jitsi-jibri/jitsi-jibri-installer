@@ -112,8 +112,7 @@ out <<< "checking the distro..."
     DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
 if [[ "$DISTRO" != "focal" ]] && \
-   [[ "$DISTRO" != "bullseye" ]] && \
-   [[ "$DISTRO" != "buster" ]]; then
+   [[ "$DISTRO" != "bullseye" ]]; then
     out <<EOF
 Aborted! Your distro is not supported
 Recommendation: Switch to Debian 11 Bullseye or Ubuntu 20.04 Focal Fossa
@@ -212,8 +211,7 @@ if [[ "$DISTRO" = "focal" ]]; then
         -o Dpkg::Options::="--force-confold"
 fi
 
-if [[ "$DISTRO" = "bullseye" ]] || \
-   [[ "$DISTRO" = "buster" ]]; then
+if [[ "$DISTRO" = "bullseye" ]]; then
     KERNEL="linux-image-$(dpkg --print-architecture)"
 else
     KERNEL="linux-image-generic"
@@ -515,13 +513,6 @@ if [[ "$DISTRO" = "bullseye" ]]; then
     sed -i "s~ bullseye-updates main$~ bullseye-updates main contrib non-free~" \
         /etc/apt/sources.list
     sed -i "s~ bullseye-security main$~ bullseye-security main contrib non-free~" \
-        /etc/apt/sources.list
-elif [[ "$DISTRO" = "buster" ]]; then
-    sed -i "s~ buster main$~ buster main contrib non-free~" \
-        /etc/apt/sources.list
-    sed -i "s~ buster-updates main$~ buster-updates main contrib non-free~" \
-        /etc/apt/sources.list
-    sed -i "s~ buster/updates main$~ buster/updates main contrib non-free~" \
         /etc/apt/sources.list
 fi
 
