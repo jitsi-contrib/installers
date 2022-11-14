@@ -436,6 +436,9 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-port" \
 # openjdk-11-jre-headless
 apt-get $APT_PROXY -y install openjdk-11-jre-headless
 
+# lua5.2
+apt-get $APT_PROXY -y install lua5.2 liblua5.2-dev luarocks
+
 # jitsi-meet
 out <<< "installing Jitsi..."
 
@@ -451,7 +454,6 @@ debconf-set-selections <<< \
     "jitsi-meet-web-config jitsi-meet/cert-choice select Generate a new self-signed certificate"
 apt-get $APT_PROXY -y --install-recommends install jitsi-meet
 apt-get $APT_PROXY -y install libnginx-mod-http-lua
-apt-get $APT_PROXY -y install luarocks liblua5.2-dev
 apt-mark hold 'jitsi-*' jicofo
 
 # packages are ok
