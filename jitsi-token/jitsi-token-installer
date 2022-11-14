@@ -659,11 +659,11 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-nginx" \
 out <<< "configuring JVB..."
 
 # default memory limit
-sed -i '/^JVB_SECRET=/a \
-\
-# set the maximum memory for the JVB daemon\
-VIDEOBRIDGE_MAX_MEMORY=3072m' \
-    /etc/jitsi/videobridge/config
+cat >>/etc/jitsi/videobridge/config <<EOF
+
+# set the maximum memory for the JVB daemon
+VIDEOBRIDGE_MAX_MEMORY=3072m
+EOF
 
 # colibri
 hocon -f /etc/jitsi/videobridge/jvb.conf \
