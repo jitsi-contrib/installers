@@ -446,10 +446,14 @@ apt-get $APT_PROXY -y install openjdk-11-jre-headless
 # lua5.2
 apt-get $APT_PROXY -y install lua5.2 liblua5.2-dev luarocks
 
-# prosody
-wget -T 10 -qO /tmp/prosody.gpg.key \
-    https://prosody.im/files/prosody-debian-packages.key
-cat /tmp/prosody.gpg.key | gpg --dearmor > /usr/share/keyrings/prosody.gpg
+# prosody sources.list for Ubuntu Focal
+if [[ "$DISTRO" = "focal" ]]; then
+    wget -T 10 -qO /tmp/prosody.gpg.key \
+        https://prosody.im/files/prosody-debian-packages.key
+    cat /tmp/prosody.gpg.key | gpg --dearmor > /usr/share/keyrings/prosody.gpg
+    wget -T 10 -O /etc/apt/sources.list.d/prosody.list \
+        $JITSI_TMPL/etc/apt/sources.list.d/prosody.list.focal
+fi
 
 # jitsi-meet
 out <<< "installing Jitsi..."
