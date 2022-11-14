@@ -248,6 +248,7 @@ rm -rf /usr/share/jitsi-videobridge
 rm -rf /usr/share/jicofo
 rm -f  /etc/apt/sources.list.d/stretch.list
 rm -f  /etc/apt/sources.list.d/buster.list
+rm -f  /etc/apt/sources.list.d/prosody.list
 rm -f  /etc/apt/sources.list.d/jitsi-stable.list
 rm -f  /etc/apt/sources.list.d/google-chrome.list
 rm -f  /etc/apt/sources.list.d/ungoogled-chromium.list
