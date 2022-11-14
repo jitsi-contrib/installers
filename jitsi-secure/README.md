@@ -11,9 +11,11 @@ during the installation to avoid potential problems.
 
 ## Usage
 
-- Don't use this script on a working production server.
-- Run it as `root`
-- Follow the recommendations during the installation
+- **Don't run this script on a working production server.**
+- **Don't run this script on your desktop machine.**
+- Run it on an isolated environment such as a virtual machine or a cloud server.
+- Run it as `root`.
+- Follow the recommendations during the installation.
 
 ### use root account
 
