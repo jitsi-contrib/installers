@@ -554,11 +554,11 @@ out <<< "configuring Jicofo..."
 hocon -f /etc/jitsi/jicofo/jicofo.conf \
     set jicofo.conference.enable-auto-owner true
 
-sed -i '/^JICOFO_AUTH_PASSWORD=/a \
-\
-# set the maximum memory for the jicofo daemon\
-JICOFO_MAX_MEMORY=3072m' \
-    /etc/jitsi/jicofo/config
+cat >>/etc/jitsi/jicofo/config <<EOF
+
+# set the maximum memory for the jicofo daemon
+JICOFO_MAX_MEMORY=3072m
+EOF
 
 # jicofo restart
 systemctl restart jicofo.service
