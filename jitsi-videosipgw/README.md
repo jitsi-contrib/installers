@@ -86,7 +86,7 @@ bash jitsi-videosipgw-installer
 Add the followings into `/etc/jitsi/jibri/pjsua.config`
 
 ```
---id "jitsi <sip:<SIP_USER>@127.0.0.1>"
+--id "jitsi <sip:<SIP_USER>@SIP_SERVER_ADDRESS>"
 --registrar=sip:<SIP_SERVER_ADDRESS>
 --realm=*
 --username=<SIP_USER>
