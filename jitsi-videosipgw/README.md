@@ -83,7 +83,9 @@ bash jitsi-videosipgw-installer
 
 #### SIP config
 
-Add the followings into `/etc/jitsi/jibri/pjsua.config`
+Add the following settings into `/etc/jitsi/jibri/pjsua.config` if there is a
+SIP server in the environment. Otherwise you can directly call the other SIP
+peer if it is in the dial plans.
 
 ```
 --id "jitsi <sip:<SIP_USER>@SIP_SERVER_ADDRESS>"
