@@ -457,6 +457,14 @@ apt-get $APT_PROXY -y install openjdk-11-jre-headless
 # lua5.2
 apt-get $APT_PROXY -y install lua5.2 liblua5.2-dev luarocks
 
+# nodesource.list
+wget -T 10 -qO /tmp/nodesource.gpg.key \
+    https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+cat /tmp/nodesource.gpg.key | gpg --dearmor \
+    >/usr/share/keyrings/nodesource.gpg
+wget -T 10 -O /etc/apt/sources.list.d/nodesource.list \
+    $JITSI_TMPL/etc/apt/sources.list.d/nodesource.list.$DISTRO
+
 # prosody sources.list for Ubuntu Focal
 if [[ "$DISTRO" = "focal" ]]; then
     wget -T 10 -qO /tmp/prosody.gpg.key \
