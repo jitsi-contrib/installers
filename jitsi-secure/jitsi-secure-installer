@@ -619,9 +619,15 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jicofo" \
 # -----------------------------------------------------------------------------
 # jitsi-meet (extra)
 # -----------------------------------------------------------------------------
-sed -i -r "/^\s*domain:/a \
-\        anonymousdomain: 'guest.$JITSI_HOST'," \
-    $JITSI_MEET_CONFIG
+wget -T 10 -O /tmp/config.whiteboard.js \
+    $JITSI_TMPL/etc/jitsi/meet/config.whiteboard.js
+cat /tmp/config.whiteboard.js >>$JITSI_MEET_CONFIG
+
+wget -T 10 -O /tmp/config.anonymousdomain.js \
+    $JITSI_TMPL/etc/jitsi/meet/config.anonymousdomain.js
+cat /tmp/config.anonymousdomain.js >>$JITSI_MEET_CONFIG
+
+sed -i "s/___JITSI_FQDN___/$JITSI_HOST/" $JITSI_MEET_CONFIG
 
 # jitsi-meet config is ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jitsi-meet" \
