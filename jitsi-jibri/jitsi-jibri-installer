@@ -749,21 +749,23 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jicofo" \
 # -----------------------------------------------------------------------------
 # jitsi-meet (extra)
 # -----------------------------------------------------------------------------
-sed -i "/^\s*\/\/ Recording$/a \
-\\
-\n\
-\    recordingService: {\n\
-\        enabled: true,\n\
-\        sharingEnabled: true,\n\
-\        hideStorageWarning: false,\n\
-\    },\n\
-\n\
-\    liveStreaming: {\n\
-\        enabled: true,\n\
-\    },\n\
-\n\
-\    hiddenDomain: 'recorder.$JITSI_HOST'," \
-    $JITSI_MEET_CONFIG
+wget -T 10 -O /tmp/config.whiteboard.js \
+    $JITSI_TMPL/etc/jitsi/meet/config.whiteboard.js
+cat /tmp/config.whiteboard.js >>$JITSI_MEET_CONFIG
+
+wget -T 10 -O /tmp/config.recording.js \
+    $JITSI_TMPL/etc/jitsi/meet/config.recording.js
+cat /tmp/config.recording.js >>$JITSI_MEET_CONFIG
+
+wget -T 10 -O /tmp/config.livestreaming.js \
+    $JITSI_TMPL/etc/jitsi/meet/config.livestreaming.js
+cat /tmp/config.livestreaming.js >>$JITSI_MEET_CONFIG
+
+wget -T 10 -O /tmp/config.hiddendomain.js \
+    $JITSI_TMPL/etc/jitsi/meet/config.hiddendomain.js
+cat /tmp/config.hiddendomain.js >>$JITSI_MEET_CONFIG
+
+sed -i "s/___JITSI_FQDN___/$JITSI_HOST/" $JITSI_MEET_CONFIG
 
 # jitsi-meet config is ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jitsi-meet" \
