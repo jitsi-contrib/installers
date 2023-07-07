@@ -1,0 +1,14 @@
+[Unit]
+Description=Excalidraw backend
+After=network-online.target
+
+[Service]
+User=excalidraw
+Group=excalidraw
+WorkingDirectory=/home/excalidraw/excalidraw-backend
+ExecStart=npm start
+Restart=always
+RestartSec=2s
+
+[Install]
+WantedBy=multi-user.target
