@@ -597,6 +597,15 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jicofo" \
 
 
 # -----------------------------------------------------------------------------
+# jitsi-meet (extra)
+# -----------------------------------------------------------------------------
+
+# jitsi-meet config is ok
+timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jitsi-meet" \
+    >/dev/null || true
+
+
+# -----------------------------------------------------------------------------
 # nginx
 # -----------------------------------------------------------------------------
 out <<< "configuring Nginx..."
@@ -667,6 +676,38 @@ systemctl restart jitsi-videobridge2.service
 
 # jvb config is ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jvb" \
+    >/dev/null || true
+
+
+# -----------------------------------------------------------------------------
+# excalidraw
+# -----------------------------------------------------------------------------
+out <<< "installing excalidraw..."
+
+# excalidraw user
+adduser excalidraw --system --group --disabled-password --shell /bin/bash \
+    --home /home/excalidraw
+
+# excalidraw-backend app
+su -l excalidraw <<EOF
+    git clone https://github.com/jitsi/excalidraw-backend.git
+    cd excalidraw-backend
+    echo -n "PORT=3002" >.env.production
+    sed -i '/collectDefaultMetrics/ i \    createServer: false,' src/index.ts
+
+    npm install
+    npm run build
+EOF
+
+# excalidraw service
+wget -T 10 -O /etc/systemd/system/excalidraw.service \
+    $JITSI_TMPL/etc/systemd/system/excalidraw.service
+
+systemctl enable excalidraw.service
+systemctl start excalidraw.service
+
+# excalidraw is ok
+timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-excalidraw" \
     >/dev/null || true
 
 
