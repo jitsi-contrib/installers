@@ -610,6 +610,10 @@ ln -s /usr/local/share/nginx/modules-available/jitsi-meet.conf \
     /etc/nginx/modules-enabled/99-jitsi-meet-custom.conf
 rm /etc/nginx/sites-enabled/default
 
+mkdir -p /etc/jitsi/meet/jaas
+wget -T 10 -O /etc/jitsi/meet/jaas/excalidraw.conf \
+    $JITSI_TMPL/etc/jitsi/meet/jaas/excalidraw.conf
+
 systemctl daemon-reload
 systemctl stop nginx.service
 systemctl start nginx.service
