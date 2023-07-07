@@ -237,6 +237,7 @@ fi
 # -----------------------------------------------------------------------------
 out <<< "removing the old installation if exists..."
 
+systemctl stop excalidraw.service || true
 systemctl stop sip-dial-plan.service || true
 systemctl stop sip-xorg.service || true
 systemctl stop jibri-xorg.service || true
@@ -276,9 +277,12 @@ apt-get -y purge ungoogled-chromium || true
 apt-get -y purge va-driver-all vdpau-driver-all || true
 apt-get -y autoremove --purge
 
+deluser excalidraw || true
+delgroup excalidraw || true
 deluser jibri || true
 delgroup jibri || true
 
+rm -rf /home/excalidraw
 rm -rf /home/jibri
 rm -rf /etc/chromium
 rm -rf /etc/jitsi
