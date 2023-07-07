@@ -700,9 +700,9 @@ wget -T 10 -O /etc/modprobe.d/v4l2loopback.conf \
 modprobe v4l2loopback
 
 # resolution 1280x720
-sed -ri "s/^(\s*)Virtual 1920/\1#Virtual 1920/" \
+sed -ri 's/^(\s*)Virtual 1920/\1#Virtual 1920/' \
     /etc/jitsi/jibri/xorg-video-dummy.conf
-sed -ri "s/^(\s*)#Virtual 1280/\1Virtual 1280/" \
+sed -ri 's/^(\s*)#Virtual 1280/\1Virtual 1280/' \
     /etc/jitsi/jibri/xorg-video-dummy.conf
 
 # xorg DISPLAY :1
@@ -772,12 +772,19 @@ sed -i "s/^-- \(https_ports = { };\)/\1/" $PROSODY_CONFIG
 sed -i "/turns.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" $PROSODY_CONFIG
 sed -i "/turns.*tcp/ s/5349/443/" $PROSODY_CONFIG
 
+# extra (guest)
+wget -T 10 -O /etc/prosody/conf.avail/guest.$JITSI_HOST.cfg.lua \
+    $JITSI_TMPL/etc/prosody/conf.avail/guest.cfg.lua
+sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
+    /etc/prosody/conf.avail/guest.$JITSI_HOST.cfg.lua
+ln -s ../conf.avail/guest.$JITSI_HOST.cfg.lua /etc/prosody/conf.d/
+
 # extra (token)
 wget -T 10 -O /usr/share/jitsi-meet/prosody-plugins/mod_token_affiliation.lua \
     $PROSODY_PLUGINS/token_affiliation/mod_token_affiliation.lua
 
 sed -i '/\s*app_secret=/a \
-\    allow_empty_token = false' $PROSODY_CONFIG
+\    allow_empty_token = true' $PROSODY_CONFIG
 sed -i '/^Component .conference\./,/admins/!b; /\s*"token_verification"/a \
 \        "token_affiliation";' $PROSODY_CONFIG
 
@@ -828,6 +835,12 @@ EOF
 # extra (token)
 hocon -f /etc/jitsi/jicofo/jicofo.conf \
     set jicofo.conference.enable-auto-owner false
+hocon -f /etc/jitsi/jicofo/jicofo.conf \
+    set jicofo.authentication.enabled true
+hocon -f /etc/jitsi/jicofo/jicofo.conf \
+    set jicofo.authentication.type "XMPP"
+hocon -f /etc/jitsi/jicofo/jicofo.conf \
+    set jicofo.authentication.login-url "$JITSI_HOST"
 
 # extra (videosipgw)
 hocon -f /etc/jitsi/jicofo/jicofo.conf \
@@ -843,11 +856,19 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jicofo" \
 
 
 # -----------------------------------------------------------------------------
-# jitsi-meet (extra, token)
+# jitsi-meet (extra)
 # -----------------------------------------------------------------------------
 wget -T 10 -O /tmp/config.whiteboard.js \
     $JITSI_TMPL/etc/jitsi/meet/config.whiteboard.js
 cat /tmp/config.whiteboard.js >>$JITSI_MEET_CONFIG
+
+wget -T 10 -O /tmp/config.anonymousdomain.js \
+    $JITSI_TMPL/etc/jitsi/meet/config.anonymousdomain.js
+cat /tmp/config.anonymousdomain.js >>$JITSI_MEET_CONFIG
+
+wget -T 10 -O /tmp/config.peoplesearch.js \
+    $JITSI_TMPL/etc/jitsi/meet/config.peoplesearch.js
+cat /tmp/config.peoplesearch.js >>$JITSI_MEET_CONFIG
 
 wget -T 10 -O /tmp/config.disableprofile.js \
     $JITSI_TMPL/etc/jitsi/meet/config.disableprofile.js
@@ -857,23 +878,7 @@ sed -i "s/___JITSI_FQDN___/$JITSI_HOST/" $JITSI_MEET_CONFIG
 
 # jitsi-meet config is ok
 timeout 8 curl -s \
-    "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jitsi-meet-token" \
-    >/dev/null || true
-
-
-# -----------------------------------------------------------------------------
-# jitsi-meet (extra, videosipgw)
-# -----------------------------------------------------------------------------
-sed -i "/^\s*disableProfile/a \
-\\
-\n\
-\    peopleSearchQueryTypes: ['conferenceRooms'],\n\
-\    peopleSearchUrl: 'https://$JITSI_HOST/get-dial-plan'," \
-    $JITSI_MEET_CONFIG
-
-# jitsi-meet config is ok
-timeout 8 curl -s \
-    "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jitsi-meet-token" \
+    "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jitsi-meet" \
     >/dev/null || true
 
 

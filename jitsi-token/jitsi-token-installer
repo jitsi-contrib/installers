@@ -594,13 +594,14 @@ sed -i "s/^-- \(https_ports = { };\)/\1/" $PROSODY_CONFIG
 sed -i "/turns.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" $PROSODY_CONFIG
 sed -i "/turns.*tcp/ s/5349/443/" $PROSODY_CONFIG
 
-# extra
+# extra (guest)
 wget -T 10 -O /etc/prosody/conf.avail/guest.$JITSI_HOST.cfg.lua \
     $JITSI_TMPL/etc/prosody/conf.avail/guest.cfg.lua
 sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
     /etc/prosody/conf.avail/guest.$JITSI_HOST.cfg.lua
 ln -s ../conf.avail/guest.$JITSI_HOST.cfg.lua /etc/prosody/conf.d/
 
+# extra (token)
 wget -T 10 -O /usr/share/jitsi-meet/prosody-plugins/mod_token_affiliation.lua \
     $PROSODY_PLUGINS/token_affiliation/mod_token_affiliation.lua
 
@@ -632,7 +633,7 @@ cat >>/etc/jitsi/jicofo/config <<EOF
 JICOFO_MAX_MEMORY=3072m
 EOF
 
-# extra
+# extra (token)
 hocon -f /etc/jitsi/jicofo/jicofo.conf \
     set jicofo.conference.enable-auto-owner false
 hocon -f /etc/jitsi/jicofo/jicofo.conf \
