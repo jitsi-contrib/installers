@@ -1,3 +1,3 @@
 VirtualHost "guest.___JITSI_HOST___"
-    authentication = "anonymous"
+    authentication = "jitsi-anonymous"
     c2s_require_encryption = false
