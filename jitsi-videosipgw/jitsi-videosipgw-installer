@@ -237,6 +237,8 @@ fi
 # -----------------------------------------------------------------------------
 out <<< "removing the old installation if exists..."
 
+systemctl stop virtual-camera-0.service || true
+systemctl stop virtual-camera-1.service || true
 systemctl stop excalidraw.service || true
 systemctl stop sip-dial-plan.service || true
 systemctl stop sip-xorg.service || true
@@ -293,6 +295,7 @@ rm -rf /etc/nginx
 rm -rf /etc/opt/chrome
 rm -rf /etc/systemd/system/jibri*
 rm -rf /etc/systemd/system/sip-*
+rm -rf /etc/systemd/system/virtual-camera-*
 rm -rf /usr/lib/node_modules
 rm -rf /usr/share/jitsi-meet
 rm -rf /usr/share/jitsi-videobridge
@@ -303,6 +306,7 @@ rm -f  /etc/apt/sources.list.d/prosody.list
 rm -f  /etc/apt/sources.list.d/jitsi-stable.list
 rm -f  /etc/apt/sources.list.d/google-chrome.list
 rm -f  /etc/apt/sources.list.d/ungoogled-chromium.list
+rm -f  /etc/sudoers.d/jibri
 rm -f  /usr/local/bin/chromedriver
 
 
