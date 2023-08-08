@@ -1,0 +1,13 @@
+[Unit]
+Description=Virtual Camera 0
+Requires=sip-xorg.service
+Requires=sip-icewm.service
+
+[Service]
+User=jibri
+Group=jibri
+ExecStart=bash -c "ffmpeg -f x11grab -r 30 -i :1.0 -pix_fmt yuv420p -f v4l2 /dev/video0 && true"
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target

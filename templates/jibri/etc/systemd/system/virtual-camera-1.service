@@ -1,0 +1,13 @@
+[Unit]
+Description=Virtual Camera 1
+Requires=jibri-xorg.service
+Requires=jibri-icewm.service
+
+[Service]
+User=jibri
+Group=jibri
+ExecStart=bash -c "ffmpeg -f x11grab -r 30 -i :0.0 -pix_fmt yuv420p -f v4l2 /dev/video1 && true"
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
