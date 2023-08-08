@@ -6,7 +6,7 @@ ARGS=$@
 [[ "$(whoami)" != "jibri" ]] && exec /usr/bin/google-chrome $ARGS
 
 # push display :1 view to virtual camera 0
-ffmpeg -f x11grab -r 30 -i :1.0 -pix_fmt yuv420p -f v4l2 /dev/video0 &
+sudo systemctl start virtual-camera-0
 sleep 0.8
 
 exec /usr/bin/google-chrome $ARGS

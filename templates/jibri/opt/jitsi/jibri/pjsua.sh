@@ -2,7 +2,7 @@
 set -e
 
 # push display :0 view to virtual camera 1
-ffmpeg -f x11grab -r 30 -i :0.0 -pix_fmt yuv420p -f v4l2 /dev/video1 &
+sudo systemctl start virtual-camera-1
 sleep 0.8
 
 REGISTRAR=$(echo "$@" | egrep -o "..registrar=sip:[^ ]" || true)
