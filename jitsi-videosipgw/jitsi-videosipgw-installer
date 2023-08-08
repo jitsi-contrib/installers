@@ -1110,6 +1110,15 @@ systemctl start sip-dial-plan.service
 
 
 # -----------------------------------------------------------------------------
+# VIRTUAL CAMERAS (extra)
+# -----------------------------------------------------------------------------
+wget -T 10 -O /etc/systemd/system/virtual-camera-0.service \
+    $JIBRI_TMPL/etc/systemd/system/virtual-camera-0.service
+wget -T 10 -O /etc/systemd/system/virtual-camera-1.service \
+    $JIBRI_TMPL/etc/systemd/system/virtual-camera-1.service
+systemctl daemon-reload
+
+# -----------------------------------------------------------------------------
 # PJSUA related (extra)
 # -----------------------------------------------------------------------------
 # build
