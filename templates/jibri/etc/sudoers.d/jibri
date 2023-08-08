@@ -1,0 +1,4 @@
+jibri ALL=NOPASSWD:/usr/bin/systemctl start virtual-camera-0
+jibri ALL=NOPASSWD:/usr/bin/systemctl stop virtual-camera-0
+jibri ALL=NOPASSWD:/usr/bin/systemctl start virtual-camera-1
+jibri ALL=NOPASSWD:/usr/bin/systemctl stop virtual-camera-1

@@ -599,6 +599,7 @@ mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin/
 chmod 755 /usr/local/bin/chromedriver
 
 apt-get $APT_PROXY -y install x11vnc
+apt-get $APT_PROXY -y install sudo
 apt-get $APT_PROXY -y install jibri
 apt-mark hold jibri
 
@@ -691,6 +692,10 @@ sed -i "$ a 127.0.2.1 $JITSI_HOST" /etc/hosts
 mkdir -p /etc/opt/chrome/policies/managed
 wget -T 10 -O /etc/opt/chrome/policies/managed/jibri_policies.json \
     $JIBRI_TMPL/etc/opt/chrome/policies/managed/jibri_policies.json
+
+# sudo
+wget -T 10 -O /etc/sudoers.d/jibri $JIBRI_TMPL/etc/sudoers.d/jibri
+chmod 440 /etc/sudoers.d/jibri
 
 
 # -----------------------------------------------------------------------------
