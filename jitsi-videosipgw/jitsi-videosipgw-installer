@@ -28,7 +28,7 @@ JIBRI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templ
 APP_ID="jitsi-$RANDOM"
 APP_SECRET="$(openssl rand -hex 20)"
 PJPROJECT_REPO="https://github.com/jitsi/pjproject"
-PJPROJECT_BRANCH="jibri-2.10-dev1"
+PJPROJECT_BRANCH="jibri-2.13-dev1"
 
 
 # -----------------------------------------------------------------------------
