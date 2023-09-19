@@ -4,12 +4,6 @@ set -e
 # -----------------------------------------------------------------------------
 # globals
 # -----------------------------------------------------------------------------
-JITSI_HOST=$JITSI_HOST
-
-DEBIAN_FRONTEND=noninteractive
-APT_PROXY=$APT_PROXY
-
-PROSODY_PLUGINS=https://raw.githubusercontent.com/jitsi-contrib/prosody-plugins/main
 JITSI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jitsi
 
 JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
@@ -56,6 +50,7 @@ trap on_exit EXIT
 # -----------------------------------------------------------------------------
 # environment
 # -----------------------------------------------------------------------------
+DEBIAN_FRONTEND=noninteractive
 START_TIME=$(date +%s)
 BASEDIR=$(pwd)
 DEFAULT_ROUTE=$(ip route | egrep '^default ' | head -n1)
@@ -66,7 +61,7 @@ PUBLIC_IP=$(ip addr show $PUBLIC_INTERFACE | egrep "$PUBLIC_INTERFACE$" | \
 
 
 # -----------------------------------------------------------------------------
-# input check
+# environment check (phase 1)
 # -----------------------------------------------------------------------------
 clear
 
@@ -74,14 +69,13 @@ clear
 out <<EOF
 This script can be harmful and will remove already installed Jitsi if exists.
 Don't use it on a working production server.
-Write YES (uppercase) and press enter if you are crazy!
+If you are sure then write YES (uppercase) and press enter to start!
 EOF
 
 read answer
 if [[ "$answer" != "YES" ]]; then
     out <<EOF
 Aborted! not approved, typed: $answer
-Recommendation: Use this script on a newly installed machine
 EOF
     exit 1
 fi
@@ -91,7 +85,7 @@ fi
 out <<< "checking the user account..."
 if [[ "$(whoami)" != "root" ]]; then
     out <<EOF
-Aborted! Your are not the root user: $(whoami)
+Aborted! You are not the root user: $(whoami)
 Recommendation: Use the following command to be the 'root' user
 
     su -l
@@ -109,7 +103,7 @@ if [[ "$DISTRO" != "focal" ]] && \
    [[ "$DISTRO" != "bullseye" ]]; then
     out <<EOF
 Aborted! Your distro is not supported
-Recommendation: Switch to Debian 11 Bullseye or Ubuntu 20.04 Focal Fossa
+Recommendation: Use Debian 11 Bullseye or Ubuntu 20.04 Focal Fossa
 EOF
     exit 1
 fi
@@ -130,8 +124,7 @@ out <<< "checking Jitsi FQDN..."
 if [[ -z "$JITSI_HOST" ]]; then
     out <<EOF
 Aborted! Unknown Jitsi host address
-Recommendation: Set Jitsi host address according to the following command
-  and try again
+Recommendation: Set Jitsi host address and try again, e.g.
 
     export JITSI_HOST=jitsi.yourdomain.com
 EOF
@@ -152,8 +145,7 @@ out <<< "checking TURN FQDN..."
 if [[ -z "$TURN_HOST" ]]; then
     out <<EOF
 Aborted! Unknown TURN host address
-Recommendation: Set TURN host address according to the following command
-  and try again
+Recommendation: Set TURN host address and try again, e.g.
 
     export TURN_HOST=turn.yourdomain.com
 EOF
@@ -173,7 +165,7 @@ fi
 if [[ "$JITSI_HOST" = "$TURN_HOST" ]]; then
     out <<EOF
 Aborted! Jitsi host address and TURN host address are the same
-Recommendation: Use different addresses for Jitsi and TURN
+Recommendation: Use different addresses for Jitsi and TURN, e.g.
 
     export JITSI_HOST=jitsi.yourdomain.com
     export TURN_HOST=turn.yourdomain.com
@@ -198,8 +190,9 @@ systemctl stop jitsi-videobridge2.service || true
 systemctl stop jicofo.service || true
 systemctl stop prosody.service || true
 systemctl stop coturn.service || true
-systemctl stop stunnel4.service || true
 systemctl stop nginx.service || true
+systemctl stop certbot.timer || true
+systemctl stop certbot.service || true
 
 apt-mark unhold 'jitsi-*' || true
 apt-mark unhold jicofo || true
@@ -214,20 +207,20 @@ apt-get -y purge jicofo || true
 apt-get -y purge prosody || true
 apt-get -y purge 'prosody-*' || true
 apt-get -y purge coturn || true
-apt-get -y purge stunnel || true
 apt-get -y purge nginx || true
 apt-get -y purge 'nginx-*' || true
 apt-get -y purge 'openjdk-*' || true
 apt-get -y purge 'lua*' || true
 apt-get -y purge 'liblua*' || true
 apt-get -y purge 'adoptopenjdk-*' || true
+apt-get -y purge certbot || true
 apt-get -y purge nodejs || true
 apt-get -y purge chromium chromium-common chromium-driver || true
 apt-get -y purge chromium-browser chromium-chromedriver || true
 apt-get -y purge chromium-codecs-ffmpeg chromium-codecs-ffmpeg-extra || true
 apt-get -y purge google-chrome-stable || true
-apt-get -y purge ungoogled-chromium || true
 apt-get -y purge va-driver-all vdpau-driver-all || true
+apt-get -y purge "v4l2loopback-*" || true
 apt-get -y autoremove --purge
 
 deluser excalidraw || true
@@ -245,19 +238,26 @@ rm -rf /etc/nginx
 rm -rf /etc/opt/chrome
 rm -rf /etc/systemd/system/jibri*
 rm -rf /etc/systemd/system/sip-*
+rm -rf /etc/systemd/system/certbot.service.d
+rm -rf /etc/systemd/system/nginx.service.d
+rm -rf /etc/systemd/system/prosody.service.d
 rm -rf /etc/systemd/system/virtual-camera-*
+rm -rf /opt/google
+rm -rf /opt/jitsi
 rm -rf /usr/lib/node_modules
+rm -rf /usr/local/share/nginx
 rm -rf /usr/share/jitsi-meet
 rm -rf /usr/share/jitsi-videobridge
 rm -rf /usr/share/jicofo
-rm -f  /etc/apt/sources.list.d/stretch.list
-rm -f  /etc/apt/sources.list.d/buster.list
-rm -f  /etc/apt/sources.list.d/prosody.list
 rm -f  /etc/apt/sources.list.d/jitsi-stable.list
 rm -f  /etc/apt/sources.list.d/google-chrome.list
-rm -f  /etc/apt/sources.list.d/ungoogled-chromium.list
+rm -f  /etc/apt/sources.list.d/prosody.list
+rm -f  /etc/modprobe.d/alsa-loopback.conf
+rm -f  /etc/modprobe.d/v4l2loopback.conf
 rm -f  /etc/sudoers.d/jibri
 rm -f  /usr/local/bin/chromedriver
+rm -f  /usr/local/bin/google-chrome
+rm -f  /usr/local/bin/pjsua
 
 
 # -----------------------------------------------------------------------------
@@ -286,11 +286,18 @@ apt-get $APT_PROXY -y install gcc git
 
 
 # -----------------------------------------------------------------------------
-# environment check
+# environment check (phase 2)
 # -----------------------------------------------------------------------------
 # external ip
 out <<< "checking the external IP..."
-EXTERNAL_IP=$(dig -4 +short myip.opendns.com a @resolver1.opendns.com) || true
+
+if [[ -n "$JITSI_IP" ]]; then
+    EXTERNAL_IP=$JITSI_IP
+else
+    EXTERNAL_IP=$(dig -4 +short myip.opendns.com a @resolver1.opendns.com) \
+        || true
+fi
+
 if [[ -z "$EXTERNAL_IP" ]]; then
     out <<EOF
 Aborted! The external IP not found
@@ -301,11 +308,24 @@ fi
 
 # jitsi host A record
 out <<< "checking DNS record for $JITSI_HOST..."
-IP=$(dig -4 +short $JITSI_HOST @resolver1.opendns.com | tail -1) || true
+
+if [[ -n "$JITSI_IP" ]]; then
+    IP=$JITSI_IP
+else
+    IP=$(dig -4 +short $JITSI_HOST @resolver1.opendns.com | tail -1) || true
+fi
+
 if [[ -z "$IP" ]]; then
     out <<EOF
 Aborted! $JITSI_HOST is not resolvable on Internet
-Recommendation: Set DNS A record for $JITSI_HOST on a public DNS
+Recommendation: Set DNS A record for $JITSI_HOST on a public DNS.
+
+    If this is a test setup and you don't have a reachable address, export
+    the public IP by setting JITSI_IP and disable LetsEncrypt certificate
+    by setting DONT_SET_LETSENCRYPT. e.g.
+
+    export JITSI_IP=1.2.3.4
+    export DONT_SET_LETSENCRYPT=true
 EOF
     exit 1
 fi
@@ -316,13 +336,26 @@ if [[ "$IP" != "$EXTERNAL_IP" ]]; then
     out <<EOF
 Aborted! $JITSI_HOST does not point to this server: $EXTERNAL_IP <> $IP
 Recommendation: Set $EXTERNAL_IP as $JITSI_HOST A record
+
+    If this is a test setup and you don't have a reachable address, export
+    the public IP by setting JITSI_IP and disable LetsEncrypt certificate
+    by setting DONT_SET_LETSENCRYPT. e.g.
+
+    export JITSI_IP=1.2.3.4
+    export DONT_SET_LETSENCRYPT=true
 EOF
     exit 1
 fi
 
 # turn host A record
 out <<< "checking DNS record for $TURN_HOST..."
-IP=$(dig -4 +short $TURN_HOST @resolver1.opendns.com | tail -1) || true
+
+if [[ -n "$JITSI_IP" ]]; then
+    IP=$JITSI_IP
+else
+    IP=$(dig -4 +short $TURN_HOST @resolver1.opendns.com | tail -1) || true
+fi
+
 if [[ -z "$IP" ]]; then
     out <<EOF
 Aborted! $TURN_HOST is not resolvable on Internet
@@ -390,7 +423,7 @@ if [[ "$RES" != "ok" ]]; then
 Aborted! The accessibility check failed
 Recommendation: Check if $CHECKMYPORT is accessible
 EOF
-    exit 1
+    [[ -z "$JITSI_IP" ]] && exit 1
 fi
 
 # tcp/80
@@ -404,7 +437,7 @@ if [[ "$RES" != "$TEXT" ]]; then
 Aborted! TCP/80 is not accessible
 Recommendation: Check firewall and NAT rules, allow TCP/80
 EOF
-    exit 1
+    [[ -z "$JITSI_IP" ]] && exit 1
 fi
 
 # tcp/443
@@ -418,7 +451,7 @@ if [[ "$RES" != "$TEXT" ]]; then
 Aborted! TCP/443 is not accessible
 Recommendation: Check firewall and NAT rules, allow TCP/443
 EOF
-    exit 1
+    [[ -z "$JITSI_IP" ]] && exit 1
 fi
 
 # udp/10000
@@ -432,7 +465,7 @@ if [[ "$RES" != "$TEXT" ]]; then
 Aborted! UDP/10000 is not accessible
 Recommendation: Check firewall and NAT rules, allow UDP/10000
 EOF
-    exit 1
+    [[ -z "$JITSI_IP" ]] && exit 1
 fi
 
 # ports are ok
@@ -443,6 +476,8 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-port" \
 # -----------------------------------------------------------------------------
 # packages
 # -----------------------------------------------------------------------------
+out <<< "installing Jitsi..."
+
 # openjdk-11-jre-headless
 apt-get $APT_PROXY -y install openjdk-11-jre-headless
 
@@ -467,8 +502,6 @@ if [[ "$DISTRO" = "focal" ]]; then
 fi
 
 # jitsi-meet
-out <<< "installing Jitsi..."
-
 wget -T 10 -qO /tmp/jitsi.gpg.key https://download.jitsi.org/jitsi-key.gpg.key
 cat /tmp/jitsi.gpg.key | gpg --dearmor > /usr/share/keyrings/jitsi.gpg
 wget -T 10 -O /etc/apt/sources.list.d/jitsi-stable.list \
@@ -492,6 +525,8 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package" \
 # -----------------------------------------------------------------------------
 # backup
 # -----------------------------------------------------------------------------
+out <<< "backups..."
+
 # jitsi-meet
 cp $JITSI_MEET_CONFIG $JITSI_MEET_CONFIG.org
 
@@ -539,7 +574,7 @@ out <<< "configuring Coturn..."
 
 cat >>/etc/turnserver.conf <<EOF
 
-# the following lines added by eb-jitsi
+# the following lines added by installer
 listening-ip=$PUBLIC_IP
 allowed-peer-ip=$PUBLIC_IP
 no-udp
@@ -561,9 +596,11 @@ out <<< "configuring Prosody..."
 mkdir -p /etc/systemd/system/prosody.service.d
 wget -T 10 -O /etc/systemd/system/prosody.service.d/override.conf \
     $JITSI_TMPL/etc/systemd/system/prosody.service.d/override.conf
+
 wget -T 10 -O /etc/prosody/conf.avail/network.cfg.lua \
     $JITSI_TMPL/etc/prosody/conf.avail/network.cfg.lua
 ln -s ../conf.avail/network.cfg.lua /etc/prosody/conf.d/
+
 sed -i "/rate *=.*kb.s/  s/[0-9]*kb/1024kb/" /etc/prosody/prosody.cfg.lua
 sed -i "s/^-- \(https_ports = { };\)/\1/" $PROSODY_CONFIG
 sed -i "/turns.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" $PROSODY_CONFIG
@@ -593,14 +630,16 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-prosody" \
 # -----------------------------------------------------------------------------
 out <<< "configuring Jicofo..."
 
-hocon -f /etc/jitsi/jicofo/jicofo.conf \
-    set jicofo.conference.enable-auto-owner true
-
+# add the custom config
 cat >>/etc/jitsi/jicofo/config <<EOF
 
 # set the maximum memory for the jicofo daemon
 JICOFO_MAX_MEMORY=3072m
 EOF
+
+# add enable-auto-owner
+hocon -f /etc/jitsi/jicofo/jicofo.conf \
+    set jicofo.conference.enable-auto-owner true
 
 # extra
 hocon -f /etc/jitsi/jicofo/jicofo.conf \
@@ -623,6 +662,8 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jicofo" \
 # -----------------------------------------------------------------------------
 # jitsi-meet (extra)
 # -----------------------------------------------------------------------------
+out <<< "configuring jitsi-meet..."
+
 wget -T 10 -O /tmp/config.whiteboard.js \
     $JITSI_TMPL/etc/jitsi/meet/config.whiteboard.js
 cat /tmp/config.whiteboard.js >>$JITSI_MEET_CONFIG
@@ -685,25 +726,30 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-nginx" \
 # -----------------------------------------------------------------------------
 out <<< "configuring JVB..."
 
-# default memory limit
+# add the custom config
 cat >>/etc/jitsi/videobridge/config <<EOF
 
 # set the maximum memory for the JVB daemon
 VIDEOBRIDGE_MAX_MEMORY=3072m
 EOF
 
-# colibri
+# enable colibri rest api
 hocon -f /etc/jitsi/videobridge/jvb.conf \
     set videobridge.apis.rest.enabled true
+
+# explicitly define UDP port
 hocon -f /etc/jitsi/videobridge/jvb.conf \
     set videobridge.ice.udp.port 10000
 
-# NAT harvester
-[[ "$EXTERNAL_IP" = "$PUBLIC_IP" ]] && COMMENT="#"
-cat >>/etc/jitsi/videobridge/sip-communicator.properties <<EOF
-${COMMENT}org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$PUBLIC_IP
-${COMMENT}org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$EXTERNAL_IP
+# enable NAT harvester if there is a forced external IP
+if [[ -n "$JITSI_IP" ]] && [[ "$JITSI_IP" != "$PUBLIC_IP" ]]; then
+    cat >>/etc/jitsi/videobridge/sip-communicator.properties <<EOF
+org.ice4j.ice.harvest.NAT_HARVESTER_LOCAL_ADDRESS=$PUBLIC_IP
+org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$JITSI_IP
 EOF
+    sed -i "/STUN_MAPPING_HARVESTER_ADDRESSES/ s/^org/#org/" \
+        /etc/jitsi/videobridge/sip-communicator.properties
+fi
 
 systemctl restart jitsi-videobridge2.service
 
@@ -747,34 +793,39 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-excalidraw" \
 # -----------------------------------------------------------------------------
 # lets encrypt
 # -----------------------------------------------------------------------------
-out <<< "setting Let's Encrypt certificates..."
+if [[ "$DONT_SET_LETSENCRYPT" != true ]]; then
+    out <<< "setting Let's Encrypt certificates..."
 
-certbot certonly --dry-run --non-interactive -m info@$JITSI_HOST --agree-tos \
-    --duplicate --webroot -w /usr/share/jitsi-meet -d $JITSI_HOST,$TURN_HOST \
-    || true
-sleep 3
-certbot certonly --non-interactive -m info@$JITSI_HOST --agree-tos \
-    --duplicate --webroot -w /usr/share/jitsi-meet -d $JITSI_HOST,$TURN_HOST
+    certbot certonly --dry-run --non-interactive -m info@$JITSI_HOST \
+        --agree-tos --duplicate --webroot -w /usr/share/jitsi-meet \
+        -d $JITSI_HOST,$TURN_HOST || true
 
-rm -f /etc/jitsi/meet/$JITSI_HOST.crt
-rm -f /etc/jitsi/meet/$JITSI_HOST.key
-ln -s /etc/letsencrypt/live/$JITSI_HOST/fullchain.pem \
-    /etc/jitsi/meet/$JITSI_HOST.crt
-ln -s /etc/letsencrypt/live/$JITSI_HOST/privkey.pem \
-    /etc/jitsi/meet/$JITSI_HOST.key
+    sleep 3
 
-out <<< "restarting Certbot..."
-systemctl restart certbot.service
+    certbot certonly --non-interactive -m info@$JITSI_HOST \
+        --agree-tos --duplicate --webroot -w /usr/share/jitsi-meet \
+        -d $JITSI_HOST,$TURN_HOST
 
-out <<< "restarting Coturn..."
-systemctl restart coturn.service
+    rm -f /etc/jitsi/meet/$JITSI_HOST.crt
+    rm -f /etc/jitsi/meet/$JITSI_HOST.key
+    ln -s /etc/letsencrypt/live/$JITSI_HOST/fullchain.pem \
+        /etc/jitsi/meet/$JITSI_HOST.crt
+    ln -s /etc/letsencrypt/live/$JITSI_HOST/privkey.pem \
+        /etc/jitsi/meet/$JITSI_HOST.key
 
-out <<< "restarting Nginx..."
-systemctl restart nginx.service
+    out <<< "restarting Certbot..."
+    systemctl restart certbot.service
 
-# tls is ok
-timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-tls" \
-    >/dev/null || true
+    out <<< "restarting Coturn..."
+    systemctl restart coturn.service
+
+    out <<< "restarting Nginx..."
+    systemctl restart nginx.service
+
+    # tls is ok
+    timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-tls" \
+        >/dev/null || true
+fi
 
 
 # -----------------------------------------------------------------------------
