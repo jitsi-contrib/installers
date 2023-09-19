@@ -324,7 +324,7 @@ Recommendation: Set DNS A record for $JITSI_HOST on a public DNS.
     the public IP by setting JITSI_IP and disable LetsEncrypt certificate
     by setting DONT_SET_LETSENCRYPT. e.g.
 
-    export JITSI_IP=1.2.3.4
+    export JITSI_IP=$EXTERNAL_IP
     export DONT_SET_LETSENCRYPT=true
 EOF
     exit 1
@@ -341,7 +341,7 @@ Recommendation: Set $EXTERNAL_IP as $JITSI_HOST A record
     the public IP by setting JITSI_IP and disable LetsEncrypt certificate
     by setting DONT_SET_LETSENCRYPT. e.g.
 
-    export JITSI_IP=1.2.3.4
+    export JITSI_IP=$EXTERNAL_IP
     export DONT_SET_LETSENCRYPT=true
 EOF
     exit 1
