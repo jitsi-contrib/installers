@@ -318,8 +318,7 @@ fi
 if [[ -z "$IP" ]]; then
     out <<EOF
 Aborted! $JITSI_HOST is not resolvable on Internet
-Recommendation:
-    Set DNS A record for $JITSI_HOST on a public DNS.
+Recommendation: Set DNS A record for $JITSI_HOST on a public DNS.
 
     If this is a test setup and you don't have a reachable address, export
     the public IP by setting JITSI_IP and disable LetsEncrypt certificate
@@ -337,6 +336,13 @@ if [[ "$IP" != "$EXTERNAL_IP" ]]; then
     out <<EOF
 Aborted! $JITSI_HOST does not point to this server: $EXTERNAL_IP <> $IP
 Recommendation: Set $EXTERNAL_IP as $JITSI_HOST A record
+
+    If this is a test setup and you don't have a reachable address, export
+    the public IP by setting JITSI_IP and disable LetsEncrypt certificate
+    by setting DONT_SET_LETSENCRYPT. e.g.
+
+    export JITSI_IP=1.2.3.4
+    export DONT_SET_LETSENCRYPT=true
 EOF
     exit 1
 fi
