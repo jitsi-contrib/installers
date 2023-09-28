@@ -99,11 +99,22 @@ out <<< "checking the distro..."
     DISTRO=$(lsb_release -c | cut -d: -f2 | xargs) || \
     DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
-if [[ "$DISTRO" != "focal" ]] && \
-   [[ "$DISTRO" != "bullseye" ]]; then
+if [[ "$DISTRO" = "focal" ]] || \
+   [[ "$DISTRO" = "jammy" ]] || \
+   [[ "$DISTRO" = "bullseye" ]]; then
+    LUA="5.2"
+    JDK="11"
+elif [[ "$DISTRO" = "bookworm" ]]; then
+    LUA="5.4"
+    JDK="17"
+else
     out <<EOF
 Aborted! Your distro is not supported
-Recommendation: Use Debian 11 Bullseye or Ubuntu 20.04 Focal Fossa
+Recommendation: Use a supported distribution:
+    - Debian 12 Bookworm
+    - Debian 11 Bullseye
+    - Ubuntu 22.04 Jammy Jellyfish
+    - Ubuntu 20.04 Focal Fossa
 EOF
     exit 1
 fi
@@ -209,6 +220,7 @@ apt-get -y purge 'prosody-*' || true
 apt-get -y purge coturn || true
 apt-get -y purge nginx || true
 apt-get -y purge 'nginx-*' || true
+apt-get -y purge 'libnginx-*' || true
 apt-get -y purge 'openjdk-*' || true
 apt-get -y purge 'lua*' || true
 apt-get -y purge 'liblua*' || true
@@ -335,7 +347,7 @@ out <<< "checking $JITSI_HOST resolved IP..."
 if [[ "$IP" != "$EXTERNAL_IP" ]]; then
     out <<EOF
 Aborted! $JITSI_HOST does not point to this server: $EXTERNAL_IP <> $IP
-Recommendation: Set $EXTERNAL_IP as $JITSI_HOST A record
+Recommendation: Set $EXTERNAL_IP as DNS A record for $JITSI_HOST
 
     If this is a test setup and you don't have a reachable address, export
     the public IP by setting JITSI_IP and disable LetsEncrypt certificate
@@ -369,7 +381,7 @@ out <<< "checking $TURN_HOST resolved IP..."
 if [[ "$IP" != "$EXTERNAL_IP" ]]; then
     out <<EOF
 Aborted! $TURN_HOST does not point to this server: $EXTERNAL_IP <> $IP
-Recommendation: Set $EXTERNAL_IP as $TURN_HOST A record
+Recommendation: Set $EXTERNAL_IP as DNS A record for $TURN_HOST
 EOF
     exit 1
 fi
@@ -478,11 +490,11 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-port" \
 # -----------------------------------------------------------------------------
 out <<< "installing Jitsi..."
 
-# openjdk-11-jre-headless
-apt-get $APT_PROXY -y install openjdk-11-jre-headless
+# openjdk-xx-jre-headless
+apt-get $APT_PROXY -y install openjdk-$JDK-jre-headless
 
-# lua5.2
-apt-get $APT_PROXY -y install lua5.2 liblua5.2-dev luarocks
+# lua
+apt-get $APT_PROXY -y install lua$LUA
 
 # nodesource.list
 wget -T 10 -qO /tmp/nodesource.gpg.key \
@@ -513,7 +525,7 @@ debconf-set-selections <<< \
 debconf-set-selections <<< \
     "jitsi-meet-web-config jitsi-meet/cert-choice select Generate a new self-signed certificate"
 apt-get $APT_PROXY -y --install-recommends install jitsi-meet
-apt-get $APT_PROXY -y install libnginx-mod-http-lua
+apt-get $APT_PROXY -y install libnginx-mod-stream
 apt-get $APT_PROXY -y install nodejs
 apt-mark hold 'jitsi-*' jicofo
 
