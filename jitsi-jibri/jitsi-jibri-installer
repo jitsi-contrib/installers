@@ -540,7 +540,7 @@ out <<< "installing Jitsi..."
 apt-get $APT_PROXY -y install openjdk-$JDK-jre-headless
 
 # lua
-apt-get $APT_PROXY -y install lua$LUA liblua$LUA-dev luarocks
+apt-get $APT_PROXY -y install lua$LUA
 
 # nodesource.list
 wget -T 10 -qO /tmp/nodesource.gpg.key \
