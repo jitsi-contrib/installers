@@ -7,6 +7,7 @@ potential problems.
 ## Supported distributions
 
 - Debian 11 Bullseye
+- Debian 12 Bookworm
 - Ubuntu 20.04 Focal Fossa
 - Ubuntu 22.04 Jammy Jellyfish
 
