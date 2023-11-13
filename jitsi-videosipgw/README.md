@@ -88,11 +88,11 @@ SIP server in the environment. Otherwise you can directly call the other SIP
 peer if it is in the dial plans.
 
 ```
---id "jitsi <sip:<SIP_USER>@SIP_SERVER_ADDRESS>"
---registrar=sip:<SIP_SERVER_ADDRESS>
+--id "jitsi <sip:SIP_USER@SIP_SERVER_ADDRESS>"
+--registrar=sip:SIP_SERVER_ADDRESS
 --realm=*
---username=<SIP_USER>
---password=<SIP_PASSWORD>
+--username=SIP_USER
+--password=SIP_PASSWORD
 ```
 
 #### Dial plans
