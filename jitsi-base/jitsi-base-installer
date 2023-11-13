@@ -105,7 +105,7 @@ if [[ "$DISTRO" = "focal" ]] || \
     LUA="5.2"
     JDK="11"
 elif [[ "$DISTRO" = "bookworm" ]]; then
-    LUA="5.4"
+    LUA="5.3"
     JDK="17"
 else
     out <<EOF
@@ -504,13 +504,14 @@ cat /tmp/nodesource.gpg.key | gpg --dearmor \
 wget -T 10 -O /etc/apt/sources.list.d/nodesource.list \
     $JITSI_TMPL/etc/apt/sources.list.d/nodesource.list.$DISTRO
 
-# prosody sources.list for Ubuntu Focal
-if [[ "$DISTRO" = "focal" ]]; then
+# prosody sources.list for Ubuntu Focal and Debian Bookworm
+if [[ "$DISTRO" = "focal" ]] || \
+   [[ "$DISTRO" = "bookworm" ]]; then
     wget -T 10 -qO /tmp/prosody.gpg.key \
         https://prosody.im/files/prosody-debian-packages.key
     cat /tmp/prosody.gpg.key | gpg --dearmor > /usr/share/keyrings/prosody.gpg
     wget -T 10 -O /etc/apt/sources.list.d/prosody.list \
-        $JITSI_TMPL/etc/apt/sources.list.d/prosody.list.focal
+        $JITSI_TMPL/etc/apt/sources.list.d/prosody.list.$DISTRO
 fi
 
 # jitsi-meet
