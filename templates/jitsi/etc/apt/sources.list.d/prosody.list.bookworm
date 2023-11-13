@@ -1,0 +1,1 @@
+deb [signed-by=/usr/share/keyrings/prosody.gpg] http://packages.prosody.im/debian bookworm main
