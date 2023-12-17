@@ -7,6 +7,7 @@ installation to avoid potential problems.
 ## Supported distributions
 
 - Debian 11 Bullseye
+- Debian 12 Bookworm
 - Ubuntu 20.04 Focal Fossa
 
 The desktop environment must **not be installed** on the server. Otherwise
