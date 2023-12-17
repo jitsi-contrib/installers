@@ -75,6 +75,19 @@ export JITSI_HOST=jitsi.yourdomain.com
 export TURN_HOST=turn.yourdomain.com
 ```
 
+### other customizations
+
+This setup needs token authentication to get the dial plan.
+
+If you wish to specify the JWT `app_id` and JWT `app_secret` then set the
+following environment variables before starting the installer. If you do not
+specify them, they will be generated for you.
+
+```bash
+export APP_ID=your_app_id
+export APP_SECRET=your_app_secret
+```
+
 ### run the installer
 
 ```bash
