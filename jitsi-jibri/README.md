@@ -9,6 +9,7 @@ installation to avoid potential problems.
 - Debian 11 Bullseye
 - Debian 12 Bookworm
 - Ubuntu 20.04 Focal Fossa
+- Ubuntu 22.04 Jammy Jellyfish
 
 The desktop environment must **not be installed** on the server. Otherwise
 `jibri` cannot use its own desktop.
