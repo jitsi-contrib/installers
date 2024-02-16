@@ -6,6 +6,8 @@ AGGREGATED_PJSUA_LOG_FILE="$LOG_DIR_PATH/pjsua_all.log"
 
 sudo systemctl stop virtual-camera-0
 sudo systemctl stop virtual-camera-1
+sleep 1
+sudo /usr/sbin/rmmod v4l2loopback
 
 if [ -f "$LATEST_PJSUA_LOG_FILE" ]; then
   echo "Appending pjsua logs from $LATEST_PJSUA_LOG_FILE, to $AGGREGATED_PJSUA_LOG_FILE"
