@@ -1,8 +1,8 @@
 #!/bin/bash
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # This script adds jitsi-component-selector and jitsi-component-sidecar to
 # jitsi-videosipgw deployment.
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 set -e
 
 apt-get update
@@ -14,9 +14,9 @@ DOMAIN=$(hocon get -f /etc/jitsi/jicofo/jicofo.conf \
 KID_SIGNAL="jitsi/default"
 KID_SIDECAR="jitsi/default"
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # keys
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 mkdir -p /root/keys
 
 if [[ ! -f /root/keys/signal.key ]] || [[ ! -f /root/keys/signal.pem ]]; then
@@ -37,9 +37,9 @@ if [[ ! -f /root/keys/sidecar.key ]] || [[ ! -f /root/keys/sidecar.pem ]]; then
   rm -f /root/keys/sidecar.key.pub
 fi
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # build jitsi-component-selector
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 mkdir -p /root/src
 rm -rf /root/src/jitsi-component-selector*
 
@@ -50,9 +50,9 @@ export DEBFULLNAME="my deb name"
 export DEBEMAIL="myemail@mydomain.com"
 bash build_deb_package.sh
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # build jitsi-component-sidecar
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 mkdir -p /root/src
 rm -rf /root/src/jitsi-component-sidecar*
 
@@ -63,9 +63,9 @@ export DEBFULLNAME="my deb name"
 export DEBEMAIL="myemail@mydomain.com"
 bash build_deb_package.sh
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # install jitsi-component-selector
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 apt-get -y purge jitsi-component-selector || true
 dpkg -i /root/src/jitsi-component-selector_*.deb
 mkdir -p /var/www/asap
@@ -130,9 +130,9 @@ NODE_EXTRA_CA_CERTS=/etc/jitsi/meet/$DOMAIN.crt
 EOF
 systemctl restart jitsi-component-selector.service
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # install jitsi-component-sidecar
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 apt-get -y purge jitsi-component-sidecar || true
 
 debconf-set-selections <<< "\
@@ -144,7 +144,8 @@ cp /root/keys/sidecar.key /etc/jitsi/sidecar/asap.key
 cp /root/keys/sidecar.pem /etc/jitsi/sidecar/asap.pem
 chown jitsi-sidecar:jitsi /etc/jitsi/sidecar/*
 
-sed -i 's/WS_SERVER_URL/#WS_SERVER_URL/' /etc/jitsi/sidecar/env
+sed -i "s/WS_SERVER_URL/#WS_SERVER_URL/" /etc/jitsi/sidecar/env
+sed -i "s/COMPONENT_TYPE=.*/COMPONENT_TYPE='SIP-JIBRI'/" /etc/jitsi/sidecar/env
 cat >>/etc/jitsi/sidecar/env <<EOF
 
 ENABLE_STOP_INSTANCE=true
@@ -153,8 +154,8 @@ NODE_EXTRA_CA_CERTS=/etc/jitsi/meet/$DOMAIN.crt
 EOF
 systemctl restart jitsi-component-sidecar.service
 
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # completed
-# -----------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 echo
 echo COMPLETED SUCCESSFULLY
