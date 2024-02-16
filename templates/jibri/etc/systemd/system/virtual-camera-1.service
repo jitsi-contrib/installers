@@ -6,6 +6,7 @@ Requires=jibri-icewm.service
 [Service]
 User=jibri
 Group=jibri
+ExecStartPre=sudo /usr/sbin/modprobe v4l2loopback
 ExecStart=bash -c "ffmpeg -f x11grab -r 30 -i :0.0 -pix_fmt yuv420p -f v4l2 /dev/video1 && true"
 KillMode=control-group
 
