@@ -11,7 +11,7 @@ apt-get install -y redis
 
 DOMAIN=$(hocon get -f /etc/jitsi/jicofo/jicofo.conf \
   jicofo.xmpp.client.xmpp-domain | tr -d '"')
-KID_SIGNAL="jitsi/default"
+KID_SIGNAL="jitsi/signal"
 KID_SIDECAR="jitsi/default"
 
 # ------------------------------------------------------------------------------
