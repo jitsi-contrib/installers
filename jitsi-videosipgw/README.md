@@ -1,8 +1,8 @@
 # Jitsi Video-SIP-Gateway Installer
 
 `jitsi-videosipgw-installer` installs a standalone Jitsi server with a built-in
-video SIP gateway. This script guides the user during the installation to avoid
-potential problems.
+video SIP gateway (_aka `SIP-Jibri`_). This script guides the user during the
+installation to avoid potential problems.
 
 ## Supported distributions
 
@@ -16,8 +16,7 @@ The desktop environment must **not be installed** on the server. Otherwise
 
 - 8 CPU cores
 - 8 GB RAM
-- No sound card
-  \
+- No sound card\
   _Otherwise audio device IDs must be updated in `pjsua.conf`_
 
 ## Usage
