@@ -19,4 +19,5 @@
 
 - [Jitsi-Videosipgw](jitsi-videosipgw/)
 
-  To install a standalone Jitsi server with a built-in `video SIP gateway`.
+  To install a standalone Jitsi server with a built-in `video SIP gateway` (_aka
+  `SIP-Jibri`_)
