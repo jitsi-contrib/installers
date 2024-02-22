@@ -753,6 +753,8 @@ sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
 ln -s ../conf.avail/recorder.$JITSI_HOST.cfg.lua /etc/prosody/conf.d/
 
 sed -i 's/-- muc_lobby_whitelist/muc_lobby_whitelist/' $PROSODY_CONFIG
+sed -i "/muc_password_whitelist =/a \
+\        \"recorder@recorder.$JITSI_HOST\"," $PROSODY_CONFIG
 
 # prosody restart
 systemctl daemon-reload
