@@ -4,8 +4,6 @@ set -e
 # -----------------------------------------------------------------------------
 # remove the old installation if exists
 # -----------------------------------------------------------------------------
-out <<< "removing the old installation if exists..."
-
 systemctl stop virtual-camera-0.service || true
 systemctl stop virtual-camera-1.service || true
 systemctl stop excalidraw.service || true
