@@ -89,10 +89,10 @@ rm -f  /etc/apt/sources.list.d/prosody.list
 rm -f  /etc/modprobe.d/alsa-loopback.conf
 rm -f  /etc/modprobe.d/v4l2loopback.conf
 rm -f  /etc/sudoers.d/jibri
-rm -f  /root/src || true
 rm -f  /usr/local/bin/chromedriver
 rm -f  /usr/local/bin/google-chrome
 rm -f  /usr/local/bin/pjsua
+rmdir  /root/src || true
 
 
 # -----------------------------------------------------------------------------
