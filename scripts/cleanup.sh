@@ -85,6 +85,7 @@ rm -rf /usr/share/jicofo
 rm -rf /var/www/asap
 rm -f  /etc/apt/sources.list.d/jitsi-stable.list
 rm -f  /etc/apt/sources.list.d/google-chrome.list
+rm -f  /etc/apt/sources.list.d/nodesource.list
 rm -f  /etc/apt/sources.list.d/prosody.list
 rm -f  /etc/modprobe.d/alsa-loopback.conf
 rm -f  /etc/modprobe.d/v4l2loopback.conf
