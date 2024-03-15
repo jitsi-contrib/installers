@@ -672,7 +672,7 @@ apt-get -y --install-recommends install v4l2loopback-dkms v4l2loopback-utils
 apt-get -y install build-essential
 apt-get -y install libv4l-dev libsdl2-dev libavcodec-dev \
     libavdevice-dev libavfilter-dev libavformat-dev libavutil-dev \
-    libswscale-dev libasound2-dev libopus-dev libvpx-dev
+    libswscale-dev libasound2-dev libopus-dev libvpx-dev libssl-dev
 
 # videosipgw packages are ok
 timeout 8 curl -s \
