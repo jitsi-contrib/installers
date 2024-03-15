@@ -43,6 +43,7 @@ apt-get -y purge 'lua*' || true
 apt-get -y purge 'liblua*' || true
 apt-get -y purge 'adoptopenjdk-*' || true
 apt-get -y purge certbot || true
+apt-get -y purge ffmpeg || true
 apt-get -y purge redis || true
 apt-get -y purge nodejs || true
 apt-get -y purge chromium chromium-common chromium-driver || true
