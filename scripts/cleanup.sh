@@ -52,6 +52,11 @@ apt-get -y purge google-chrome-stable || true
 apt-get -y purge va-driver-all vdpau-driver-all || true
 apt-get -y purge "v4l2loopback-*" || true
 apt-get -y purge devscripts debhelper || true
+apt-get -y purge build-essential || true
+apt-get -y purge alsa-utils unclutter x11vnc || true
+apt-get -y purge libv4l-dev libsdl2-dev libavcodec-dev libavdevice-dev \
+  libavfilter-dev libavformat-dev libavutil-dev libswscale-dev libasound2-dev \
+  libopus-dev libvpx-dev libssl-dev || true
 apt-get -y autoremove --purge
 
 deluser excalidraw || true
