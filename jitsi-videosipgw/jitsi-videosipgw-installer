@@ -1121,6 +1121,8 @@ fi
 # -----------------------------------------------------------------------------
 # icewm
 mkdir -p /home/jibri/.icewm
+wget -T 10 -O /home/jibri/.icewm/ringing.png \
+    $JIBRI_TMPL/home/jibri/.icewm/ringing.png
 wget -T 10 -O /home/jibri/.icewm/theme $JIBRI_TMPL/home/jibri/.icewm/theme
 wget -T 10 -O /home/jibri/.icewm/prefoverride \
     $JIBRI_TMPL/home/jibri/.icewm/prefoverride
