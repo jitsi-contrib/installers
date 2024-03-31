@@ -88,6 +88,7 @@ rm -rf /usr/local/share/nginx
 rm -rf /usr/share/jitsi-meet
 rm -rf /usr/share/jitsi-videobridge
 rm -rf /usr/share/jicofo
+rm -rf /var/lib/prosody
 rm -rf /var/www/asap
 rm -f  /etc/apt/sources.list.d/jitsi-stable.list
 rm -f  /etc/apt/sources.list.d/google-chrome.list
