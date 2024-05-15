@@ -751,6 +751,9 @@ org.ice4j.ice.harvest.NAT_HARVESTER_PUBLIC_ADDRESS=$JITSI_IP
 EOF
     sed -i "/STUN_MAPPING_HARVESTER_ADDRESSES/ s/^org/#org/" \
         /etc/jitsi/videobridge/sip-communicator.properties
+
+    hocon -f /etc/jitsi/videobridge/jvb.conf \
+        set videobridge.health.require-valid-address false
 fi
 
 systemctl restart jitsi-videobridge2.service
