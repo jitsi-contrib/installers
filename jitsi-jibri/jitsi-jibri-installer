@@ -701,6 +701,19 @@ wget -T 10 -O /etc/opt/chrome/policies/managed/jibri_policies.json \
 
 
 # -----------------------------------------------------------------------------
+# self-signed certificates
+# -----------------------------------------------------------------------------
+out <<< "self-signed certificates..."
+
+ln -sf /etc/jitsi/meet/*.crt /usr/local/share/ca-certificates/
+update-ca-certificates -f
+
+# self-signed certificates is ok
+timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-selfcerts" \
+    >/dev/null || true
+
+
+# -----------------------------------------------------------------------------
 # certbot
 # -----------------------------------------------------------------------------
 out <<< "configuring Certbot..."
