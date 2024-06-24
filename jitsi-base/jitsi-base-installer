@@ -278,6 +278,8 @@ rm -f  /usr/local/bin/chromedriver
 rm -f  /usr/local/bin/google-chrome
 rm -f  /usr/local/bin/pjsua
 
+find /usr/local/share/ca-certificates -xtype l -delete
+
 
 # -----------------------------------------------------------------------------
 # packages (base)
