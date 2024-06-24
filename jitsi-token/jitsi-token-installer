@@ -603,6 +603,19 @@ cp $NGINX_CONFIG $NGINX_CONFIG.org
 
 
 # -----------------------------------------------------------------------------
+# self-signed certificates
+# -----------------------------------------------------------------------------
+out <<< "self-signed certificates..."
+
+ln -sf /etc/jitsi/meet/*.crt /usr/local/share/ca-certificates/
+update-ca-certificates -f
+
+# self-signed certificates is ok
+timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-selfcerts" \
+    >/dev/null || true
+
+
+# -----------------------------------------------------------------------------
 # certbot
 # -----------------------------------------------------------------------------
 out <<< "configuring Certbot..."
