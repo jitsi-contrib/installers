@@ -1,3 +1,5 @@
 {
-  "backgroundColor": "#121212"
+  "backgroundColor": "#121212",
+  "logoClickUrl": "https://jitsi.org",
+  "logoImageUrl": "/images/watermark.svg"
 }
