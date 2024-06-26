@@ -100,7 +100,9 @@ rm -f  /etc/sudoers.d/jibri
 rm -f  /usr/local/bin/chromedriver
 rm -f  /usr/local/bin/google-chrome
 rm -f  /usr/local/bin/pjsua
-rmdir  /root/src || true
+
+find /usr/local/share/ca-certificates -xtype l -delete
+rmdir /root/src || true
 
 
 # -----------------------------------------------------------------------------
