@@ -5,7 +5,6 @@ set -e
 # globals
 # -----------------------------------------------------------------------------
 JITSI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jitsi
-PROSODY_PLUGINS=https://raw.githubusercontent.com/jitsi-contrib/prosody-plugins/main
 
 JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
 PROSODY_CONFIG=/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
@@ -688,9 +687,6 @@ sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
 ln -s ../conf.avail/guest.$JITSI_HOST.cfg.lua /etc/prosody/conf.d/
 
 # extra (token)
-wget -T 10 -O /usr/share/jitsi-meet/prosody-plugins/mod_token_affiliation.lua \
-    $PROSODY_PLUGINS/token_affiliation/mod_token_affiliation.lua
-
 sed -i '/\s*app_secret=/a \
 \    allow_empty_token = true' $PROSODY_CONFIG
 sed -i '/^Component .conference\./,/admins/!b; /\s*"token_verification"/a \
