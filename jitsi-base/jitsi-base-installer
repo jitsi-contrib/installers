@@ -10,6 +10,9 @@ JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
 PROSODY_CONFIG=/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
 NGINX_CONFIG=/etc/nginx/sites-available/$JITSI_HOST.conf
 
+PROSODY_PLUGINS_VERSION=20241017
+PROSODY_PLUGINS_ARCHIVE=https://github.com/jitsi-contrib/prosody-plugins/archive/refs/tags/v$PROSODY_PLUGINS_VERSION.tar.gz
+
 CHECKMYPORT=https://checkmyport.emrah.com
 TCP=(80 443 4444 5222 5280 5269 5347 5349 8080 8888 9090)
 UDP=(5000 5349 10000)
@@ -640,6 +643,14 @@ sed -i "/rate *=.*kb.s/  s/[0-9]*kb/1024kb/" /etc/prosody/prosody.cfg.lua
 sed -i "s/^-- \(https_ports = { };\)/\1/" $PROSODY_CONFIG
 sed -i "/turns.*tcp/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" $PROSODY_CONFIG
 sed -i "/turns.*tcp/ s/5349/443/" $PROSODY_CONFIG
+sed -i '/^plugin_paths/ s~ }~, "/usr/share/jitsi-meet/prosody-plugins-contrib/" }~' \
+    $PROSODY_CONFIG
+
+# jitsi-contrib-prosody-plugins
+wget -T 10 -O /tmp/v$PROSODY_PLUGINS_VERSION.tar.gz $PROSODY_PLUGINS_ARCHIVE
+tar -xf /tmp/v$PROSODY_PLUGINS_VERSION.tar.gz
+mv prosody-plugins-$PROSODY_PLUGINS_VERSION \
+    /usr/share/jitsi-meet/prosody-plugins-contrib
 
 # prosody restart
 systemctl daemon-reload
