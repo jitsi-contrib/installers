@@ -10,7 +10,7 @@ JITSI_MEET_CONFIG=/etc/jitsi/meet/$JITSI_HOST-config.js
 PROSODY_CONFIG=/etc/prosody/conf.avail/$JITSI_HOST.cfg.lua
 NGINX_CONFIG=/etc/nginx/sites-available/$JITSI_HOST.conf
 
-PROSODY_PLUGINS_VERSION=20241017
+PROSODY_PLUGINS_VERSION=20241127
 PROSODY_PLUGINS_ARCHIVE=https://github.com/jitsi-contrib/prosody-plugins/archive/refs/tags/v$PROSODY_PLUGINS_VERSION.tar.gz
 
 CHECKMYPORT=https://checkmyport.emrah.com
