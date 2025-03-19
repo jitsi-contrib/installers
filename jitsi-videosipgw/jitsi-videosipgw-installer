@@ -119,8 +119,7 @@ out <<< "checking the distro..."
     DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
 if [[ "$DISTRO" = "focal" ]] || \
-   [[ "$DISTRO" = "jammy" ]] || \
-   [[ "$DISTRO" = "bullseye" ]]; then
+   [[ "$DISTRO" = "jammy" ]]; then
     LUA="5.2"
     JDK="11"
 elif [[ "$DISTRO" = "bookworm" ]]; then
@@ -131,7 +130,6 @@ else
 Aborted! Your distro is not supported
 Recommendation: Use a supported distribution:
     - Debian 12 Bookworm
-    - Debian 11 Bullseye
     - Ubuntu 22.04 Jammy Jellyfish
     - Ubuntu 20.04 Focal Fossa
 EOF
@@ -228,8 +226,7 @@ if [[ "$DISTRO" = "focal" ]] || \
         -o Dpkg::Options::="--force-confold"
 fi
 
-if [[ "$DISTRO" = "bullseye" ]] || \
-   [[ "$DISTRO" = "bookworm" ]]; then
+if [[ "$DISTRO" = "bookworm" ]]; then
     KERNEL="linux-image-$(dpkg --print-architecture)"
 else
     KERNEL="linux-image-generic"
@@ -627,15 +624,6 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package-token" \
 # packages (extra, jibri)
 # -----------------------------------------------------------------------------
 out <<< "installing jibri packages..."
-
-if [[ "$DISTRO" = "bullseye" ]]; then
-    sed -i "s~ bullseye main$~ bullseye main contrib non-free~" \
-        /etc/apt/sources.list
-    sed -i "s~ bullseye-updates main$~ bullseye-updates main contrib non-free~" \
-        /etc/apt/sources.list
-    sed -i "s~ bullseye-security main$~ bullseye-security main contrib non-free~" \
-        /etc/apt/sources.list
-fi
 
 wget -T 10 -qO /tmp/google-chrome.gpg.key \
     https://dl.google.com/linux/linux_signing_key.pub
