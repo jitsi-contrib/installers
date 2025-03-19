@@ -103,8 +103,7 @@ out <<< "checking the distro..."
     DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
 if [[ "$DISTRO" = "focal" ]] || \
-   [[ "$DISTRO" = "jammy" ]] || \
-   [[ "$DISTRO" = "bullseye" ]]; then
+   [[ "$DISTRO" = "jammy" ]]; then
     LUA="5.2"
     JDK="11"
 elif [[ "$DISTRO" = "bookworm" ]]; then
@@ -115,7 +114,6 @@ else
 Aborted! Your distro is not supported
 Recommendation: Use a supported distribution:
     - Debian 12 Bookworm
-    - Debian 11 Bullseye
     - Ubuntu 22.04 Jammy Jellyfish
     - Ubuntu 20.04 Focal Fossa
 EOF
