@@ -6,7 +6,6 @@ guides the user during the installation to avoid potential problems.
 ## Supported distributions
 
 - Debian 12 Bookworm
-- Ubuntu 20.04 Focal Fossa
 - Ubuntu 22.04 Jammy Jellyfish
 
 ## Usage
