@@ -102,11 +102,11 @@ out <<< "checking the distro..."
     DISTRO=$(lsb_release -c | cut -d: -f2 | xargs) || \
     DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
-if [[ "$DISTRO" = "focal" ]] || \
-   [[ "$DISTRO" = "jammy" ]]; then
+if [[ "$DISTRO" = "focal" ]]; then
     LUA="5.2"
     JDK="11"
-elif [[ "$DISTRO" = "bookworm" ]]; then
+elif [[ "$DISTRO" = "jammy" ]] || \
+     [[ "$DISTRO" = "bookworm" ]]; then
     LUA="5.3"
     JDK="17"
 else
@@ -514,16 +514,12 @@ cat /tmp/nodesource.gpg.key | gpg --dearmor \
 wget -T 10 -O /etc/apt/sources.list.d/nodesource.list \
     $JITSI_TMPL/etc/apt/sources.list.d/nodesource.list
 
-# prosody sources.list for Ubuntu Focal and Debian Bookworm
-if [[ "$DISTRO" = "focal" ]] || \
-   [[ "$DISTRO" = "bookworm" ]]; then
-    wget -T 10 -qO /tmp/prosody.gpg.key \
-        https://prosody.im/files/prosody-debian-packages.key
-    cat /tmp/prosody.gpg.key | gpg --dearmor > /usr/share/keyrings/prosody.gpg
-    wget -T 10 -O /etc/apt/sources.list.d/prosody.list \
-        $JITSI_TMPL/etc/apt/sources.list.d/prosody.list.$DISTRO
-    PROSODY="-0.12"
-fi
+# prosody sources.list
+wget -T 10 -qO /tmp/prosody.gpg.key \
+    https://prosody.im/files/prosody-debian-packages.key
+cat /tmp/prosody.gpg.key | gpg --dearmor > /usr/share/keyrings/prosody.gpg
+wget -T 10 -O /etc/apt/sources.list.d/prosody.list \
+    $JITSI_TMPL/etc/apt/sources.list.d/prosody.list.$DISTRO
 
 # jitsi-meet
 wget -T 10 -qO /tmp/jitsi.gpg.key https://download.jitsi.org/jitsi-key.gpg.key
@@ -536,7 +532,7 @@ debconf-set-selections <<< \
     "jicofo jitsi-videobridge/jvb-hostname string $JITSI_HOST"
 debconf-set-selections <<< \
     "jitsi-meet-web-config jitsi-meet/cert-choice select Generate a new self-signed certificate"
-apt-get $APT_PROXY -y --install-recommends install jitsi-meet prosody$PROSODY
+apt-get $APT_PROXY -y --install-recommends install jitsi-meet prosody-0.12
 apt-get $APT_PROXY -y install libnginx-mod-stream
 apt-get $APT_PROXY -y install nodejs
 apt-mark hold 'jitsi-*' jicofo
