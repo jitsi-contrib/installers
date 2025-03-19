@@ -118,8 +118,7 @@ out <<< "checking the distro..."
     DISTRO=$(lsb_release -c | cut -d: -f2 | xargs) || \
     DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
-if [[ "$DISTRO" = "jammy" ]] || \
-   [[ "$DISTRO" = "bookworm" ]]; then
+if [[ "$DISTRO" = "bookworm" ]]; then
     LUA="5.3"
     JDK="17"
 else
@@ -127,7 +126,6 @@ else
 Aborted! Your distro is not supported
 Recommendation: Use a supported distribution:
     - Debian 12 Bookworm
-    - Ubuntu 22.04 Jammy Jellyfish
 EOF
     exit 1
 fi
