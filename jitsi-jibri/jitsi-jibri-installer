@@ -108,11 +108,8 @@ out <<< "checking the distro..."
     DISTRO=$(lsb_release -c | cut -d: -f2 | xargs) || \
     DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
-if [[ "$DISTRO" = "focal" ]]; then
-    LUA="5.2"
-    JDK="11"
-elif [[ "$DISTRO" = "jammy" ]] || \
-     [[ "$DISTRO" = "bookworm" ]]; then
+if [[ "$DISTRO" = "jammy" ]] || \
+   [[ "$DISTRO" = "bookworm" ]]; then
     LUA="5.3"
     JDK="17"
 else
@@ -121,7 +118,6 @@ Aborted! Your distro is not supported
 Recommendation: Use a supported distribution:
     - Debian 12 Bookworm
     - Ubuntu 22.04 Jammy Jellyfish
-    - Ubuntu 20.04 Focal Fossa
 EOF
     exit 1
 fi
@@ -209,7 +205,7 @@ fi
 # snd_aloop
 out <<< "checking the snd-aloop support..."
 
-if [[ "$DISTRO" = "focal" ]]; then
+if [[ "$DISTRO" = "jammy" ]]; then
     apt-get $APT_PROXY -y install linux-modules-extra-$(uname -r) \
         -o Dpkg::Options::="--force-confdef" \
         -o Dpkg::Options::="--force-confold"
