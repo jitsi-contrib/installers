@@ -61,7 +61,7 @@ export TURN_HOST=turn.yourdomain.com
 ### run the installer
 
 ```bash
-bash jitsi-jibri-installer
+bash jitsi-jibri-secure-installer
 ```
 
 ### add user accounts
