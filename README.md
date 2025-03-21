@@ -8,6 +8,11 @@
 
   To install a standalone Jitsi server with recording/streaming capability.
 
+- [Jitsi-Jibri-Secure](jitsi-jibri-secure/)
+
+  To install a standalone Jitsi server with recording/streaming capability and
+  with `internal_hashed` authentication (_secure domain_).
+
 - [Jitsi-Jibri-Token](jitsi-jibri-token/)
 
   To install a standalone Jitsi server with recording/streaming capability and
