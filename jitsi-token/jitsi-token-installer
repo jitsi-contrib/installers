@@ -587,8 +587,6 @@ cp /etc/jitsi/jicofo/jicofo.conf /etc/jitsi/jicofo/jicofo.conf.org
 # jvb
 cp /etc/jitsi/videobridge/config /etc/jitsi/videobridge/config.org
 cp /etc/jitsi/videobridge/jvb.conf /etc/jitsi/videobridge/jvb.conf.org
-cp /etc/jitsi/videobridge/sip-communicator.properties \
-    /etc/jitsi/videobridge/sip-communicator.properties.org
 
 # nginx
 cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.org
