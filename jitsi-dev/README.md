@@ -1,7 +1,8 @@
 # Jitsi Dev Installer
 
-`jitsi-dev-installer` installs a simple standalone Jitsi server for developers.
-This script guides the user during the installation to avoid potential problems.
+`jitsi-dev-installer` installs a simple standalone Jitsi server for `jitsi-meet`
+developers. This script guides the user during the installation to avoid
+potential problems.
 
 ## Supported distributions
 
