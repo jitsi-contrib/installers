@@ -60,6 +60,8 @@ apt-get -y purge libv4l-dev libsdl2-dev libavcodec-dev libavdevice-dev \
   libopus-dev libvpx-dev libssl-dev || true
 apt-get -y autoremove --purge
 
+deluser dev || true
+delgroup dev || true
 deluser excalidraw || true
 delgroup excalidraw || true
 deluser jibri || true
