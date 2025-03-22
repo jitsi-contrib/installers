@@ -1,8 +1,12 @@
 # Jitsi Installers
 
-- [Jitsi base](jitsi-base/)
+- [Jitsi-Base](jitsi-base/)
 
   To install a standalone Jitsi server.
+
+- [Jitsi-Dev](jitsi-dev/)
+
+  To install a standalone Jitsi server for `jitsi-meet` developers.
 
 - [Jitsi-Jibri](jitsi-jibri/)
 
