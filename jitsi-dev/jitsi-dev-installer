@@ -875,11 +875,11 @@ fi
 out <<< "configuring jitsi-meet (dev)..."
 
 # sysctl
-cat >/etc/sysctl.d/eb-inotify-watcher.conf <<EOF
+cat >/etc/sysctl.d/jitsi-inotify-watcher.conf <<EOF
 fs.inotify.max_user_watches=524288
 EOF
 
-sysctl -p /etc/sysctl.d/eb-inotify-watcher.conf
+sysctl -p /etc/sysctl.d/jitsi-inotify-watcher.conf
 
 # nginx
 cp $ROOTFS/etc/nginx/sites-available/$JITSI_HOST.conf \

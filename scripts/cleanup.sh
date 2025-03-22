@@ -67,6 +67,8 @@ delgroup excalidraw || true
 deluser jibri || true
 delgroup jibri || true
 
+rm -rf /home/dev
+rm -rf /home/dev.* || true
 rm -rf /home/excalidraw
 rm -rf /home/jibri
 rm -rf /etc/chromium
@@ -99,6 +101,7 @@ rm -f  /etc/apt/sources.list.d/prosody.list
 rm -f  /etc/modprobe.d/alsa-loopback.conf
 rm -f  /etc/modprobe.d/v4l2loopback.conf
 rm -f  /etc/sudoers.d/jibri
+rm -f  /etc/sysctl.d/jitsi-inotify-watcher.conf
 rm -f  /usr/local/bin/chromedriver
 rm -f  /usr/local/bin/google-chrome
 rm -f  /usr/local/bin/pjsua
