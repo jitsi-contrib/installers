@@ -903,6 +903,7 @@ fi
 # dev user
 adduser dev --system --group --disabled-password --shell /bin/bash \
     --home /home/dev
+chmod 755 /home/dev
 
 # jitsi-meet repo
 su -l dev -c bash <<EOS
