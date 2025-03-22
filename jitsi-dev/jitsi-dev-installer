@@ -892,6 +892,8 @@ adduser dev --system --group --disabled-password --shell /bin/bash \
 
 # jitsi-meet repo
 su -l dev -c bash <<EOS
+    set -e
+
     git clone https://github.com/jitsi/jitsi-meet.git
 
     cd jitsi-meet
