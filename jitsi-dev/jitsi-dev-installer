@@ -881,6 +881,19 @@ EOF
 
 sysctl -p /etc/sysctl.d/eb-inotify-watcher.conf
 
+# nginx
+cp $ROOTFS/etc/nginx/sites-available/$JITSI_HOST.conf \
+    $ROOTFS/etc/nginx/sites-available/$JITSI_HOST-dev.conf
+sed -i "s~/usr/share/jitsi-meet~/home/dev/jitsi-meet~g" \
+    $ROOTFS/etc/nginx/sites-available/$JITSI_HOST-dev.conf
+
+rm -f /etc/nginx/sites-enabled/$JITSI_HOST.conf
+rm -f /etc/nginx/sites-enabled/$JITSI_HOST-dev.conf
+
+ln -s ../sites-available/$JITSI_HOST-dev.conf /etc/nginx/sites-enabled/
+
+systemctl restart nginx
+
 # keep the old dev folder if exists
 if [[ -d '/home/dev' ]]; then
     mv /home/dev /home/dev.$(date +%s)
@@ -900,19 +913,6 @@ su -l dev -c bash <<EOS
     npm install
     make
 EOS
-
-# nginx
-cp $ROOTFS/etc/nginx/sites-available/$JITSI_HOST.conf \
-    $ROOTFS/etc/nginx/sites-available/$JITSI_HOST-dev.conf
-sed -i "s~/usr/share/jitsi-meet~/home/dev/jitsi-meet~g" \
-    $ROOTFS/etc/nginx/sites-available/$JITSI_HOST-dev.conf
-
-rm -f /etc/nginx/sites-enabled/$JITSI_HOST.conf
-rm -f /etc/nginx/sites-enabled/$JITSI_HOST-dev.conf
-
-ln -s ../sites-available/$JITSI_HOST-dev.conf /etc/nginx/sites-enabled/
-
-systemctl restart nginx
 
 # jitsi-meet-dev is ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-jitsi-meet-dev" \
