@@ -50,7 +50,8 @@ domains but client machines need to be able to resolve their IP addresses. So,
 add them to `/etc/hosts` or do the equivalent depending on the client machine's
 OS.
 
-These domains have to point the IP address of Jitsi server (or virtual machine).
+These domains have to point to the IP address of Jitsi server (or virtual
+machine).
 
 - Create a local `DNS A record` for Jitsi that all clients can resolve.\
   For example `jitsi.yourdomain.com`
