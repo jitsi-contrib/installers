@@ -238,6 +238,8 @@ apt-get -y purge libv4l-dev libsdl2-dev libavcodec-dev libavdevice-dev \
     libasound2-dev libopus-dev libvpx-dev libssl-dev || true
 apt-get -y autoremove --purge
 
+deluser dev || true
+delgroup dev || true
 deluser excalidraw || true
 delgroup excalidraw || true
 deluser jibri || true
@@ -546,6 +548,18 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package" \
 
 
 # -----------------------------------------------------------------------------
+# packages (extra)
+# -----------------------------------------------------------------------------
+out <<< "installing dev packages..."
+
+apt-get $APT_PROXY -y install build-essential
+
+# extra packages are ok
+timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package-extra" \
+    >/dev/null || true
+
+
+# -----------------------------------------------------------------------------
 # backup
 # -----------------------------------------------------------------------------
 out <<< "backups..."
@@ -686,11 +700,11 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-jicofo" \
 # -----------------------------------------------------------------------------
 out <<< "configuring jitsi-meet..."
 
-wget -T 10 -O /usr/share/jitsi-meet/static/branding.json \
-    $JITSI_TMPL/usr/share/jitsi-meet/static/branding.json
-wget -T 10 -O /tmp/config.branding.js \
-    $JITSI_TMPL/etc/jitsi/meet/config.branding.js
-cat /tmp/config.branding.js >>$JITSI_MEET_CONFIG
+#wget -T 10 -O /usr/share/jitsi-meet/static/branding.json \
+#    $JITSI_TMPL/usr/share/jitsi-meet/static/branding.json
+#wget -T 10 -O /tmp/config.branding.js \
+#    $JITSI_TMPL/etc/jitsi/meet/config.branding.js
+#cat /tmp/config.branding.js >>$JITSI_MEET_CONFIG
 
 wget -T 10 -O /tmp/config.whiteboard.js \
     $JITSI_TMPL/etc/jitsi/meet/config.whiteboard.js
@@ -853,6 +867,54 @@ if [[ "$DONT_SET_LETSENCRYPT" != true ]]; then
     timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-tls" \
         >/dev/null || true
 fi
+
+
+# -----------------------------------------------------------------------------
+# jitsi-meet (dev)
+# -----------------------------------------------------------------------------
+out <<< "configuring jitsi-meet (dev)..."
+
+# sysctl
+cat >/etc/sysctl.d/eb-inotify-watcher.conf <<EOF
+fs.inotify.max_user_watches=524288
+EOF
+
+sysctl -p /etc/sysctl.d/eb-inotify-watcher.conf
+
+# keep the old dev folder if exists
+if [[ -d '/home/dev' ]]; then
+    mv /home/dev /home/dev.$(date +%s)
+fi
+
+# dev user
+adduser dev --system --group --disabled-password --shell /bin/bash \
+    --home /home/dev
+
+# jitsi-meet repo
+su -l dev -c bash <<EOS
+    git clone https://github.com/jitsi/jitsi-meet.git
+
+    cd jitsi-meet
+    npm install
+    make
+EOS
+
+# nginx
+cp $ROOTFS/etc/nginx/sites-available/$JITSI_HOST.conf \
+    $ROOTFS/etc/nginx/sites-available/$JITSI_HOST-dev.conf
+sed -i "s~/usr/share/jitsi-meet~/home/dev/jitsi-meet~g" \
+    $ROOTFS/etc/nginx/sites-available/$JITSI_HOST-dev.conf
+
+rm -f /etc/nginx/sites-enabled/$JITSI_HOST.conf
+rm -f /etc/nginx/sites-enabled/$JITSI_HOST-dev.conf
+
+ln -s ../sites-available/$JITSI_HOST-dev.conf /etc/nginx/sites-enabled/
+
+systemctl restart nginx
+
+# jitsi-meet-dev is ok
+timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-jitsi-meet-dev" \
+    >/dev/null || true
 
 
 # -----------------------------------------------------------------------------
