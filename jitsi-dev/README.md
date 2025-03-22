@@ -9,6 +9,8 @@ potential problems.
 - Debian 12 Bookworm
 - Ubuntu 22.04 Jammy Jellyfish
 
+There should be at least `12 GB` reserved RAM.
+
 ## Usage
 
 - **Don't run this script on a working production server.**
