@@ -49,9 +49,9 @@ OS.
 
 These domains have to point the IP address of Jitsi server (or virtual machine).
 
-- Create a local `DNS A record` for Jitsi which is resolvable on all clients.\
+- Create a local `DNS A record` for Jitsi that all clients can resolve.\
   For example `jitsi.yourdomain.com`
-- Create a local `DNS A record` for TURN which is resolvable on all clients.\
+- Create a local `DNS A record` for TURN that all clients can resolve.\
   For example `turn.yourdomain.com`
 - Jitsi address and TURN address must be different and don't use an IP as the
   host address
