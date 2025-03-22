@@ -70,3 +70,32 @@ export TURN_HOST=turn.yourdomain.com
 ```bash
 bash jitsi-dev-installer
 ```
+
+## Development
+
+- Login as `dev` user. Don't use any other account (_such as root_) during the
+  development. If you log in as `root` then use the following command to switch
+  to the `dev` account.
+
+  ```bash
+  su -l dev
+  ```
+
+- The local copy of `jitsi-meet` repository is in `/home/dev/jitsi-meet` folder.
+  Go to this folder and update the codes as you wish.
+
+  ```bash
+  cd jitsi-meet
+
+  # edit codes or copy your custom files into the correct places in this folder
+  ```
+
+- Build
+
+  ```bash
+  npm install
+  make
+  ```
+
+- Test\
+  Open the meeting page in your browser and test it.
