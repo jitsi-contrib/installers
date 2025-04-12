@@ -692,10 +692,6 @@ wget -T 10 -O /tmp/config.whiteboard.js \
     $JITSI_TMPL/etc/jitsi/meet/config.whiteboard.js
 cat /tmp/config.whiteboard.js >>$JITSI_MEET_CONFIG
 
-wget -T 10 -O /tmp/config.preferbosh.js \
-    $JITSI_TMPL/etc/jitsi/meet/config.preferbosh.js
-cat /tmp/config.preferbosh.js >>$JITSI_MEET_CONFIG
-
 sed -i "s/___JITSI_FQDN___/$JITSI_HOST/" $JITSI_MEET_CONFIG
 
 # jitsi-meet config is ok
