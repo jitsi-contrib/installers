@@ -804,12 +804,6 @@ sed -i '/^Component .conference\./,/admins/!b; /\s*"token_verification"/a \
 \        "muc_wait_for_host";' $PROSODY_CONFIG
 
 # extra (recorder)
-wget -T 10 -O /etc/prosody/conf.avail/recorder.$JITSI_HOST.cfg.lua \
-    $JITSI_TMPL/etc/prosody/conf.avail/recorder.cfg.lua
-sed -i "s/___JITSI_HOST___/$JITSI_HOST/" \
-    /etc/prosody/conf.avail/recorder.$JITSI_HOST.cfg.lua
-ln -s ../conf.avail/recorder.$JITSI_HOST.cfg.lua /etc/prosody/conf.d/
-
 sed -i 's/-- muc_lobby_whitelist/muc_lobby_whitelist/' $PROSODY_CONFIG
 sed -i "/muc_password_whitelist =/a \
 \        \"recorder@recorder.$JITSI_HOST\"," $PROSODY_CONFIG
