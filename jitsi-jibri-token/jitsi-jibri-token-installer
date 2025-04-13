@@ -883,6 +883,10 @@ wget -T 10 -O /tmp/config.whiteboard.js \
     $JITSI_TMPL/etc/jitsi/meet/config.whiteboard.js
 cat /tmp/config.whiteboard.js >>$JITSI_MEET_CONFIG
 
+wget -T 10 -O /tmp/config.preferbosh.js \
+    $JITSI_TMPL/etc/jitsi/meet/config.preferbosh.js
+cat /tmp/config.preferbosh.js >>$JITSI_MEET_CONFIG
+
 wget -T 10 -O /tmp/config.anonymousdomain.js \
     $JITSI_TMPL/etc/jitsi/meet/config.anonymousdomain.js
 cat /tmp/config.anonymousdomain.js >>$JITSI_MEET_CONFIG
