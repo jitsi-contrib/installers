@@ -691,6 +691,7 @@ sed -i '/^Component .conference\./,/admins/!b; /\s*"token_verification"/a \
 # prosody restart
 systemctl daemon-reload
 systemctl restart prosody.service
+sleep 3
 
 # prosody config is ok
 timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-conf-prosody" \
