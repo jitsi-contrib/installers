@@ -881,6 +881,7 @@ sed -i "/muc_password_whitelist =/a \
 # prosody restart
 systemctl daemon-reload
 systemctl restart prosody.service
+sleep 3
 
 # prosody accounts (extra, jibri)
 PASSWD1=$(openssl rand -hex 20)
