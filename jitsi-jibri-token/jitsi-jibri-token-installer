@@ -847,6 +847,8 @@ hocon -f /etc/jitsi/jicofo/jicofo.conf \
 hocon -f /etc/jitsi/jicofo/jicofo.conf \
     set jicofo.conference.enable-auto-owner false
 hocon -f /etc/jitsi/jicofo/jicofo.conf \
+    set jicofo.conference.enable-moderator-checks true
+hocon -f /etc/jitsi/jicofo/jicofo.conf \
     set jicofo.authentication.enabled false
 
 # extra (jibri)
