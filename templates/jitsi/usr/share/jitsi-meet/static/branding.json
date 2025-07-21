@@ -1,4 +1,8 @@
 {
+  "_comment": [
+    "See the following link for advanced branding:",
+    "https://developer.8x8.com/jaas/docs/jaas-prefs-advanced-branding"
+  ],
   "backgroundColor": "#121212",
   "logoClickUrl": "https://jitsi.org",
   "logoImageUrl": "/images/watermark.svg"
