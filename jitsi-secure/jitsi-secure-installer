@@ -103,6 +103,7 @@ out <<< "checking the distro..."
     DISTRO=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
 if [[ "$DISTRO" = "jammy" ]] || \
+   [[ "$DISTRO" = "noble" ]] || \
    [[ "$DISTRO" = "bookworm" ]]; then
     LUA="5.3"
     JDK="17"
@@ -112,6 +113,7 @@ Aborted! Your distro is not supported
 Recommendation: Use a supported distribution:
     - Debian 12 Bookworm
     - Ubuntu 22.04 Jammy Jellyfish
+    - Ubuntu 24.04 Noble Numbat
 EOF
     exit 1
 fi
@@ -268,8 +270,13 @@ rm -rf /usr/share/jitsi-videobridge
 rm -rf /usr/share/jicofo
 rm -rf /var/lib/prosody
 rm -f  /etc/apt/sources.list.d/jitsi-stable.list
+rm -f  /etc/apt/sources.list.d/jitsi.sources
 rm -f  /etc/apt/sources.list.d/google-chrome.list
+rm -f  /etc/apt/sources.list.d/google-chrome.sources
 rm -f  /etc/apt/sources.list.d/prosody.list
+rm -f  /etc/apt/sources.list.d/prosody.sources
+rm -f  /etc/apt/sources.list.d/nodesource.list
+rm -f  /etc/apt/sources.list.d/nodesource.sources
 rm -f  /etc/modprobe.d/alsa-loopback.conf
 rm -f  /etc/modprobe.d/v4l2loopback.conf
 rm -f  /etc/sudoers.d/jibri
@@ -510,21 +517,39 @@ wget -T 10 -qO /tmp/nodesource.gpg.key \
     https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key
 cat /tmp/nodesource.gpg.key | gpg --dearmor \
     >/usr/share/keyrings/nodesource.gpg
-wget -T 10 -O /etc/apt/sources.list.d/nodesource.list \
-    $JITSI_TMPL/etc/apt/sources.list.d/nodesource.list
+if [[ "$DISTRO" = "jammy" ]] || \
+   [[ "$DISTRO" = "bookworm" ]]; then
+    wget -T 10 -O /etc/apt/sources.list.d/nodesource.list \
+        $JITSI_TMPL/etc/apt/sources.list.d/nodesource.list
+else
+    wget -T 10 -O /etc/apt/sources.list.d/nodesource.sources \
+        $JITSI_TMPL/etc/apt/sources.list.d/nodesource.sources
+fi
 
 # prosody sources.list
 wget -T 10 -qO /tmp/prosody.gpg.key \
     https://prosody.im/files/prosody-debian-packages.key
 cat /tmp/prosody.gpg.key | gpg --dearmor > /usr/share/keyrings/prosody.gpg
-wget -T 10 -O /etc/apt/sources.list.d/prosody.list \
-    $JITSI_TMPL/etc/apt/sources.list.d/prosody.list.$DISTRO
+if [[ "$DISTRO" = "jammy" ]] || \
+   [[ "$DISTRO" = "bookworm" ]]; then
+    wget -T 10 -O /etc/apt/sources.list.d/prosody.list \
+        $JITSI_TMPL/etc/apt/sources.list.d/prosody.list.$DISTRO
+else
+    wget -T 10 -O /etc/apt/sources.list.d/prosody.sources \
+        $JITSI_TMPL/etc/apt/sources.list.d/prosody.sources.$DISTRO
+fi
 
 # jitsi-meet
 wget -T 10 -qO /tmp/jitsi.gpg.key https://download.jitsi.org/jitsi-key.gpg.key
 cat /tmp/jitsi.gpg.key | gpg --dearmor > /usr/share/keyrings/jitsi.gpg
-wget -T 10 -O /etc/apt/sources.list.d/jitsi-stable.list \
-    $JITSI_TMPL/etc/apt/sources.list.d/jitsi-stable.list
+if [[ "$DISTRO" = "jammy" ]] || \
+   [[ "$DISTRO" = "bookworm" ]]; then
+    wget -T 10 -O /etc/apt/sources.list.d/jitsi-stable.list \
+        $JITSI_TMPL/etc/apt/sources.list.d/jitsi-stable.list
+else
+    wget -T 10 -O /etc/apt/sources.list.d/jitsi.sources \
+        $JITSI_TMPL/etc/apt/sources.list.d/jitsi.sources
+fi
 
 apt-get update
 debconf-set-selections <<< \
