@@ -8,6 +8,7 @@ the user during the installation to avoid potential problems.
 
 - Debian 12 Bookworm
 - Ubuntu 22.04 Jammy Jellyfish
+- Ubuntu 24.04 Noble Numbat
 
 The desktop environment must **not be installed** on the server. Otherwise
 `jibri` cannot use its own desktop.
