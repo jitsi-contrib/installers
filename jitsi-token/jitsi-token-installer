@@ -712,6 +712,8 @@ sed -i '/^Component .conference\./,/admins/!b; /\s*"token_verification"/a \
 \        "token_affiliation";' $PROSODY_CONFIG
 sed -i '/^Component .conference\./,/admins/!b; /\s*"token_verification"/a \
 \        "muc_wait_for_host";' $PROSODY_CONFIG
+sed -i '/^Component .conference\./,/Component/!b; /\s*muc_room_default_/a \
+\    wait_for_host_disable_auto_owners = true' $PROSODY_CONFIG
 
 # prosody restart
 systemctl daemon-reload
