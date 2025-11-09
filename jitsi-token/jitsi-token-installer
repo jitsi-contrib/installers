@@ -662,6 +662,8 @@ allowed-peer-ip=$PUBLIC_IP
 no-udp
 EOF
 
+chgrp ssl-cert /etc/jitsi/meet/$JITSI_HOST.key
+chmod 640 /etc/jitsi/meet/$JITSI_HOST.key
 adduser turnserver ssl-cert
 systemctl restart coturn.service
 
