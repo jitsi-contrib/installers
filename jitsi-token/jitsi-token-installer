@@ -663,6 +663,8 @@ no-udp
 no-dtls
 EOF
 
+sed 's/^no-tcp$/#no-tcp/' /etc/turnserver.conf
+
 chgrp ssl-cert /etc/jitsi/meet/$JITSI_HOST.key
 chmod 640 /etc/jitsi/meet/$JITSI_HOST.key
 adduser turnserver ssl-cert
