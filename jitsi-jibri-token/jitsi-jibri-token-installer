@@ -651,6 +651,7 @@ unzip -o /tmp/chromedriver-linux64.zip -d /tmp
 mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin/
 chmod 755 /usr/local/bin/chromedriver
 
+apt-get $APT_PROXY -y install rclone
 apt-get $APT_PROXY -y install x11vnc
 apt-get $APT_PROXY -y install sudo
 apt-get $APT_PROXY -y install jibri
