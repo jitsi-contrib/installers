@@ -239,6 +239,7 @@ apt-get -y purge 'adoptopenjdk-*' || true
 apt-get -y purge certbot || true
 apt-get -y purge ffmpeg || true
 apt-get -y purge nodejs || true
+apt-get -y purge rclone || true
 apt-get -y purge chromium chromium-common chromium-driver || true
 apt-get -y purge chromium-browser chromium-chromedriver || true
 apt-get -y purge chromium-codecs-ffmpeg chromium-codecs-ffmpeg-extra || true
