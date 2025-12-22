@@ -14,8 +14,8 @@ PROSODY_PLUGINS_VERSION=20250923
 PROSODY_PLUGINS_ARCHIVE=https://github.com/jitsi-contrib/prosody-plugins/archive/refs/tags/v$PROSODY_PLUGINS_VERSION.tar.gz
 
 CHECKMYPORT=https://checkmyport.emrah.com
-TCP=(80 443 4444 5222 5280 5269 5347 5349 8080 8888 9090)
-UDP=(5000 5349 10000)
+TCP=(80 443 3478 4444 5222 5280 5269 5347 5349 8080 8888 9090)
+UDP=(3478 5000 5349 10000)
 
 
 # -----------------------------------------------------------------------------
@@ -751,11 +751,8 @@ cat >>/etc/turnserver.conf <<EOF
 # the following lines added by installer
 listening-ip=$PUBLIC_IP
 allowed-peer-ip=$PUBLIC_IP
-no-udp
 no-dtls
 EOF
-
-sed -i 's/^no-tcp$/#no-tcp/' /etc/turnserver.conf
 
 chgrp ssl-cert /etc/jitsi/meet/$JITSI_HOST.key
 chmod 640 /etc/jitsi/meet/$JITSI_HOST.key
@@ -782,8 +779,7 @@ ln -s ../conf.avail/network.cfg.lua /etc/prosody/conf.d/
 
 sed -i "/rate *=.*kb.s/  s/[0-9]*kb/1024kb/" /etc/prosody/prosody.cfg.lua
 sed -i "s/^-- \(https_ports = { };\)/\1/" $PROSODY_CONFIG
-sed -i "/type.*port/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" $PROSODY_CONFIG
-sed -i "/turn.*port.*3478/ s/udp/tcp/" $PROSODY_CONFIG
+sed -i "/turns.*port.*5349/ s/host\s*=[^,]*/host = \"$TURN_HOST\"/" $PROSODY_CONFIG
 sed -i "/turns.*port.*5349/ s/5349/443/" $PROSODY_CONFIG
 sed -i '/^plugin_paths/ s~ }~, "/usr/share/jitsi-meet/prosody-plugins-contrib/" }~' \
     $PROSODY_CONFIG
@@ -862,6 +858,10 @@ cat /tmp/config.branding.js >>$JITSI_MEET_CONFIG
 wget -T 10 -O /tmp/config.whiteboard.js \
     $JITSI_TMPL/etc/jitsi/meet/config.whiteboard.js
 cat /tmp/config.whiteboard.js >>$JITSI_MEET_CONFIG
+
+wget -T 10 -O /tmp/config.useturnudp.js \
+    $JITSI_TMPL/etc/jitsi/meet/config.useturnudp.js
+cat /tmp/config.useturnudp.js >>$JITSI_MEET_CONFIG
 
 wget -T 10 -O /tmp/config.recording.js \
     $JITSI_TMPL/etc/jitsi/meet/config.recording.js
