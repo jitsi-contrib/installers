@@ -633,7 +633,6 @@ cat >>/etc/turnserver.conf <<EOF
 # the following lines added by installer
 listening-ip=$PUBLIC_IP
 allowed-peer-ip=$PUBLIC_IP
-no-dtls
 EOF
 
 chgrp ssl-cert /etc/jitsi/meet/$JITSI_HOST.key
