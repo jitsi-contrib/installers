@@ -635,11 +635,13 @@ apt-get $APT_PROXY -y --install-recommends install ffmpeg
 apt-get $APT_PROXY -y --install-recommends install google-chrome-stable
 apt-mark hold google-chrome-stable
 
-CHROME_VER=$(dpkg -s google-chrome-stable | egrep "^Version" | \
-    cut -d " " -f2 | cut -d "-" -f1)
+CHROME_BASE="https://googlechromelabs.github.io/chrome-for-testing"
 CHROME_STORE="https://storage.googleapis.com/chrome-for-testing-public"
-CHROMEDRIVER="$CHROME_STORE/${CHROME_VER}/linux64/chromedriver-linux64.zip"
-wget -T 30 -qO /tmp/chromedriver-linux64.zip $CHROMEDRIVER
+CHROME_VER=$(dpkg -s google-chrome-stable | egrep "^Version" | \
+    cut -d " " -f2 | cut -d "." -f1)
+CDRIVER_VER=$(curl -4Ls ${CHROME_BASE}/LATEST_RELEASE_${CHROME_VER})
+CDRIVER="$CHROME_STORE/${CDRIVER_VER}/linux64/chromedriver-linux64.zip"
+wget -T 30 -qO /tmp/chromedriver-linux64.zip $CDRIVER
 
 rm -rf /tmp/chromedriver-linux64
 unzip -o /tmp/chromedriver-linux64.zip -d /tmp
