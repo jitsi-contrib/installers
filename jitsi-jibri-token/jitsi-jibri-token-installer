@@ -630,9 +630,8 @@ timeout 8 curl -s "$CHECKMYPORT?proto=udp&port=60000&text=ok-package" \
 # -----------------------------------------------------------------------------
 out <<< "installing jibri packages..."
 
-wget -T 10 -qO /tmp/google-chrome.gpg.key \
-    https://dl.google.com/linux/linux_signing_key.pub
-apt-key add /tmp/google-chrome.gpg.key
+wget -T 10 -qO - https://dl-ssl.google.com/linux/linux_signing_key.pub | \
+    gpg --dearmour > /etc/apt/trusted.gpg.d/google.gpg
 wget -T 10 -O /etc/apt/sources.list.d/google-chrome.list \
     $JIBRI_TMPL/etc/apt/sources.list.d/google-chrome.list
 
