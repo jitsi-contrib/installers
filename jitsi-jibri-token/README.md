@@ -6,9 +6,10 @@ the user during the installation to avoid potential problems.
 
 ## Supported distributions
 
+- Debian 13 Trixie
 - Debian 12 Bookworm
-- Ubuntu 22.04 Jammy Jellyfish
 - Ubuntu 24.04 Noble Numbat
+- Ubuntu 22.04 Jammy Jellyfish
 
 The desktop environment must **not be installed** on the server. Otherwise
 `jibri` cannot use its own desktop.
