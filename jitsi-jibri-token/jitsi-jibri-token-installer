@@ -121,13 +121,17 @@ if [[ "$DISTRO" = "jammy" ]] || \
    [[ "$DISTRO" = "bookworm" ]]; then
     LUA="5.3"
     JDK="17"
+elif [[ "$DISTRO" = "trixie" ]]; then
+    LUA="5.3"
+    JDK="21"
 else
     out <<EOF
 Aborted! Your distro is not supported
 Recommendation: Use a supported distribution:
+    - Debian 13 Trixie
     - Debian 12 Bookworm
-    - Ubuntu 22.04 Jammy Jellyfish
     - Ubuntu 24.04 Noble Numbat
+    - Ubuntu 22.04 Jammy Jellyfish
 EOF
     exit 1
 fi
