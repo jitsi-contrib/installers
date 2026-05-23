@@ -832,7 +832,7 @@ sed -i '/\s*app_secret=/a \
 sed -i '/\s*"muc_lobby_rooms"/a \
 \        "persistent_lobby";' $PROSODY_CONFIG
 sed -i '/^Component .conference\./,/admins/!b; /\s*"token_verification"/a \
-\        "token_affiliation";' $PROSODY_CONFIG
+\        "token_affiliation_legacy";' $PROSODY_CONFIG
 sed -i '/^Component .conference\./,/admins/!b; /\s*"token_verification"/a \
 \        "muc_wait_for_host";' $PROSODY_CONFIG
 sed -i '/^Component .conference\./,/Component/!b; /\s*muc_room_default_/a \
