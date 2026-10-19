@@ -1,0 +1,9 @@
+<!-- rtcstats (demo only) -->
+<script src="/rtcstats-client.js"></script>
+<script>
+    if (window.location.pathname !== '/') {
+        const trace = rtcstats.wrapRTCStatsWithDefaultOptions();
+        trace.connect('wss://' + window.location.host + '/rtcstats'
+            + window.location.pathname);
+    }
+</script>

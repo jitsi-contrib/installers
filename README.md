@@ -4,6 +4,11 @@
 
   To install a standalone Jitsi server.
 
+- [Jitsi-Demo-RTCStats](jitsi-demo-rtcstats/)
+
+  To install a standalone Jitsi server with `rtcstats`. Demo only, not for
+  production.
+
 - [Jitsi-Dev](jitsi-dev/)
 
   To install a standalone Jitsi server for `jitsi-meet` developers.

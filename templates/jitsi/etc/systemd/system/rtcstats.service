@@ -1,0 +1,16 @@
+[Unit]
+Description=rtcstats server (demo only)
+After=network-online.target
+
+[Service]
+User=rtcstats
+Group=rtcstats
+WorkingDirectory=/home/rtcstats/rtcstats/packages/rtcstats-server
+Environment=NODE_CONFIG_DIR=/home/rtcstats/rtcstats/config
+Environment='NODE_CONFIG={"server": {"httpPort": 3003, "workDirectory": "/home/rtcstats/work", "uploadDirectory": "/home/rtcstats/upload", "deleteAtStart": false}}'
+ExecStart=/usr/bin/node app.js
+Restart=always
+RestartSec=2s
+
+[Install]
+WantedBy=multi-user.target
