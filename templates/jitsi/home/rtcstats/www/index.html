@@ -16,8 +16,8 @@
   <table>
     <thead>
       <tr>
-        <th>Time</th><th>Room</th><th>Name</th><th>Meeting ID</th><th>Size</th>
-        <th></th><th></th>
+        <th>Started</th><th>Ended</th><th>Room</th><th>Name</th>
+        <th>Meeting ID</th><th>Size</th><th></th><th></th>
       </tr>
     </thead>
     <tbody id="dumps"></tbody>
@@ -28,6 +28,7 @@
     const VIEWER = '/rtcstats-viewer/dump-importer/?dump=';
 
     // The second line of a dump is the metadata. Its url is the room path.
+    // The file is written when the dump ends, so its mtime is the end time.
     // The Jitsi identity is in the ":jitsi" event which is added after the
     // join. It is usually in the beginning of the dump, so only the first part
     // of the file is read.
@@ -41,6 +42,7 @@
         const lines = (await response.text()).split('\n');
         const metadata = JSON.parse(lines[1]);
         info.room = metadata.url.replace(/^\/rtcstats\//, '');
+        info.started = new Date(metadata.startTime).toLocaleString();
 
         const line = lines.find(l => l.startsWith('[":jitsi",'));
         Object.assign(info, JSON.parse(line)[2]);
@@ -76,6 +78,7 @@
     for (const f of files) {
       const row = tbody.insertRow();
 
+      const startedCell = addCell(row, '...');
       addCell(row, new Date(f.mtime).toLocaleString());
       const roomCell = addCell(row, '...');
       const nameCell = addCell(row, '...');
@@ -85,6 +88,7 @@
       addCell(row, 'Download', FILES + encodeURIComponent(f.name));
 
       getInfo(encodeURIComponent(f.name)).then(info => {
+        startedCell.textContent = info.started || '-';
         roomCell.textContent = info.room || '-';
         nameCell.textContent = info.displayName || '-';
         meetingCell.textContent = info.meetingId || '-';
