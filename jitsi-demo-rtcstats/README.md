@@ -1,4 +1,4 @@
-# Jitsi Demo RTCStats Installer
+# Jitsi Installer with RTCStats (demo)
 
 **Demo only, not for production.**
 
