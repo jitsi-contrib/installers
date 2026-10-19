@@ -5,5 +5,33 @@
         const trace = rtcstats.wrapRTCStatsWithDefaultOptions();
         trace.connect('wss://' + window.location.host + '/rtcstats'
             + window.location.pathname);
+
+        // Add the Jitsi identity of this client into the dump, once per
+        // joined conference.
+        let lastConference;
+        const traceJitsi = (store) => {
+            const state = store.getState();
+            const conference = state['features/base/conference'].conference;
+
+            if (!conference || conference === lastConference) return;
+            if (!conference.getMeetingUniqueId()) return;
+
+            lastConference = conference;
+            trace(':jitsi', null, {
+                room: conference.getName(),
+                meetingId: conference.getMeetingUniqueId(),
+                participantId: conference.myUserId(),
+                displayName: state['features/base/settings'].displayName,
+            });
+        };
+
+        const waitForStore = setInterval(() => {
+            const store = window.APP && window.APP.store;
+
+            if (!store) return;
+
+            clearInterval(waitForStore);
+            store.subscribe(() => traceJitsi(store));
+        }, 1000);
     }
 </script>
