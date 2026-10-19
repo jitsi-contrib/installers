@@ -83,3 +83,34 @@ bash jitsi-demo-rtcstats-installer
 
 The viewer loads its chart library from a CDN, so the browser needs internet
 access.
+
+## What to check first
+
+A dump contains one client's view of the meeting. Check it in this order:
+
+1. **Who and which meeting:** the `:jitsi` event shows the room, the meeting
+   ID, the participant ID and the display name. The participant ID is the same
+   ID used in the Jicofo and JVB logs.
+2. **Which connection:** Jitsi uses one connection to JVB and, in a two
+   person meeting, may also use a peer-to-peer connection. They are shown as
+   separate connections in the viewer.
+3. **How it connected:** the ICE and connection states, and the selected
+   candidate pair. A `relay` candidate means TURN is used. TCP or TLS instead
+   of UDP usually means a restrictive network and worse quality.
+4. **Network:** on the selected `candidate-pair`, check
+   `availableOutgoingBitrate` (the uplink bandwidth estimate) and
+   `currentRoundTripTime`.
+5. **Loss and jitter:** `packetsLost` and `jitter` on `inbound-rtp` show the
+   receiving side. `remote-inbound-rtp` shows the same for what this client
+   sends.
+6. **Why the sent video is poor:** `qualityLimitationReason` on the video
+   `outbound-rtp` shows `cpu` or `bandwidth` if the sender had to lower the
+   quality. Also check `frameWidth`, `frameHeight` and `framesPerSecond`.
+7. **What the user saw and heard:** `freezeCount`, `totalFreezesDuration` and
+   `framesDropped` on video `inbound-rtp`, and `concealedSamples` on audio
+   `inbound-rtp` for choppy audio.
+8. **Devices:** `getUserMedia` errors and device changes.
+
+If a user sees or hears another participant badly, open both dumps from the
+same meeting ID. The sender's dump shows the uplink side, the receiver's dump
+shows the downlink side.
