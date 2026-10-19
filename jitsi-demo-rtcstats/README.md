@@ -78,10 +78,8 @@ bash jitsi-demo-rtcstats-installer
 - Join a meeting such as `https://jitsi.yourdomain.com/myroom`, stay for a
   while, then close the browser tab. The dump is completed when the page is
   closed.
-- Open `https://jitsi.yourdomain.com/rtcstats-dumps/` and download the latest
-  dump.
-- Open `https://jitsi.yourdomain.com/rtcstats-viewer/dump-importer/` and drop
-  the downloaded dump on the page.
+- Open `https://jitsi.yourdomain.com/rtcstats-dumps/` and click `View` on a
+  dump to see it in the viewer.
 
 The viewer loads its chart library from a CDN, so the browser needs internet
 access.

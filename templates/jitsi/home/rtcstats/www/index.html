@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>rtcstats dumps (demo)</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    table { border-collapse: collapse; }
+    th, td { padding: 0.3em 1em; text-align: left; }
+    tr:nth-child(even) { background-color: #f0f0f0; }
+  </style>
+</head>
+<body>
+  <h1>rtcstats dumps (demo)</h1>
+  <p>A dump is completed when the browser tab is closed.</p>
+  <table>
+    <thead>
+      <tr><th>Time</th><th>Room</th><th>Size</th><th></th><th></th></tr>
+    </thead>
+    <tbody id="dumps"></tbody>
+  </table>
+
+  <script type="module">
+    const FILES = '/rtcstats-dumps/files/';
+    const VIEWER = '/rtcstats-viewer/dump-importer/?dump=';
+
+    // The second line of a dump is the metadata. Its url is the room path.
+    async function getRoom(name) {
+      try {
+        const response = await fetch(FILES + name, {
+          headers: {Range: 'bytes=0-4095'},
+        });
+        const metadata = JSON.parse((await response.text()).split('\n')[1]);
+
+        return metadata.url.replace(/^\/rtcstats\//, '');
+      } catch (e) {
+        return '-';
+      }
+    }
+
+    function addCell(row, text, href) {
+      const cell = row.insertCell();
+
+      if (href) {
+        const link = document.createElement('a');
+
+        link.href = href;
+        link.textContent = text;
+        cell.appendChild(link);
+      } else {
+        cell.textContent = text;
+      }
+
+      return cell;
+    }
+
+    const response = await fetch(FILES);
+    const files = (await response.json())
+      .filter(f => f.type === 'file')
+      .sort((a, b) => new Date(b.mtime) - new Date(a.mtime));
+    const tbody = document.getElementById('dumps');
+
+    for (const f of files) {
+      const row = tbody.insertRow();
+
+      addCell(row, new Date(f.mtime).toLocaleString());
+      const roomCell = addCell(row, '...');
+      addCell(row, Math.ceil(f.size / 1024) + ' KB');
+      addCell(row, 'View', VIEWER + encodeURIComponent(f.name));
+      addCell(row, 'Download', FILES + encodeURIComponent(f.name));
+
+      getRoom(encodeURIComponent(f.name)).then(room => {
+        roomCell.textContent = room;
+      });
+    }
+  </script>
+</body>
+</html>

@@ -897,6 +897,15 @@ wget -T 10 -O /tmp/head.rtcstats.html \
     $JITSI_TMPL/usr/share/jitsi-meet/head.rtcstats.html
 cat /tmp/head.rtcstats.html >>/usr/share/jitsi-meet/head.html
 
+# rtcstats dumps page and viewer autoload
+mkdir -p /home/rtcstats/www
+wget -T 10 -O /home/rtcstats/www/index.html \
+    $JITSI_TMPL/home/rtcstats/www/index.html
+wget -T 10 -O /home/rtcstats/rtcstats/dump-importer/autoload.js \
+    $JITSI_TMPL/home/rtcstats/rtcstats/dump-importer/autoload.js
+sed -i 's~</html>~<script type="module" src="autoload.js"></script>\n</html>~' \
+    /home/rtcstats/rtcstats/dump-importer/index.html
+
 # rtcstats nginx locations
 wget -T 10 -O /etc/jitsi/meet/jaas/rtcstats.conf \
     $JITSI_TMPL/etc/jitsi/meet/jaas/rtcstats.conf
