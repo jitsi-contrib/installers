@@ -7,6 +7,7 @@ set -e
 systemctl stop virtual-camera-0.service || true
 systemctl stop virtual-camera-1.service || true
 systemctl stop excalidraw.service || true
+systemctl stop rtcstats.service || true
 systemctl stop jitsi-component-selector.service || true
 systemctl stop jitsi-component-sidecar.service || true
 systemctl stop sip-dial-plan.service || true
@@ -67,11 +68,14 @@ deluser excalidraw || true
 delgroup excalidraw || true
 deluser jibri || true
 delgroup jibri || true
+deluser rtcstats || true
+delgroup rtcstats || true
 
 rm -rf /home/dev
 rm -rf /home/dev.* || true
 rm -rf /home/excalidraw
 rm -rf /home/jibri
+rm -rf /home/rtcstats
 rm -rf /etc/chromium
 rm -rf /etc/jitsi
 rm -rf /etc/prosody
@@ -107,6 +111,7 @@ rm -f  /etc/modprobe.d/alsa-loopback.conf
 rm -f  /etc/modprobe.d/v4l2loopback.conf
 rm -f  /etc/sudoers.d/jibri
 rm -f  /etc/sysctl.d/jitsi-inotify-watcher.conf
+rm -f  /etc/systemd/system/rtcstats.service
 rm -f  /usr/local/bin/chromedriver
 rm -f  /usr/local/bin/google-chrome
 rm -f  /usr/local/bin/pjsua
