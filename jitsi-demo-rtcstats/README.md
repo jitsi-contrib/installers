@@ -79,9 +79,9 @@ bash jitsi-demo-rtcstats-installer
   while, then close the browser tab. The dump is completed when the page is
   closed.
 - Open `https://jitsi.yourdomain.com/rtcstats-dumps/`. There is one dump per
-  browser tab. The list shows when it started and ended, the room, the
-  participant's display name and the meeting ID. Dumps with the same meeting ID
-  belong to the same meeting.
+  participant. A participant who reloads the page gets a new dump. The list
+  shows when it started and ended, the room, the participant's display name and
+  the meeting ID. Dumps with the same meeting ID belong to the same meeting.
 - Click `View` to see the dump in the viewer or `Download` to save it.
 
 The viewer loads its chart library from a CDN, so the browser needs internet
